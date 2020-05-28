@@ -83945,7 +83945,7 @@ var host = window.location.host.toUpperCase();
 
 var routes = function routes() {
   //Test for portal routes
-  if (host.includes('SERVICENOW.TEST')) {
+  if (host.includes('WEBSOLUTIONS.TEST')) {
     return [{
       name: 'Home',
       path: '/dashboard',
@@ -84967,7 +84967,7 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\xampp\htdocs\servicenow\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\xampp\htdocs\websolutions\resources\js\app.js */"./resources/js/app.js");
 
 
 /***/ })

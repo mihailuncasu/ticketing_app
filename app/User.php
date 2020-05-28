@@ -2,16 +2,18 @@
 
 namespace App;
 
+use App\Notifications\ResetPassword;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Foundation\Auth\User as Authenticable;
 use Hyn\Tenancy\Traits\UsesTenantConnection;
 use Spatie\Permission\Traits\HasRoles;
-//use Illuminate\Contracts\Auth\Access\Authorizable;
+use Illuminate\Auth\MustVerifyEmail as TraitVerifyEmail;
+use App\Notifications\VerifyEmail;
 
-class User extends Authenticatable implements MustVerifyEmail
+class User extends Authenticable implements MustVerifyEmail
 {
-    use Notifiable, UsesTenantConnection, HasRoles;
+    use Notifiable, UsesTenantConnection, HasRoles, TraitVerifyEmail;
 
     /**
      * The attributes that are mass assignable.
@@ -39,4 +41,14 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function sendEmailVerificationNotification() {
+        $this->notify(new VerifyEmail);
+    }
+
+    public function sendPasswordResetNotification($token){
+        $this->notify(new ResetPassword($token));
+        $this->markEmailAsVerified();
+    }
+
 }

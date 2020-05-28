@@ -15,6 +15,7 @@ use Hyn\Tenancy\Environment;
 use Hyn\Tenancy\Models\Hostname;
 use App\Website;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Mail;
 
 class RegisterController extends Controller
 {
@@ -95,6 +96,7 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
+        $user->sendEmailVerificationNotification();
     }
 
     private function createTenant($fqdn, $email)

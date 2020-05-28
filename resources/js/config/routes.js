@@ -25,7 +25,7 @@ const host = window.location.host.toUpperCase()
 const routes = () => {
 
     //Test for portal routes
-    if (host.includes('SERVICENOW.TEST')) {
+    if (host.includes('WEBSOLUTIONS.TEST')) {
         return [
             {
                 name: 'Home',

@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/servicenow.iml" filepath="$PROJECT_DIR$/.idea/servicenow.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/websolutions.iml" filepath="$PROJECT_DIR$/.idea/websolutions.iml" />
     </modules>
   </component>
 </project>

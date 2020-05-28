@@ -2,7 +2,7 @@
 
 @section('auth')
     <div class="container">
-        @if( app('request')->input('success') == 1 )
+        @if( app('request')->input('success') )
             <div class="row justify-content-center">
                 <div class="col-md-8">
                     <div class="alert alert-success" role="alert">

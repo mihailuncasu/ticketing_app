@@ -155,9 +155,9 @@ __webpack_require__(/*! ./script.min */ "./resources/welcome/js/script.min.js");
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\xampp\htdocs\servicenow\resources\welcome\js\welcome.js */"./resources/welcome/js/welcome.js");
-__webpack_require__(/*! C:\xampp\htdocs\servicenow\resources\welcome\style\welcome.scss */"./resources/welcome/style/welcome.scss");
-module.exports = __webpack_require__(/*! C:\xampp\htdocs\servicenow\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\xampp\htdocs\websolutions\resources\welcome\js\welcome.js */"./resources/welcome/js/welcome.js");
+__webpack_require__(/*! C:\xampp\htdocs\websolutions\resources\welcome\style\welcome.scss */"./resources/welcome/style/welcome.scss");
+module.exports = __webpack_require__(/*! C:\xampp\htdocs\websolutions\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

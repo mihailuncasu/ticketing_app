@@ -16,6 +16,10 @@ class TenantExists
      */
     public function handle($request, Closure $next)
     {
+        $fqdn = $request->getHost();
+        if (!$this->tenantExists($fqdn)) {
+            abort(403, 'The current domain is not registered. Yet.');
+        }
         if ( $request->user() == null ) {
             $fqdn = $request->getHost();
             if ( ! $this->tenantExists( $fqdn ) ) {

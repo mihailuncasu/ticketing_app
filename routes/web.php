@@ -14,7 +14,7 @@ Route::group([
        // 'middleware' => ['localeSessionRedirect', 'localizationRedirect', 'localeViewPath']
     ]
     , function () {
-        Route::domain('servicenow.test')->group(function () {
+        Route::domain('websolutions.test')->group(function () {
 
             // Login Routes
             // For sudomain

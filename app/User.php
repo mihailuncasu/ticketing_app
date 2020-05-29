@@ -42,9 +42,9 @@ class User extends Authenticable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
 
-    public function sendEmailVerificationNotification() {
+    /*public function sendEmailVerificationNotification() {
         $this->notify(new VerifyEmail);
-    }
+    }*/
 
     public function sendPasswordResetNotification($token){
         $this->notify(new ResetPassword($token));

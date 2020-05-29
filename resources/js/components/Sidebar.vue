@@ -52,6 +52,8 @@
 </template>
 
 <script>
+    import axios from "@/plugins/axios";
+
     export default {
         data: () => ({
             links: {
@@ -69,7 +71,7 @@
         }),
         methods: {
             click_logout() {
-                console.log('login');
+                axios.post('/logout');
             }
         }
     }

@@ -2,24 +2,20 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b39e05c8-a5cf-4120-bde8-695fd0470446" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/websolutions.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/servicenow.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/watcherTasks.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Auth/RegisterController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Auth/RegisterController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Auth/ResetPasswordController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Auth/ResetPasswordController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Auth/VerificationController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Auth/VerificationController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Middleware/TenantExists.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Middleware/TenantExists.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Notifications/ResetPassword.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Notifications/ResetPassword.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Notifications/VerifyEmail.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Notifications/VerifyEmail.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/User.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/auth.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/auth.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/welcome.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/welcome.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/config/routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/config/routes.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/auth/login.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/auth/login.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/api/endpoints.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/api/endpoints.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/components/Sidebar.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/Sidebar.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/lang/ro.json" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lang/ro.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/auth/passwords/email.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/auth/passwords/email.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/auth/passwords/reset.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/auth/passwords/reset.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/auth/verify.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/auth/verify.blade.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -154,7 +150,9 @@
       <option name="presentableId" value="Default" />
       <updated>1590599888198</updated>
       <workItem from="1590599892557" duration="2794000" />
-      <workItem from="1590637863441" duration="23263000" />
+      <workItem from="1590637863441" duration="23896000" />
+      <workItem from="1590757837151" duration="11330000" />
+      <workItem from="1590791872407" duration="2578000" />
     </task>
     <servers />
   </component>
@@ -166,9 +164,13 @@
       <screen x="1920" y="0" width="1920" height="1200" />
     </state>
     <state x="2587" y="335" width="586" height="530" key="find.popup/0.0.1536.864/1920.0.1920.1200@1920.0.1920.1200" timestamp="1590679320730" />
-    <state x="2543" y="265" width="672" height="678" key="search.everywhere.popup" timestamp="1590686625638">
+    <state x="2543" y="265" width="672" height="678" key="search.everywhere.popup" timestamp="1590796136708">
       <screen x="1920" y="0" width="1920" height="1200" />
     </state>
-    <state x="2543" y="265" width="672" height="678" key="search.everywhere.popup/0.0.1536.864/1920.0.1920.1200@1920.0.1920.1200" timestamp="1590686625638" />
+    <state x="2543" y="265" width="672" height="678" key="search.everywhere.popup/0.0.1536.864/1920.0.1920.1200@1920.0.1920.1200" timestamp="1590796136708" />
+    <state x="2602" y="512" key="vcs.readOnlyHandler.ReadOnlyStatusDialog" timestamp="1590763706984">
+      <screen x="1920" y="0" width="1920" height="1200" />
+    </state>
+    <state x="2602" y="512" key="vcs.readOnlyHandler.ReadOnlyStatusDialog/0.0.1536.864/1920.0.1920.1200@1920.0.1920.1200" timestamp="1590763706984" />
   </component>
 </project>

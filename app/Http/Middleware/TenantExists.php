@@ -21,11 +21,13 @@ class TenantExists
             abort(403, 'The current domain is not registered. Yet.');
         }
         if ( $request->user() == null ) {
-            $fqdn = $request->getHost();
             if ( ! $this->tenantExists( $fqdn ) ) {
                 abort(403,'The current domain is not registered. Yet.');
             }
         }
+        // Store tenant subdomain in config;
+        $subdomain = explode('.', $fqdn, 2)[0];
+        config(['subdomain' => $subdomain]);
 
         return $next($request);
     }

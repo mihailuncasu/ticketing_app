@@ -1908,6 +1908,7 @@ module.exports = {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _plugins_axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/plugins/axios */ "./resources/js/plugins/axios.js");
 //
 //
 //
@@ -1961,6 +1962,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -1999,7 +2001,9 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     click_logout: function click_logout() {
-      console.log('login');
+      _plugins_axios__WEBPACK_IMPORTED_MODULE_0__["default"].post('v1/caca', {
+        caca: 'maka'
+      }).then(function (response) {})["catch"](function (error) {});
     }
   }
 });
@@ -83970,6 +83974,29 @@ var routes = function routes() {
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (routes());
+
+/***/ }),
+
+/***/ "./resources/js/plugins/axios.js":
+/*!***************************************!*\
+  !*** ./resources/js/plugins/axios.js ***!
+  \***************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+
+var token = document.head.querySelector('meta[name="csrf-token"]');
+/* harmony default export */ __webpack_exports__["default"] = (axios__WEBPACK_IMPORTED_MODULE_0___default.a.create({
+  baseURL: '/api/',
+  headers: {
+    'X-Requested-With': 'XMLHttpRequest',
+    'X-CSRF-TOKEN': token.content
+  }
+}));
 
 /***/ }),
 

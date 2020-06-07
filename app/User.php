@@ -9,7 +9,6 @@ use Illuminate\Foundation\Auth\User as Authenticable;
 use Hyn\Tenancy\Traits\UsesTenantConnection;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Auth\MustVerifyEmail as TraitVerifyEmail;
-use App\Notifications\VerifyEmail;
 
 class User extends Authenticable implements MustVerifyEmail
 {

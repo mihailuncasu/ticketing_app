@@ -1,34 +1,37 @@
-const _roles = [
-    {
-        "id": 1,
-        "name":"Administrator",
-        "permissions": [1,2,3]
-    },
-    {
-        "id": 2,
-        "name":"Accountant",
-        "permissions": [1,2,3]
-    },
-    {
-        "id": 3,
-        "name":"Software consultant",
-        "permissions": [1,2,3]
-    },
-    {
-        "id": 4,
-        "name":"IT consultant",
-        "permissions": [1,3,4]
-    },
-    {
-        "id": 5,
-        "name":"Illustrator",
-        "permissions": [1,2,3]
-    },
-    {
-        "id": 6,
-        "name":"Managing director",
-        "permissions": [1,2,3]
-    }
-]
+import api from '@/api/roles';
 
-export default _roles;
+const roles = {
+    // State;
+    state:() => ({
+        roles: []
+    }),
+
+    // Getters;
+    getters: {
+        roles(state) {
+            return state.roles;
+        }
+    },
+
+    // Mutations;
+    mutations: {
+        LOAD_ROLES(state, payload) {
+            state.roles = payload;
+        },
+    },
+
+    // Actions;
+    actions: {
+        loadRoles({commit}) {
+            commit('START_LOADING');
+            api.getRoles().then(result => {
+                commit('LOAD_ROLES', result.data.data);
+                commit('STOP_LOADING');
+            }).catch(error => {
+               throw new Error(`API ${error}`);
+            });
+        }
+    }
+}
+
+export default roles;

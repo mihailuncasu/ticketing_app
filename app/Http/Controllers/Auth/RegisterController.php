@@ -96,6 +96,8 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
+        $user->guard_name = 'web';
+        $user->assignRole('admin');
     }
 
     private function createTenant($fqdn, $email)

@@ -52,17 +52,17 @@ class CreateTenant extends Command
         $fqdn = "{$subdomain}.{$url_base}";
 
         // first check to make sure the tenant doesn't already exist
-        if ( $this->tenantExists( $fqdn ) ) {
+        if ($this->tenantExists($fqdn)) {
             // abort with an error
-            $this->error( "A tenant with the subdomain '{$subdomain}' already exists." );
+            $this->error("A tenant with the subdomain '{$subdomain}' already exists.");
             return;
         }
 
         // if the tenant doesn't exist, we'll use the Tenancy package commands to create one
-        $hostname = $this->createTenant( $fqdn );
+        $hostname = $this->createTenant($fqdn);
 
         // swap the environment over to the hostname
-        app( Environment::class )->hostname( $hostname );
+        app(Environment::class)->hostname($hostname);
 
 
         // create a new user
@@ -70,29 +70,33 @@ class CreateTenant extends Command
         $user = User::create([
             'name' => $name,
             'email' => $email,
-            'password' => Hash::make( $password )
+            'password' => Hash::make($password)
         ]);
 
+        $user->guard_name = 'web';
+        $user->assignRole('admin');
+
         // return a success message to the console
-        $this->info( "Tenant '{$name}' created for {$fqdn}");
-        $this->info( "The user '{$email}' can log in with password {$password}");
+        $this->info("Tenant '{$name}' created for {$fqdn}");
+        $this->info("The user '{$email}' can log in with password {$password}");
     }
 
-    private function tenantExists( $fqdn ) {
+    private function tenantExists($fqdn)
+    {
         // check to see if any Hostnames in the database have the same fqdn
-        return Hostname::where( 'fqdn', $fqdn )->exists();
+        return Hostname::where('fqdn', $fqdn)->exists();
     }
 
-    private function createTenant( $fqdn )
+    private function createTenant($fqdn)
     {
         // first create the 'website'
         $website = new Website;
-        app( WebsiteRepository::class )->create( $website );
+        app(WebsiteRepository::class)->create($website);
 
         // now associate the 'website' with a hostname
         $hostname = new Hostname;
         $hostname->fqdn = $fqdn;
-        app( HostnameRepository::class )->attach( $hostname, $website );
+        app(HostnameRepository::class)->attach($hostname, $website);
 
         return $hostname;
     }

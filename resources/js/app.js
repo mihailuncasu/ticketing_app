@@ -6,7 +6,8 @@ import vuetify from '@/plugins/vuetify';
 import Auth from '@/api/auth';
 import VueRouter from 'vue-router';
 import routes from '@/config/routes';
-import Vuex from 'vuex'
+import Vuex from 'vuex';
+import store from "@/store/store";
 // Plugin use
 Vue.use(VueRouter);
 Vue.use(Vuex);
@@ -23,5 +24,6 @@ const router = new VueRouter({
 const app = new Vue({
     router,
     vuetify,
+    store: store,
     el: '#app',
 });

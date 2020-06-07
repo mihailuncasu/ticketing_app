@@ -19,6 +19,24 @@
             </v-container>
         </v-content>
 
+        <v-snackbar
+                bottom
+                vertical
+                right
+                v-model="snackbar.visibility"
+                :color="snackbar.color">
+                <!--:timeout="timeout"-->
+
+            {{snackbar.message}}
+            <v-btn v-if="snackbar.close"
+                    dark
+                    text
+                    @click="closeSnackbar"
+            >
+                Close
+            </v-btn>
+        </v-snackbar>
+
         <v-footer app>
             <span>&copy; 2020</span>
         </v-footer>
@@ -35,10 +53,24 @@
         },
         data: () => ({
             drawer: null,
-            goDark: false
+            goDark: false,
         }),
-        created() {
-            this.$vuetify.theme.dark = false
+        computed: {
+            snackbar(){
+                return this.$store.getters.responseSnackbar;
+            },
+            timeout() {
+                return this.snackbar.close === false ? 0 : 2000;
+            }
         },
+        created() {
+            // Idk, some theme options;
+            this.$vuetify.theme.dark = false;
+        },
+        methods: {
+            closeSnackbar() {
+                this.$store.dispatch('closeAction');
+            }
+        }
     }
 </script>

@@ -131,11 +131,11 @@
 </template>
 
 <script>
-    import store from "@/store/index";
+    import store from "@/store/store";
 
     export default {
         data: () => ({
-            tasks: store.state.tasks,
+            tasks: [],
             task: null,
             labels: [
                 '12am',
@@ -173,9 +173,7 @@
 
         methods: {
             create() {
-                store.commit('addTask', this.task);
 
-                this.task = null
             },
         },
     }

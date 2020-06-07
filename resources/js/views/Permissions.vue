@@ -1,14 +1,14 @@
 <template>
-    <v-responsive width="1200">
+    <div>
         <v-data-table
                 :headers="headers"
                 :items="permissions"
-                sort-by="calories"
+                sort-by="name"
                 class="elevation-1"
-                :search="search"
+                :loading="isLoading"
         >
             <template v-slot:top>
-                <v-toolbar flat color="balck">
+                <v-toolbar flat color="white">
                     <v-toolbar-title>PERMISSIONS</v-toolbar-title>
                     <v-divider
                             class="mx-4"
@@ -16,18 +16,7 @@
                             vertical
                     ></v-divider>
                     <v-spacer></v-spacer>
-                    <v-text-field
-                            v-model="search"
-                            append-icon="mdi-magnify"
-                            label="Search"
-                            single-line
-                            hide-details
-                    ></v-text-field>
-                    <v-divider
-                            class="mx-4"
-                            inset
-                            vertical
-                    ></v-divider>
+                    <!--Edit-->
                     <v-dialog v-model="dialog" max-width="500px">
                         <template v-slot:activator="{ on }">
                             <v-btn color="primary" dark class="mb-2" v-on="on">New Permission</v-btn>
@@ -38,53 +27,22 @@
                             </v-card-title>
 
                             <v-card-text>
-                                <v-snackbar
-                                        v-model="snackbar"
-                                        absolute
-                                        top
-                                        right
-                                        color="success"
-                                ><span>Registration successful!</span>
-                                    <v-icon dark>mdi-checkbox-marked-circle</v-icon>
-                                </v-snackbar>
-                                <v-form ref="form" @submit.prevent="submit">
-                                    <v-container grid-list-md>
-                                        <v-layout wrap>
-                                            <v-flex xs12>
-                                                <v-text-field v-model="editedItem.name"
+                                <v-form
+                                        ref="form"
+                                        v-model="valid"
+                                        lazy-validation
+                                >
+                                    <v-container>
+                                        <v-row>
+                                            <v-col cols="12">
+                                                <v-text-field v-on:keydown.enter.prevent
+                                                              v-model="editedItem.name"
                                                               label="Permission name"
-                                                              :rules="rules.name"
-                                                              color="blue darken-2"
-                                                              required
+                                                              :counter="lengths.max"
+                                                              :rules="rules.permissions"
                                                 ></v-text-field>
-                                            </v-flex>
-                                            <v-flex xs12>
-                                                <v-select
-                                                        v-model="editedItem.page"
-                                                        :items="pages.map(x => x.page)"
-                                                        label="Page"
-                                                        item-text="name"
-                                                        return-object
-                                                        :hint="hintPermissions"
-                                                        persistent-hint
-                                                ></v-select>
-                                            </v-flex>
-                                            <v-flex>
-                                                <v-expansion-panels>
-                                            <v-expansion-panel>
-                                                <v-expansion-panel-header disable-icon-rotate>
-                                                    Page features
-                                                    <template v-slot:actions>
-                                                        <v-icon color="error">mdi-alert-circle</v-icon>
-                                                    </template>
-                                                </v-expansion-panel-header>
-                                                <v-expansion-panel-content>
-                                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                                                </v-expansion-panel-content>
-                                            </v-expansion-panel>
-                                                </v-expansion-panels>
-                                            </v-flex>
-                                        </v-layout>
+                                            </v-col>
+                                        </v-row>
                                     </v-container>
                                 </v-form>
                             </v-card-text>
@@ -92,11 +50,39 @@
                             <v-card-actions>
                                 <v-spacer></v-spacer>
                                 <v-btn color="blue darken-1" text @click="close">Cancel</v-btn>
-                                <v-btn color="blue darken-1"
-                                       text
-                                       @click="save"
-                                       :disabled="!formIsValid"
-                                >Save
+                                <v-btn color="blue darken-1" text @click="save">Save</v-btn>
+                            </v-card-actions>
+                        </v-card>
+                    </v-dialog>
+                    <!--Delete-->
+                    <v-dialog
+                            v-model="delete_dialog"
+                            max-width="290"
+                    >
+                        <v-card>
+                            <v-card-title class="headline">Deleting Permission</v-card-title>
+
+                            <v-card-text>
+                                Are you sure you want to delete this permission?
+                            </v-card-text>
+
+                            <v-card-actions>
+                                <v-spacer></v-spacer>
+
+                                <v-btn
+                                        color="blue darken-1"
+                                        text
+                                        @click="delete_dialog = false"
+                                >
+                                    No
+                                </v-btn>
+
+                                <v-btn
+                                        color="red darken-1"
+                                        text
+                                        @click="deleteItem"
+                                >
+                                    Yes
                                 </v-btn>
                             </v-card-actions>
                         </v-card>
@@ -113,7 +99,7 @@
                 </v-icon>
                 <v-icon
                         small
-                        @click="deleteItem(item)"
+                        @click="askDeleteItem(item)"
                 >
                     mdi-delete
                 </v-icon>
@@ -122,53 +108,61 @@
                 <v-btn color="primary" @click="initialize">Reset</v-btn>
             </template>
         </v-data-table>
-    </v-responsive>
+    </div>
 </template>
 
 <script>
-    import store from "@/store/index";
 
     export default {
         data: () => ({
-            permissions: store.state.permissions,
-            pages: store.state.pages,
             dialog: false,
             headers: [
                 {
-                    text: 'Page permission',
+                    text: 'Permission name',
                     align: 'start',
                     value: 'name',
                 },
+                {text: 'Created', value: 'created_at'},
+                {text: 'Updated', value: 'updated_at'},
                 {text: 'Actions', value: 'actions', sortable: false},
             ],
+            valid: true,
+            deletedItem: {},
+            delete_dialog: false,
             editedIndex: -1,
             editedItem: {
                 name: '',
-                permissions: [],
+                created_at: ''
             },
             defaultItem: {
                 name: '',
-                permissions: [],
+                created_at: ''
             },
-            rules: {
-                name: [val => (val || '').length > 0 || 'This field is required'],
-            },
-            snackbar: false,
-            search: '',
         }),
 
         computed: {
             formTitle() {
                 return this.editedIndex === -1 ? 'New Permission' : 'Edit Permission'
             },
-            formIsValid() {
-                return (
-                    this.editedItem.name &&
-                    this.editedItem.page
-                )
+            permissions() {
+                return this.$store.getters.permissions;
             },
-            hintPermissions() {
-                return 'Granting permission means granting access to a page';
+            isLoading() {
+                return this.$store.getters.isLoading;
+            },
+            lengths() {
+                return this.$store.getters.lengths;
+            },
+            rules() {
+                const permissions = [
+                    v => !!v || 'Permission name is required',
+                    v => (v || '').length <= this.lengths.max || `Permission name must be less than ${this.lengths.max} characters`,
+                    v => (v || '').length >= this.lengths.min || `Permission name must be more than ${this.lengths.min} characters`
+
+                ];
+                return {
+                    permissions: permissions
+                };
             }
         },
 
@@ -178,43 +172,53 @@
             },
         },
 
-        mounted() {
-
+        created() {
+            this.initialize()
         },
 
         methods: {
+            initialize() {
+                this.$store.dispatch('loadPermissions');
+            },
+
             editItem(item) {
                 this.editedIndex = this.permissions.indexOf(item)
                 this.editedItem = Object.assign({}, item)
                 this.dialog = true
             },
 
-            deleteItem(item) {
-                confirm('Are you sure you want to delete this permission?') && store.commit('deletePermission', item.id);
-                this.permissions = store.state.permissions;
+            askDeleteItem(item) {
+                this.delete_dialog = true;
+                this.deletedItem = item;
+            },
+
+            deleteItem() {
+                this.$store.dispatch('deletePermission', this.deletedItem);
+                this.delete_dialog = false;
+                this.deletedItem = {};
             },
 
             close() {
-                setTimeout(() => {
-                    this.snackbar = false;
-                }, 300)
-                setTimeout(() => {
-                    this.dialog = false;
+                this.$refs.form.resetValidation();
+                this.dialog = false
+                this.$nextTick(() => {
                     this.editedItem = Object.assign({}, this.defaultItem)
                     this.editedIndex = -1
-                }, 300)
+                })
             },
 
             save() {
                 if (this.editedIndex > -1) {
-                    // Edit
-                    store.commit('editPermission', this.editedItem);
+                    // Edit;
+                    this.$store.dispatch('editPermission', {
+                        index: this.editedIndex,
+                        item: this.editedItem
+                    });
                 } else {
-                    // Add
-                    store.commit('addPermission', this.editedItem);
+                    // Save;
+                    this.$store.dispatch('savePermission', this.editedItem);
                 }
-                this.snackbar = true;
-                this.close()
+                this.close();
             },
         },
     }

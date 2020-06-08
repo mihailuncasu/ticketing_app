@@ -16,7 +16,7 @@ class RoleResource extends JsonResource
         $defaultData = parent::toArray($request);
 
         $additionalData = [
-            'permissions' => $this->permissions,
+            'permissions' => PermissionResource::make($this->permissions),
         ];
 
         return array_merge($defaultData, $additionalData);

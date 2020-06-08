@@ -4,7 +4,7 @@ const permissions = {
     // State;
     state: () => ({
         permissions: [],
-        lengths: {
+        permission_lengths: {
             max: 15,
             min: 3
         },
@@ -15,8 +15,8 @@ const permissions = {
         permissions(state) {
             return state.permissions;
         },
-        lengths(state) {
-            return state.lengths;
+        permission_lengths(state) {
+            return state.permission_lengths;
         }
     },
 

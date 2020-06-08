@@ -44,19 +44,14 @@ class RoleController extends Controller
             'name' => $request->name
         ]);
 
-        activity()
-            ->performedOn(new Role())
-            ->causedBy(auth()->user())
-            ->withProperties([
-                'name' => $request->name
-            ])
-            ->log('created');
-
         if ($request->has('permissions')) {
             $role->givePermissionTo(collect($request->permissions)->pluck('id')->toArray());
         }
 
-        return response(['message' => 'Role Created']);
+        return response([
+            'message' => 'Role Created',
+            'payload' => RoleResource::make($role)
+        ]);
     }
 
     /**
@@ -73,29 +68,30 @@ class RoleController extends Controller
 
         $role->update([
             'name' => $request->name,
+            'updated_at' => now()
         ]);
-        activity()
-            ->performedOn(new Role())
-            ->causedBy(auth()->user())
-            ->withProperties([
-                'name' => $request->name
-            ])
-            ->log('updated');
+
         if ($request->has('permissions')) {
             $role->syncPermissions(collect($request->permissions)->pluck('id')->toArray());
         }
 
-        return response(['message' => 'Role Updated']);
-
+        return response([
+            'message' => 'Role Updated',
+            'payload' => RoleResource::make($role)
+        ]);
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param int $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id) {
-        return $this->role->destroy($id);
+        $this->role->destroy($id);
+
+        return response()->json([
+            'message' => 'Role successfully removed'
+        ], 200);
     }
 }

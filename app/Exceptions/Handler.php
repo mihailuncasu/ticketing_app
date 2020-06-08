@@ -5,6 +5,7 @@ namespace App\Exceptions;
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Spatie\Permission\Exceptions\PermissionAlreadyExists;
+use Spatie\Permission\Exceptions\RoleAlreadyExists;
 use const Grpc\STATUS_ALREADY_EXISTS;
 
 class Handler extends ExceptionHandler
@@ -51,6 +52,11 @@ class Handler extends ExceptionHandler
         if ($exception instanceof PermissionAlreadyExists) {
             return response()->json([
                 'message' => 'Permission already exists',
+            ], method_exists($exception, 'getStatusCode') ? $exception->getStausCode() : 500);
+        }
+        if ($exception instanceof RoleAlreadyExists) {
+            return response()->json([
+                'message' => 'Role already exists',
             ], method_exists($exception, 'getStatusCode') ? $exception->getStausCode() : 500);
         }
         return parent::render($request, $exception);

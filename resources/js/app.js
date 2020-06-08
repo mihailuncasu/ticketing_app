@@ -11,6 +11,7 @@ import store from "@/store/store";
 // Plugin use
 Vue.use(VueRouter);
 Vue.use(Vuex);
+Vue.use(require('vue-moment'));
 // Auth
 Vue.prototype.$auth = new Auth(window.user);
 // Main component;

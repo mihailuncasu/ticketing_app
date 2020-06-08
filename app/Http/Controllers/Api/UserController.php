@@ -79,7 +79,10 @@ class UserController extends Controller
             $user->syncPermissions(collect($request->permissions)->pluck('id')->toArray());
         }
 
-        return response(['message'=>'User Updated', 'user'=>$user]);
+        return response([
+            'message'=>'User Updated',
+            'payload'=> UserResource::make($user)
+        ]);
 
     }
 

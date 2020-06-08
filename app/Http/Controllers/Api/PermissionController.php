@@ -43,6 +43,7 @@ class PermissionController extends Controller
         $permission = $this->permission->create([
             'name' => $request->name,
         ]);
+
         return response([
             'message' => 'Permission Created',
             'payload' => PermissionResource::make($permission)
@@ -64,6 +65,7 @@ class PermissionController extends Controller
 
         $permission->update([
             'name' => $request->name,
+            'updated_at' => now()
         ]);
 
         return response([

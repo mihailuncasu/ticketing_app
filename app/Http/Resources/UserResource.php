@@ -17,8 +17,8 @@ class UserResource extends JsonResource
         $defaultData = parent::toArray($request);
 
         $additionalData = [
-          'role'=> $this->roles->first(),
-          'permissions'=> $this->permissions,
+          'role'=> RoleResource::make($this->roles->first()),
+          'permissions'=> PermissionResource::make($this->permissions),
         ];
 
         return array_merge($defaultData, $additionalData);

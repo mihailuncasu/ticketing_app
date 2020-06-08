@@ -6,7 +6,14 @@
                 sort-by="name"
                 class="elevation-1"
                 :loading="isLoading"
+                loading-text="Loading Permissions... Please wait"
         >
+            <template v-slot:item.created_at="{ item }">
+                <span>{{ item.created_at | moment("calendar") }}</span>
+            </template>
+            <template v-slot:item.updated_at="{ item }">
+                <span>{{ item.updated_at | moment("from", now) }}</span>
+            </template>
             <template v-slot:top>
                 <v-toolbar flat color="white">
                     <v-toolbar-title>PERMISSIONS</v-toolbar-title>
@@ -30,13 +37,12 @@
                                 <v-form
                                         ref="form"
                                         v-model="valid"
-                                        lazy-validation
                                 >
                                     <v-container>
                                         <v-row>
                                             <v-col cols="12">
-                                                <v-text-field v-on:keydown.enter.prevent
-                                                              v-model="editedItem.name"
+                                                <v-text-field @keydown.enter.prevent
+                                                              v-model.trim="editedItem.name"
                                                               label="Permission name"
                                                               :counter="lengths.max"
                                                               :rules="rules.permissions"
@@ -50,7 +56,7 @@
                             <v-card-actions>
                                 <v-spacer></v-spacer>
                                 <v-btn color="blue darken-1" text @click="close">Cancel</v-btn>
-                                <v-btn color="blue darken-1" text @click="save">Save</v-btn>
+                                <v-btn color="blue darken-1" text @click="save" :disabled="!valid">Save</v-btn>
                             </v-card-actions>
                         </v-card>
                     </v-dialog>
@@ -126,17 +132,16 @@
                 {text: 'Updated', value: 'updated_at'},
                 {text: 'Actions', value: 'actions', sortable: false},
             ],
-            valid: true,
+            now: new Date(),
+            valid: false,
             deletedItem: {},
             delete_dialog: false,
             editedIndex: -1,
             editedItem: {
                 name: '',
-                created_at: ''
             },
             defaultItem: {
                 name: '',
-                created_at: ''
             },
         }),
 
@@ -151,14 +156,29 @@
                 return this.$store.getters.isLoading;
             },
             lengths() {
-                return this.$store.getters.lengths;
+                return this.$store.getters.permission_lengths;
             },
             rules() {
                 const permissions = [
                     v => !!v || 'Permission name is required',
                     v => (v || '').length <= this.lengths.max || `Permission name must be less than ${this.lengths.max} characters`,
-                    v => (v || '').length >= this.lengths.min || `Permission name must be more than ${this.lengths.min} characters`
-
+                    v => (v || '').length >= this.lengths.min || `Permission name must be more than ${this.lengths.min} characters`,
+                    v => {
+                        let item = this.permissions.find(p => p.name === v.trim());
+                        if (item !== undefined) {
+                            if (this.editedItem.id !== undefined) {
+                                if (item.id !== this.editedItem.id) {
+                                    return `Permission ${v.trim()} already exists`
+                                } else {
+                                    return true;
+                                }
+                            } else {
+                                return `Permission ${v.trim()} already exists`
+                            }
+                        } else {
+                            return true;
+                        }
+                    }
                 ];
                 return {
                     permissions: permissions
@@ -176,7 +196,15 @@
             this.initialize()
         },
 
+        mounted() {
+            this.$options.interval = setInterval(this.updateTime, 1000);
+        },
+
         methods: {
+            updateTime () {
+                this.now = new Date();
+            },
+
             initialize() {
                 this.$store.dispatch('loadPermissions');
             },
@@ -218,6 +246,7 @@
                     // Save;
                     this.$store.dispatch('savePermission', this.editedItem);
                 }
+                this.now = new Date();
                 this.close();
             },
         },

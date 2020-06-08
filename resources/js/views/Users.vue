@@ -7,6 +7,18 @@
             :loading="isLoading"
             loading-text="Loading Users... Please wait"
     >
+        <template v-slot:item.name="{ item }">
+            <span>{{ item.name | capitalize }}</span>
+        </template>
+        <template v-slot:item.role="{ item }">
+            <span>{{ item.role.name | capitalize }}</span>
+        </template>
+        <template v-slot:item.created_at="{ item }">
+            <span>{{ item.created_at | moment("calendar") }}</span>
+        </template>
+        <template v-slot:item.updated_at="{ item }">
+            <span>{{ item.updated_at | moment("from", now) }}</span>
+        </template>
         <template v-slot:top>
             <v-toolbar flat color="white">
                 <v-toolbar-title>USERS</v-toolbar-title>
@@ -26,28 +38,102 @@
                         </v-card-title>
 
                         <v-card-text>
-                            <v-container>
-                                <v-row>
-                                    <v-col cols="12" sm="6" md="4">
-                                        <v-text-field v-model="editedItem.name" label="Username"></v-text-field>
-                                    </v-col>
-                                    <v-col cols="12" sm="6" md="4">
-                                        <v-text-field v-model="editedItem.email" label="Email"></v-text-field>
-                                    </v-col>
-                                    <v-col cols="12" sm="6" md="4">
-                                        <v-text-field v-model="editedItem.role" label="Role"></v-text-field>
-                                    </v-col>
-                                    <v-col cols="12" sm="6" md="4">
-                                        <v-text-field v-model="editedItem.created_at" label="Created"></v-text-field>
-                                    </v-col>
-                                </v-row>
-                            </v-container>
+                            <v-form
+                                    ref="form"
+                                    v-model="valid"
+                            >
+                                <v-container>
+                                    <v-row>
+                                        <v-flex xs12>
+                                            <v-text-field v-model="editedItem.name" label="Full name"
+                                                          @keydown.enter.prevent
+                                                          :counter="lengths.name.max"
+                                                          :rules="rules.name"
+                                            ></v-text-field>
+                                        </v-flex>
+
+                                        <v-flex xs12>
+                                            <v-text-field v-model="editedItem.email" label="Role name"
+                                                          @keydown.enter.prevent
+                                                          :counter="lengths.email.max"
+                                                          :rules="rules.email"
+                                            ></v-text-field>
+                                        </v-flex>
+
+                                        <v-flex xs12>
+                                            <v-text-field v-model="editedItem.password" label="Password"></v-text-field>
+                                        </v-flex>
+
+                                        <v-flex xs12>
+                                            <v-text-field v-model="editedItem.confirm_password"
+                                                          label="Confirm Password"></v-text-field>
+                                        </v-flex>
+
+                                        <v-flex xs12>
+                                            <v-select
+                                                    v-model="editedItem.role"
+                                                    :items="roles"
+                                                    label="Roles"
+                                                    item-text="name"
+                                                    return-object
+                                                    chips
+                                            ></v-select>
+                                        </v-flex>
+
+                                        <v-flex xs12>
+                                            <v-select
+                                                    v-model="editedItem.role.permissions"
+                                                    :items="permissions"
+                                                    label="Permissions"
+                                                    item-text="name"
+                                                    return-object
+                                                    multiple
+                                                    chips
+                                            ></v-select>
+                                        </v-flex>
+
+                                    </v-row>
+                                </v-container>
+                            </v-form>
                         </v-card-text>
 
                         <v-card-actions>
                             <v-spacer></v-spacer>
                             <v-btn color="blue darken-1" text @click="close">Cancel</v-btn>
-                            <v-btn color="blue darken-1" text @click="save">Save</v-btn>
+                            <v-btn color="blue darken-1" text @click="save" :disabled="!valid">Save</v-btn>
+                        </v-card-actions>
+                    </v-card>
+                </v-dialog>
+                <!--Delete-->
+                <v-dialog
+                        v-model="delete_dialog"
+                        max-width="290"
+                >
+                    <v-card>
+                        <v-card-title class="headline">Deleting User</v-card-title>
+
+                        <v-card-text>
+                            Are you sure you want to delete this user?
+                        </v-card-text>
+
+                        <v-card-actions>
+                            <v-spacer></v-spacer>
+
+                            <v-btn
+                                    color="blue darken-1"
+                                    text
+                                    @click="delete_dialog = false"
+                            >
+                                No
+                            </v-btn>
+
+                            <v-btn
+                                    color="red darken-1"
+                                    text
+                                    @click="deleteItem"
+                            >
+                                Yes
+                            </v-btn>
                         </v-card-actions>
                     </v-card>
                 </v-dialog>
@@ -63,7 +149,7 @@
             </v-icon>
             <v-icon
                     small
-                    @click="deleteItem(item)"
+                    @click="askDeleteItem(item)"
             >
                 mdi-delete
             </v-icon>
@@ -81,31 +167,48 @@
             dialog: false,
             headers: [
                 {
-                    text: 'Username',
+                    text: 'Full name',
                     align: 'start',
                     value: 'name',
                 },
                 {text: 'Email', value: 'email'},
                 {text: 'Role', value: 'role'},
                 {text: 'Created', value: 'created_at'},
+                {text: 'Updated', value: 'updated_at'},
                 {text: 'Actions', value: 'actions', sortable: false},
             ],
+            now: new Date(),
+            valid: false,
+            deletedItem: {},
+            delete_dialog: false,
             editedIndex: -1,
             editedItem: {
                 name: '',
                 email: '',
                 role: {},
                 permissions: [],
-                created_at: ''
+                password: '',
+                confirm_password: ''
             },
             defaultItem: {
                 name: '',
                 email: '',
                 role: {},
                 permissions: [],
-                created_at: ''
+                password: '',
+                confirm_password: ''
             },
         }),
+        filters: {
+            capitalize: function (value) {
+                if (!value) return ''
+                return value
+                    .toLowerCase()
+                    .split(' ')
+                    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                    .join(' ');
+            }
+        },
 
         computed: {
             formTitle() {
@@ -116,6 +219,48 @@
             },
             isLoading() {
                 return this.$store.getters.isLoading;
+            },
+            permissions() {
+                return this.$store.getters.permissions;
+            },
+            lengths() {
+                return this.$store.getters.user_lengths;
+            },
+            roles() {
+                return this.$store.getters.roles;
+            },
+            rules() {
+                const name = [
+                    v => !!v || 'Full name is required',
+                    v => (v || '').length <= this.lengths.name.max || `Full name must be less than ${this.lengths.name.max} characters`,
+                    v => (v || '').length >= this.lengths.name.min || `Full name must be more than ${this.lengths.name.min} characters`,
+                    v => (v || '').indexOf(' ') > 0 || 'Please provide user full name'
+                ];
+                const email = [
+                    v => !!v || 'Email is required',
+                    v => (v || '').length <= this.lengths.email.max || `Email must be less than ${this.lengths.email.max} characters`,
+                    v => (v || '').length >= this.lengths.email.min || `Email must be more than ${this.lengths.email.min} characters`,
+                    v => {
+                        let item = this.roles.find(p => p.email === v.trim());
+                        if (item !== undefined) {
+                            if (this.editedItem.id !== undefined) {
+                                if (item.id !== this.editedItem.id) {
+                                    return `Email ${v.trim()} already exists`
+                                } else {
+                                    return true;
+                                }
+                            } else {
+                                return `Email ${v.trim()} already exists`
+                            }
+                        } else {
+                            return true;
+                        }
+                    }
+                ]
+                return {
+                    name: name,
+                    email: email
+                };
             }
         },
 
@@ -129,9 +274,26 @@
             this.initialize()
         },
 
+        mounted() {
+            this.$options.interval = setInterval(this.updateTime, 1000);
+        },
+
         methods: {
+            updateTime() {
+                this.now = new Date();
+            },
+
             initialize() {
-                this.$store.dispatch('loadUsers');
+                this.$store.dispatch('loadPermissions').then(p => {
+                    this.$store.dispatch('loadRoles').then(r => {
+                        this.$store.dispatch('loadUsers');
+                    });
+                });
+            },
+
+            askDeleteItem(item) {
+                this.delete_dialog = true;
+                this.deletedItem = item;
             },
 
             editItem(item) {
@@ -141,25 +303,33 @@
             },
 
             deleteItem(item) {
-                const index = this.users.indexOf(item)
-                confirm('Are you sure you want to delete this user?') && this.users.splice(index, 1)
+                this.$store.dispatch('deleteUser', this.deletedItem);
+                this.delete_dialog = false;
+                this.deletedItem = {};
             },
 
             close() {
+                this.$refs.form.resetValidation();
                 this.dialog = false
                 this.$nextTick(() => {
-                    this.editedUser = Object.assign({}, this.defaultUser)
+                    this.editedItem = Object.assign({}, this.defaultItem)
                     this.editedIndex = -1
                 })
             },
 
             save() {
                 if (this.editedIndex > -1) {
-                    Object.assign(this.users[this.editedIndex], this.editedItem)
+                    // Edit;
+                    this.$store.dispatch('editUser', {
+                        index: this.editedIndex,
+                        item: this.editedItem
+                    });
                 } else {
-                    this.users.push(this.editedItem)
+                    // Save;
+                    this.$store.dispatch('saveUser', this.editedItem);
                 }
-                this.close()
+                this.now = new Date();
+                this.close();
             },
         },
     }

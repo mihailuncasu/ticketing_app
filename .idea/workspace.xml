@@ -2,25 +2,25 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b39e05c8-a5cf-4120-bde8-695fd0470446" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/websolutions.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/websolutions.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Exceptions/Handler.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Exceptions/Handler.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/PermissionController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/PermissionController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/RoleController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/RoleController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/UserController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Resources/RoleResource.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Resources/RoleResource.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Resources/UserResource.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Resources/UserResource.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/app.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/app.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Auth/RegisterController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Auth/RegisterController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Auth/VerificationController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Auth/VerificationController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Notifications/ResetPassword.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Notifications/ResetPassword.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Notifications/VerifyEmail.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Notifications/VerifyEmail.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/User.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/auth.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/auth.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/services.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/services.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/tenancy.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/tenancy.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/api/roles.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/api/roles.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/api/users.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/api/users.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/app.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/js/store/modules/permissions.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/store/modules/permissions.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/store/modules/roles.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/store/modules/roles.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/store/modules/users.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/store/modules/users.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/views/Permissions.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/views/Permissions.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/views/Roles.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/views/Roles.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/js/views/Users.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/views/Users.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -83,7 +83,6 @@
       <path value="$PROJECT_DIR$/vendor/symfony/var-dumper" />
       <path value="$PROJECT_DIR$/vendor/symfony/service-contracts" />
       <path value="$PROJECT_DIR$/vendor/fzaninotto/faker" />
-      <path value="$PROJECT_DIR$/vendor/symfony/translation" />
       <path value="$PROJECT_DIR$/vendor/filp/whoops" />
       <path value="$PROJECT_DIR$/vendor/symfony/process" />
       <path value="$PROJECT_DIR$/vendor/symfony/routing" />
@@ -163,6 +162,18 @@
       <path value="$PROJECT_DIR$/vendor/ratchet/rfc6455" />
       <path value="$PROJECT_DIR$/vendor/beyondcode/laravel-websockets" />
       <path value="$PROJECT_DIR$/vendor/cboden/ratchet" />
+      <path value="$PROJECT_DIR$/vendor/symfony/polyfill-php80" />
+      <path value="$PROJECT_DIR$/vendor/symfony/translation" />
+      <path value="$PROJECT_DIR$/vendor/guzzlehttp/promises" />
+      <path value="$PROJECT_DIR$/vendor/guzzlehttp/guzzle" />
+      <path value="$PROJECT_DIR$/vendor/psr/http-factory" />
+      <path value="$PROJECT_DIR$/vendor/laravel/passport" />
+      <path value="$PROJECT_DIR$/vendor/firebase/php-jwt" />
+      <path value="$PROJECT_DIR$/vendor/defuse/php-encryption" />
+      <path value="$PROJECT_DIR$/vendor/league/event" />
+      <path value="$PROJECT_DIR$/vendor/league/oauth2-server" />
+      <path value="$PROJECT_DIR$/vendor/lcobucci/jwt" />
+      <path value="$PROJECT_DIR$/vendor/zendframework/zend-diactoros" />
     </include_path>
   </component>
   <component name="ProjectId" id="1cV3MpKr6wn2Q9mpaSxPjRE795w" />
@@ -181,9 +192,9 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\xampp\htdocs\websolutions\database\migrations\tenant" />
       <recent name="C:\xampp\htdocs\websolutions\app\Http\Controllers\Api" />
       <recent name="C:\Users\Mihai Luncasu\AppData\Roaming\JetBrains\PhpStorm2020.1\scratches\components" />
-      <recent name="C:\xampp\htdocs\websolutions\database\migrations\tenant" />
     </key>
   </component>
   <component name="RunManager">
@@ -213,7 +224,8 @@
       <workItem from="1591457364266" duration="6559000" />
       <workItem from="1591491733372" duration="10452000" />
       <workItem from="1591550719287" duration="985000" />
-      <workItem from="1591571195330" duration="28021000" />
+      <workItem from="1591571195330" duration="28226000" />
+      <workItem from="1591715058628" duration="21741000" />
     </task>
     <servers />
   </component>
@@ -229,10 +241,10 @@
       <screen x="1920" y="0" width="1536" height="864" />
     </state>
     <state x="1930" y="-15" width="1902" height="976" maximized="true" key="dock-window-1/1920.0.1536.864/0.0.1920.1200@0.0.1920.1200" timestamp="1591636571381" />
-    <state x="1920" y="0" width="1522" height="950" key="dock-window-2" timestamp="1591631447851">
+    <state x="1920" y="0" width="1522" height="950" key="dock-window-2" timestamp="1591738383402">
       <screen x="1920" y="0" width="1536" height="864" />
     </state>
-    <state x="1920" y="0" width="1522" height="950" key="dock-window-2/1920.0.1536.864/0.0.1920.1200@0.0.1920.1200" timestamp="1591631447851" />
+    <state x="1920" y="0" width="1522" height="950" key="dock-window-2/1920.0.1536.864/0.0.1920.1200@0.0.1920.1200" timestamp="1591738383402" />
     <state x="2587" y="335" width="586" height="530" key="find.popup" timestamp="1590975771638">
       <screen x="1920" y="0" width="1920" height="1200" />
     </state>
@@ -241,12 +253,12 @@
       <screen x="1920" y="0" width="1920" height="1200" />
     </state>
     <state x="2672" y="459" width="490" height="396" key="scopes/0.0.1536.864/1920.0.1920.1200@1920.0.1920.1200" timestamp="1590975717753" />
-    <state x="623" y="265" width="672" height="678" key="search.everywhere.popup" timestamp="1591658810859">
+    <state x="623" y="265" width="672" height="678" key="search.everywhere.popup" timestamp="1591743890534">
       <screen x="0" y="0" width="1920" height="1200" />
     </state>
     <state x="2543" y="265" width="672" height="678" key="search.everywhere.popup/0.0.1536.864/1920.0.1920.1200@1920.0.1920.1200" timestamp="1591017719442" />
     <state x="498" y="190" width="672" height="489" key="search.everywhere.popup/0.0.1536.864@0.0.1536.864" timestamp="1591631044705" />
-    <state x="623" y="265" width="672" height="678" key="search.everywhere.popup/1920.0.1536.864/0.0.1920.1200@0.0.1920.1200" timestamp="1591658810859" />
+    <state x="623" y="265" width="672" height="678" key="search.everywhere.popup/1920.0.1536.864/0.0.1920.1200@0.0.1920.1200" timestamp="1591743890534" />
     <state x="2602" y="512" key="vcs.readOnlyHandler.ReadOnlyStatusDialog" timestamp="1590763706984">
       <screen x="1920" y="0" width="1920" height="1200" />
     </state>

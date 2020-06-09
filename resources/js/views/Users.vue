@@ -52,21 +52,13 @@
                                             ></v-text-field>
                                         </v-flex>
 
+
                                         <v-flex xs12>
-                                            <v-text-field v-model="editedItem.email" label="Role name"
+                                            <v-text-field v-model="editedItem.email" label="Email"
                                                           @keydown.enter.prevent
                                                           :counter="lengths.email.max"
                                                           :rules="rules.email"
                                             ></v-text-field>
-                                        </v-flex>
-
-                                        <v-flex xs12>
-                                            <v-text-field v-model="editedItem.password" label="Password"></v-text-field>
-                                        </v-flex>
-
-                                        <v-flex xs12>
-                                            <v-text-field v-model="editedItem.confirm_password"
-                                                          label="Confirm Password"></v-text-field>
                                         </v-flex>
 
                                         <v-flex xs12>
@@ -90,6 +82,23 @@
                                                     multiple
                                                     chips
                                             ></v-select>
+                                        </v-flex>
+
+                                        <v-switch v-if="editedIndex < 0"
+                                                  v-model="autoPassword"
+                                                  label="Generate random password"
+                                        ></v-switch>
+
+                                        <v-flex xs12 v-if="!autoPassword">
+                                            <v-text-field v-model="editedItem.password" label="Password"
+                                                          :rules="rules.password"
+                                            ></v-text-field>
+                                        </v-flex>
+
+                                        <v-flex xs12 v-if="!autoPassword">
+                                            <v-text-field v-model="editedItem.confirm_password" label="Confirm Password"
+                                                          :rules="rules.confirm_password"
+                                            ></v-text-field>
                                         </v-flex>
 
                                     </v-row>
@@ -177,6 +186,7 @@
                 {text: 'Updated', value: 'updated_at'},
                 {text: 'Actions', value: 'actions', sortable: false},
             ],
+            autoPassword: true,
             now: new Date(),
             valid: false,
             deletedItem: {},
@@ -234,7 +244,7 @@
                     v => !!v || 'Full name is required',
                     v => (v || '').length <= this.lengths.name.max || `Full name must be less than ${this.lengths.name.max} characters`,
                     v => (v || '').length >= this.lengths.name.min || `Full name must be more than ${this.lengths.name.min} characters`,
-                    v => (v || '').indexOf(' ') > 0 || 'Please provide user full name'
+                    v => (v.trim() || '').indexOf(' ') > 0 || 'Please provide user full name'
                 ];
                 const email = [
                     v => !!v || 'Email is required',
@@ -256,11 +266,16 @@
                             return true;
                         }
                     }
-                ]
-                return {
-                    name: name,
-                    email: email
-                };
+                ];
+                const password = [
+                    v => !!v || 'Password is required',
+                    v => (v || '').length >= this.lengths.password.min || `Password must be more than ${this.lengths.password.min} characters`,
+                ];
+                const confirm_password = [
+                    v => !!v || 'Confirm password is required',
+                    v => v === this.editedItem.password || `Password must match`
+                ];
+                return this.autoPassword ? {name: name, email: email} : {name: name, email: email, password: password, confirm_password: confirm_password}
             }
         },
 

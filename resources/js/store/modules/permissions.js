@@ -46,7 +46,7 @@ const permissions = {
                 commit('STOP_DATA_LOADING_SUCCESS');
             }).catch(error => {
                 commit('STOP_DATA_LOADING_FAILURE', {
-                    message: error.message
+                    message: error.response.data.message
                 });
             });
         },

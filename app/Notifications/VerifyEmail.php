@@ -2,7 +2,6 @@
 
 namespace App\Notifications;
 
-use Hyn\Tenancy\Models\Hostname;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Config;

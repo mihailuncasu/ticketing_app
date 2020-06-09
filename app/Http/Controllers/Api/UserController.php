@@ -3,9 +3,13 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Resources\UserResource;
+use App\Notifications\RegisterUser;
 use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Resources\Json\Resource;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
@@ -28,17 +32,22 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+        dd(Auth::check() ? Auth::user()->id : null);
+        // Check if the request contains the password;
+        // If not, then we generate a random password and add it to request;
+        $request->password = $request->password !== null ? $request->password : Str::random(10);
+
         $request->validate([
            'name'=>'required',
            'email'=>'required|email',
            'password'=>'required',
         ]);
+
         $user= User::create([
             'name'=> $request->name,
             'email'=> $request->email,
             'password'=> bcrypt($request->password)
         ]);
-
 
         if ($request->has('role')) {
             $user->assignRole($request->role['name']);
@@ -48,7 +57,13 @@ class UserController extends Controller
             $user->givePermissionTo(collect($request->permissions)->pluck('id')->toArray());
         }
 
-        return response(['message'=>'User Created', 'user'=>$user]);
+        // Also, after we create the user we send a mail to the specific mail address with the password;
+        $user->notify(new RegisterUser($user, $request->password));
+
+        return response([
+            'message'=>'User Created',
+            'payload'=>UserResource::make($user)
+        ]);
     }
 
 
@@ -69,6 +84,7 @@ class UserController extends Controller
         $user->update([
             'name'=> $request->name,
             'email'=> $request->email,
+            'updated_at' => now()
         ]);
 
         if ($request->has('role')) {
@@ -90,10 +106,13 @@ class UserController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {
-        return User::destroy($id);
+        User::destroy($id);
+        return response()->json([
+            'message' => 'User successfully removed'
+        ], 200);
     }
 }

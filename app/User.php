@@ -20,7 +20,7 @@ class User extends Authenticable implements MustVerifyEmail
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'updated_at'
     ];
 
     /**
@@ -41,12 +41,12 @@ class User extends Authenticable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
 
-    /*public function sendEmailVerificationNotification() {
-        $this->notify(new VerifyEmail);
-    }*/
-
     public function sendPasswordResetNotification($token){
         $this->notify(new ResetPassword($token));
+        $this->markEmailAsVerified();
+    }
+
+    public function sendRegisterUserNotification(){
         $this->markEmailAsVerified();
     }
 

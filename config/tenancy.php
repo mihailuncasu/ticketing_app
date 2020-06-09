@@ -164,7 +164,7 @@ return [
          * This will resolve issues with password reset mails etc using the
          * correct domain.
          */
-        'update-app-url' => false,
+        'update-app-url' => true,
     ],
     'db' => [
         /**

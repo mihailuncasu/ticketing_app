@@ -52,9 +52,9 @@ return [
     |
     */
 
-    'url_base' => env('APP_URL_BASE', 'http://servicenow.test'),
+    'url_base' => env('APP_URL_BASE', 'http://websolutions.test'),
 
-    'url' => env('APP_URL', 'http://servicenow.test'),
+    'url' => env('APP_URL', 'http://websolutions.test'),
 
     'asset_url' => env('ASSET_URL', null),
 

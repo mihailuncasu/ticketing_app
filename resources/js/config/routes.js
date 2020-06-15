@@ -1,23 +1,29 @@
 //Dashboard Components
-import Home from '@/views/Home.vue';
-import Users from '@/views/Users.vue';
-import Permissions from '@/views/Permissions.vue';
-import Roles from '@/views/Roles.vue';
-//import Dashboard from '@/components/Views/Dashboard.vue'
-//import Tickets from '@/components/Views/Tickets.vue'
+import Home from '@/components/app/Home';
+import Users from '@/components/app/Users';
+import Permissions from '@/components/app/Permissions';
+import Roles from '@/components/app/Roles';
+//import Tickets from '@/components/Views/Tickets'
 
-//Auth Components
-//import AuthLayout from '@/components/Layouts/AuthLayout.vue'
-//import Register from '@/components/Auth/Register.vue'
-//import Login from '@/components/Auth/Login.vue'
-//import ResetEmail from '@/components/Auth/ResetEmail.vue'
-//import ResetPassword from '@/components/Auth/ResetPassword.vue'
+//Auth Components;
+import Login from '@/components/auth/Login'
+import VerifyEmail from "@/components/auth/VerifyEmail";
+import ResetPassword from "@/components/auth/ResetPassword";
+import ForgotPassword from "@/components/auth/ForgotPassword";
+
+//Layout Components;
+import AuthLayout from '@/components/layouts/AuthLayout'
+import AppLayout from '@/components/layouts/AppLayout'
+import LandingLayout from "@/components/layouts/LandingLayout";
 
 //Landing Components
-//import Welcome from '@/components/Landing/Welcome.vue'
+import Register from '@/components/landing/Register'
+import Content from '@/components/landing/Content';
+import LoginDomain from "@/components/landing/LoginDomain";
 
 //General Components
-import NotFound from '@/views/NotFound.vue'
+import NotFound from '@/components/general/NotFound'
+
 
 //Export routes based on domain used
 const host = window.location.host.toUpperCase()
@@ -25,27 +31,93 @@ const host = window.location.host.toUpperCase()
 const routes = () => {
 
     //Test for portal routes
-    if (host.includes('WEBSOLUTIONS.TEST')) {
+    if (host.includes('APP.WEBSOLUTIONS.TEST')) {
+        return [
+            // Auth components
+            {
+                path: '/',
+                component: AuthLayout,
+                children: [
+                    {
+                        path: 'login',
+                        name: 'login',
+                        component: Login
+                    },
+                    {
+                        path: '/verify-email',
+                        component: VerifyEmail,
+                        name: 'verifyEmail'
+                    },
+                    {
+                        path: '/reset-password',
+                        name: 'resetPassword',
+                        component: ResetPassword
+                    },
+                    {
+                        path: '/forgot-password',
+                        name: 'forgotPassword',
+                        component: ForgotPassword
+                    },
+                ]
+            },
+            {
+                path: '/',
+                component: AppLayout,
+                children: [
+                    {
+                        name: 'home',
+                        path: '/home',
+                        component: Home
+                    },
+                    {
+                        name: 'users',
+                        path: '/users',
+                        component: Users
+                    },
+                    {
+                        name: 'roles',
+                        path: '/roles',
+                        component: Roles
+                    },
+                    {
+                        name: 'permissions',
+                        path: '/permissions',
+                        component: Permissions
+                    },
+                    /*{
+                        path: 'tickets',
+                        name: 'dashbaord.tickets',
+                        component: Tickets
+                    },*/
+                ]
+            },
+            {
+                path: '*',
+                component: NotFound
+            }
+        ]
+    } else {
         return [
             {
-                name: 'Home',
-                path: '/dashboard',
-                component: Home
-            },
-            {
-                name: 'Users',
-                path: '/dashboard/users',
-                component: Users
-            },
-            {
-                name: 'Roles',
-                path: '/dashboard/roles',
-                component: Roles
-            },
-            {
-                name: 'Permissions',
-                path: '/dashboard/permissions',
-                component: Permissions
+                path: '/',
+                component: LandingLayout,
+                children: [
+                    {
+                        path: '/',
+                        name: 'content',
+                        component: Content
+                    },
+                    {
+                        path: '/login-domain',
+                        name: 'loginDomain',
+                        component: LoginDomain
+                    },
+                    {
+                        path: '/register',
+                        name: 'register',
+                        component: Register
+                    },
+                ]
             },
             {
                 path: '*',

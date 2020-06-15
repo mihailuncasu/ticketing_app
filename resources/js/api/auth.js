@@ -1,22 +1,37 @@
-export default class Auth {
-    constructor(user) {
-        this.user = user;
-    }
+import axios from '@/plugins/axios.js'
 
-    roles() {
-        return this.user.roles.map(role => role.name);
-    }
+export default {
+	login(payload) {
+		return axios.post('login', payload)
+	},
 
-    permissions() {
-        return this.user.permissions.map(permission => permission.name);
-    }
+	domainLogin(payload) {
+		return axios.post('domain-login', payload)
+	},
 
-    isAdmin() {
-        return this.roles().includes("Admin");
-    }
+	logout() {
+		return axios.post('logout')
+	},
 
+	register(payload) {
+		return axios.post('register', payload)
+	},
 
-    can($permissionName) {
-        return this.permissions().includes($permissionName);
-    }
+	forgotPassword(payload) {
+		return axios.post('forgot-password', payload)
+	},
+
+	resetPassword(payload) {
+		return axios.post('reset-password', payload)
+	},
+
+	checkDomain(payload) {
+		return axios.post('check-domain', payload)
+	},
+
+	emailVerification(payload) {
+		return axios.get('email-verification', {
+			params: payload
+		});
+	}
 }

@@ -2,21 +2,14 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Tenant;
 use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
-use Illuminate\Auth\Events\Registered;
-use Hyn\Tenancy\Contracts\Repositories\HostnameRepository;
-use Hyn\Tenancy\Contracts\Repositories\WebsiteRepository;
-use Hyn\Tenancy\Environment;
-use Hyn\Tenancy\Models\Hostname;
-use App\Website;
-use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
-use Illuminate\Support\Facades\Mail;
+use Symfony\Component\HttpFoundation\Response;
 
 class RegisterController extends Controller
 {
@@ -30,25 +23,6 @@ class RegisterController extends Controller
     | provide this functionality without requiring any additional code.
     |
     */
-
-    use RegistersUsers;
-
-    /**
-     * Where to redirect users after registration.
-     *
-     * @var string
-     */
-    protected $redirectTo = '/login';
-
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('guest');
-    }
 
     /**
      * Get a validator for an incoming registration request.
@@ -67,11 +41,81 @@ class RegisterController extends Controller
                 Rule::notIn($invalidSubdomains),
                 'regex:/^[A-Za-z0-9](?:[A-Za-z0-9\-]{0,61}[A-Za-z0-9])$/'
             ],
-            'fqdn' => ['required', 'string', 'unique:hostnames'],
+            'fqdn' => ['required', 'string', 'unique:system.hostnames'],
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
+    }
+
+    /**
+     * Handle a registration request for the application.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function register(Request $request)
+    {
+        $data = $request->all();
+        if (isset($data['domain'])) {
+            $fqdn = $data['domain'] . '.' . env('TENANT_URL_BASE');
+            $request->merge(['fqdn' => $fqdn]);
+        }
+
+        // Request data;
+        $validator = $this->validator($request->all());
+        $validator->validate();
+
+        Tenant::create($request->fqdn);
+
+        // Use only the validated data;
+        $user = $this->create($validator->validated());
+
+        $user->sendEmailVerificationNotification();
+
+        return response()->json([
+            'redirect' => 'loginDomain',
+            'message' => 'Registration successful. A verification link has been sent to your e-mail address.'
+        ], Response::HTTP_CREATED);
+    }
+
+    /**
+     * Checks if the fqdn is valid.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function checkDomain(Request $request)
+    {
+        $data = $request->all();
+        if (isset($data['domain'])) {
+            $fqdn = $data['domain'] . '.' . env('TENANT_URL_BASE');
+            $data['fqdn'] = $fqdn;
+        }
+
+        $invalidSubdomains = config('app.invalid_subdomains');
+
+        $validator = Validator::make($data, [
+            'domain' => [
+                'required',
+                'string',
+                Rule::notIn($invalidSubdomains),
+                'regex:/^[A-Za-z0-9](?:[A-Za-z0-9\-]{0,61}[A-Za-z0-9])$/'
+            ],
+            'fqdn' => ['required', 'string', 'unique:system.hostnames'],
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'valid' => false,
+                'error' => 'The given domain is invalid or already in use'
+            ], 422);
+        } else {
+            return response()->json([
+                'valid' => true,
+                'message' => 'Domain is available'
+            ], 200);
+        }
     }
 
     /**
@@ -82,66 +126,14 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-
-        // Use the Tenancy package command to create the tenant
-        $hostname = $this->createTenant(
-            $data['fqdn'],
-            $data['email']
-        );
-
-        // swap the environment over to the hostname
-        app(Environment::class)->hostname($hostname);
-
         $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
-        $user->guard_name = 'web';
+
         $user->assignRole('admin');
+
+        return $user;
     }
-
-    private function createTenant($fqdn, $email)
-    {
-        // first create the 'website'
-        $website = new Website;
-        app(WebsiteRepository::class)->create($website);
-
-        // now associate the 'website' with a hostname
-        $hostname = new Hostname;
-        $hostname->fqdn = $fqdn;
-        app(HostnameRepository::class)->attach($hostname, $website);
-
-        return $hostname;
-    }
-
-    public function register(Request $request)
-    {
-        // we'll add in our fqdn here
-        $data = $request->all();
-        if (isset($data['domain'])) {
-            $fqdn = $data['domain'] . '.' . config('app.url_base');
-            $request->merge(['fqdn' => $fqdn]);
-        }
-
-        // validate with the validator below
-        $this->validator($request->all())->validate();
-
-        // new registered user event
-        event(new Registered($user = $this->create($request->all())));
-
-        $port = $request->server('SERVER_PORT') == 8000 ? ':8000' : '';
-        return redirect(($request->secure() ? 'https://' : 'http://') . $fqdn . $port . '/login?success=1');
-    }
-
-    /**
-     * Show the application registration form.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function showRegistrationForm(Request $request)
-    {
-        return view('auth.register')->withEmail($request->input('email') ? $request->input('email') : '');
-    }
-
 }

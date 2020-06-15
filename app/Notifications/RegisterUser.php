@@ -15,6 +15,7 @@ class RegisterUser extends Notification
 
     private $user;
     private $password;
+
     /**
      * Create a new notification instance.
      *
@@ -29,7 +30,7 @@ class RegisterUser extends Notification
     /**
      * Get the notification's delivery channels.
      *
-     * @param  mixed  $notifiable
+     * @param mixed $notifiable
      * @return array
      */
     public function via($notifiable)
@@ -40,7 +41,7 @@ class RegisterUser extends Notification
     /**
      * Get the mail representation of the notification.
      *
-     * @param  mixed  $notifiable
+     * @param mixed $notifiable
      * @return \Illuminate\Notifications\Messages\MailMessage
      */
     public function toMail($notifiable)
@@ -49,16 +50,16 @@ class RegisterUser extends Notification
             ->subject('Account created')
             ->from(Auth::user()->email, Auth::user()->name)
             ->greeting("Hello, {$this->user->name}!")
-                    ->line('Your account has been created')
-                    ->line("This is your new password: $this->password")
-                    ->action('Login here', route('login'))
-                    ->line('Welcome to the team!');
+            ->line('Your account has been created')
+            ->line("This is your new password: $this->password")
+            ->action('Login here', route('login'))
+            ->line('Welcome to the team!');
     }
 
     /**
      * Get the array representation of the notification.
      *
-     * @param  mixed  $notifiable
+     * @param mixed $notifiable
      * @return array
      */
     public function toArray($notifiable)

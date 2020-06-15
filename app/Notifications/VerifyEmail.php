@@ -2,23 +2,75 @@
 
 namespace App\Notifications;
 
-use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\URL;
-use Illuminate\Support\Facades\Config;
+use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Notification;
 
-class VerifyEmail extends \Illuminate\Auth\Notifications\VerifyEmail
+class VerifyEmail extends Notification
 {
+    use Queueable;
 
-    protected function verificationUrl($notifiable)
+    /**
+     * Create a new notification instance.
+     *
+     * @return void
+     */
+    public function __construct()
     {
-        $temporary_url = URL::temporarySignedRoute(
-            'verification.verify',
-            Carbon::now()->addMinutes(Config::get('auth.verification.expire', 60)),
-            ['id' => $notifiable->getKey()]
-        );
+        //
+    }
 
-        $exploded_url = explode('//', $temporary_url, 2);
+    /**
+     * Get the notification's delivery channels.
+     *
+     * @param mixed $notifiable
+     * @return array
+     */
+    public function via($notifiable)
+    {
+        return ['mail'];
+    }
 
-        return $exploded_url[0] . '//' . config('subdomain') . '.' . $exploded_url[1];
+    /**
+     * Get the mail representation of the notification.
+     *
+     * @param mixed $notifiable
+     * @return \Illuminate\Notifications\Messages\MailMessage
+     */
+    public function toMail($notifiable)
+    {
+
+        $params = [
+            'id' => $notifiable->id,
+            'hash' => sha1($notifiable->email),
+        ];
+
+
+        $url = url(config('app.url')) . '/verify-email?';
+
+        foreach ($params as $key => $param) {
+            $url .= "{$key}={$param}&";
+        }
+
+        return (new MailMessage)
+            ->subject('Account Created Notification')
+            ->greeting("Hello!")
+            ->line('Your account has been created. Please verify your e-mail address.')
+            ->action('Verify Email', $url)
+            ->line('Thank you for using our application!');
+    }
+
+    /**
+     * Get the array representation of the notification.
+     *
+     * @param mixed $notifiable
+     * @return array
+     */
+    public function toArray($notifiable)
+    {
+        return [
+            //
+        ];
     }
 }

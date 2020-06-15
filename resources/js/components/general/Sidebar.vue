@@ -52,7 +52,7 @@
 </template>
 
 <script>
-    import axios from "@/plugins/axios";
+    import api from "@/api/auth";
 
     export default {
         data: () => ({
@@ -71,7 +71,11 @@
         }),
         methods: {
             click_logout() {
-                axios.post('/logout');
+                api.logout().then(({data}) => {
+
+                }).catch(({response}) => {
+
+                });
             }
         }
     }

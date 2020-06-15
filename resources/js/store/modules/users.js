@@ -12,6 +12,9 @@ const users = {
             email: {
                 min: 5,
                 max: 30
+            },
+            password: {
+                min: 8,
             }
         }
     }),

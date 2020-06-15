@@ -250,6 +250,7 @@
                     v => !!v || 'Email is required',
                     v => (v || '').length <= this.lengths.email.max || `Email must be less than ${this.lengths.email.max} characters`,
                     v => (v || '').length >= this.lengths.email.min || `Email must be more than ${this.lengths.email.min} characters`,
+                    v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
                     v => {
                         let item = this.roles.find(p => p.email === v.trim());
                         if (item !== undefined) {
@@ -270,6 +271,7 @@
                 const password = [
                     v => !!v || 'Password is required',
                     v => (v || '').length >= this.lengths.password.min || `Password must be more than ${this.lengths.password.min} characters`,
+                    v => (v.trim() || '').indexOf(' ') < 0 || 'No white spaces are allowed'
                 ];
                 const confirm_password = [
                     v => !!v || 'Confirm password is required',

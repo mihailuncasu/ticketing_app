@@ -9,12 +9,10 @@
     "license": "MIT",
     "require": {
         "php": "^7.1.3",
-        "beyondcode/laravel-websockets": "^1.4",
         "fideloper/proxy": "^4.0",
         "hyn/multi-tenant": "5.4.*",
         "laravel/framework": "5.8.*",
         "laravel/tinker": "^1.0",
-        "mcamara/laravel-localization": "^1.5",
         "spatie/laravel-permission": "^3.11",
          "laravel/passport": "7.5.1"
     },

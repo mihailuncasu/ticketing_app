@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Hyn\Tenancy\Environment;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
 
@@ -14,7 +15,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        \Laravel\Passport\Passport::ignoreMigrations();
     }
 
     /**
@@ -22,9 +23,13 @@ class AppServiceProvider extends ServiceProvider
      *
      * @return void
      */
-     public function boot()
+    public function boot()
     {
-        // restrict string length
+        $env = app(Environment::class);
+
+        if ($fqdn = optional($env->hostname())->fqdn) {
+            config(['database.default' => 'tenant']);
+        }
         Schema::defaultStringLength(191);
     }
 }

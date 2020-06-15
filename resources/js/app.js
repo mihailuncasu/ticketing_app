@@ -1,30 +1,22 @@
 // Vue
 window.Vue = require('vue');
 window.axios = require('axios');
+
 // Imports
 import vuetify from '@/plugins/vuetify';
-import Auth from '@/api/auth';
-import VueRouter from 'vue-router';
-import routes from '@/config/routes';
+import router from '@/plugins/router';
 import Vuex from 'vuex';
 import store from "@/store/store";
+import App from '@/Main'
+
 // Plugin use
-Vue.use(VueRouter);
 Vue.use(Vuex);
 Vue.use(require('vue-moment'));
-// Auth
-Vue.prototype.$auth = new Auth(window.user);
-// Main component;
-Vue.component('dashboard', require('@/views/Dashboard.vue').default);
 
-const router = new VueRouter({
-    mode: 'history',
-    routes
-});
-
-const app = new Vue({
+export const app = new Vue({
     router,
     vuetify,
     store: store,
+    render: h => h(App),
     el: '#app',
 });

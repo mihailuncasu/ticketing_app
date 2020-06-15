@@ -9,7 +9,9 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Resources\Json\Resource;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use Symfony\Component\HttpFoundation\Response;
 
 class UserController extends Controller
 {
@@ -32,7 +34,6 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        dd(Auth::check() ? Auth::user()->id : null);
         // Check if the request contains the password;
         // If not, then we generate a random password and add it to request;
         $request->password = $request->password !== null ? $request->password : Str::random(10);
@@ -46,7 +47,7 @@ class UserController extends Controller
         $user= User::create([
             'name'=> $request->name,
             'email'=> $request->email,
-            'password'=> bcrypt($request->password)
+            'password'=> Hash::make($request->password)
         ]);
 
         if ($request->has('role')) {
@@ -98,7 +99,7 @@ class UserController extends Controller
         return response([
             'message'=>'User Updated',
             'payload'=> UserResource::make($user)
-        ]);
+        ], Response::HTTP_ACCEPTED);
 
     }
 

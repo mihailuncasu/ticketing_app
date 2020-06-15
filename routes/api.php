@@ -13,11 +13,26 @@ use Illuminate\Http\Request;
 |
 */
 
-
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+// Auth Routes
+Route::domain('websolutions.test')->group(function () {
+    Route::post('register', 'Auth\RegisterController@register');
+    Route::post('check-domain', 'Auth\RegisterController@checkDomain');
+    Route::post('domain-login', 'Auth\LoginController@domainLogin');
 });
 
-Route::apiResource('users', 'Api\UserController');
-Route::apiResource('roles', 'Api\RoleController');
-Route::apiResource('permissions', 'Api\PermissionController');
+Route::middleware('tenant.exists')->group(function () {
+    // Login
+    Route::post('login', 'Auth\LoginController@login');
+    // Email verification;
+    Route::get('email-verification', 'Auth\VerificationController@verify')->name('verification.verify');
+    Route::get('email-resend', 'Auth\VerificationController@resend')->name('verification.resend');
+    Route::post('forgot-password', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('api.forgot-password');
+    Route::post('reset-password', 'Auth\ResetPasswordController@reset')->name('api.reset-password');
+    // Auth api
+    Route::group(['middleware' => ['auth:api', 'verified:api']], function () {
+        Route::post('logout', 'Auth\LoginController@logout');
+        Route::apiResource('users', 'Api\UserController');
+        Route::apiResource('roles', 'Api\RoleController');
+        Route::apiResource('permissions', 'Api\PermissionController');
+    });
+});

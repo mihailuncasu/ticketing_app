@@ -2,17 +2,18 @@
 
 namespace App;
 
-use App\Notifications\ResetPassword;
-use Illuminate\Notifications\Notifiable;
+use App\Notifications\ResetPassword as ResetPasswordNotification;
+use App\Notifications\VerifyEmail as VerifyEmailNotification;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticable;
 use Hyn\Tenancy\Traits\UsesTenantConnection;
 use Spatie\Permission\Traits\HasRoles;
-use Illuminate\Auth\MustVerifyEmail as TraitVerifyEmail;
+use Laravel\Passport\HasApiTokens;
 
 class User extends Authenticable implements MustVerifyEmail
 {
-    use Notifiable, UsesTenantConnection, HasRoles, TraitVerifyEmail;
+    use Notifiable, UsesTenantConnection, HasRoles, HasApiTokens;
 
     /**
      * The attributes that are mass assignable.
@@ -41,13 +42,19 @@ class User extends Authenticable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
 
-    public function sendPasswordResetNotification($token){
-        $this->notify(new ResetPassword($token));
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new ResetPasswordNotification($token));
+    }
+
+    public function sendRegisterUserNotification()
+    {
         $this->markEmailAsVerified();
     }
 
-    public function sendRegisterUserNotification(){
-        $this->markEmailAsVerified();
+    public function sendEmailVerificationNotification()
+    {
+        $this->notify(new VerifyEmailNotification); // my notification
     }
 
 }

@@ -4,7 +4,7 @@
             :items="users"
             sort-by="name"
             class="elevation-1"
-            :loading="isLoading"
+            :loading="loading"
             loading-text="Loading Users... Please wait"
     >
         <template v-slot:item.name="{ item }">
@@ -22,10 +22,9 @@
         <template v-slot:top>
             <v-toolbar flat color="white">
                 <v-toolbar-title>USERS</v-toolbar-title>
-                <v-divider
-                        class="mx-4"
-                        inset
-                        vertical
+                <v-divider class="mx-4"
+                           inset
+                           vertical
                 ></v-divider>
                 <v-spacer></v-spacer>
                 <v-dialog v-model="dialog" max-width="500px">
@@ -38,69 +37,72 @@
                         </v-card-title>
 
                         <v-card-text>
-                            <v-form
-                                    ref="form"
+                            <v-form ref="form"
                                     v-model="valid"
                             >
                                 <v-container>
                                     <v-row>
                                         <v-flex xs12>
-                                            <v-text-field v-model="editedItem.name" label="Full name"
-                                                          @keydown.enter.prevent
+                                            <v-text-field v-model="input.name"
+                                                          label="Full Name"
+                                                          name="name"
                                                           :counter="lengths.name.max"
-                                                          :rules="rules.name"
-                                            ></v-text-field>
+                                                          :error-messages="errors.name"
+                                                          :rules="[...nameRules]"
+                                                          @input="errors.name = []"
+                                            />
                                         </v-flex>
-
-
                                         <v-flex xs12>
-                                            <v-text-field v-model="editedItem.email" label="Email"
-                                                          @keydown.enter.prevent
+                                            <v-text-field v-model="input.email"
+                                                          label="E-mail"
+                                                          name="email"
                                                           :counter="lengths.email.max"
-                                                          :rules="rules.email"
-                                            ></v-text-field>
+                                                          :error-messages="errors.email"
+                                                          :rules="[...emailRules]"
+                                                          @input="errors.email = []"
+                                            />
                                         </v-flex>
-
                                         <v-flex xs12>
-                                            <v-select
-                                                    v-model="editedItem.role"
-                                                    :items="roles"
-                                                    label="Roles"
-                                                    item-text="name"
-                                                    return-object
-                                                    chips
-                                            ></v-select>
+                                            <v-select v-model="input.role"
+                                                      :items="roles"
+                                                      :rules="[...roleRules]"
+                                                      label="Roles"
+                                                      item-text="name"
+                                                      return-object
+                                                      required
+                                                      chips
+                                            />
                                         </v-flex>
-
                                         <v-flex xs12>
-                                            <v-select
-                                                    v-model="editedItem.role.permissions"
-                                                    :items="permissions"
-                                                    label="Permissions"
-                                                    item-text="name"
-                                                    return-object
-                                                    multiple
-                                                    chips
-                                            ></v-select>
+                                            <v-select v-model="input.role.permissions"
+                                                      :items="permissions"
+                                                      label="Permissions"
+                                                      item-text="name"
+                                                      return-object
+                                                      multiple
+                                                      chips
+                                            />
                                         </v-flex>
-
                                         <v-switch v-if="editedIndex < 0"
                                                   v-model="autoPassword"
                                                   label="Generate random password"
-                                        ></v-switch>
-
+                                        />
                                         <v-flex xs12 v-if="!autoPassword">
-                                            <v-text-field v-model="editedItem.password" label="Password"
-                                                          :rules="rules.password"
-                                            ></v-text-field>
+                                            <v-text-field v-model="input.password"
+                                                          label="Password"
+                                                          :rules="[...passwordRules]"
+                                                          :error-messages="errors.password"
+                                                          @input="errors.password = []"
+                                                          type="password"
+                                            />
                                         </v-flex>
-
                                         <v-flex xs12 v-if="!autoPassword">
-                                            <v-text-field v-model="editedItem.confirm_password" label="Confirm Password"
-                                                          :rules="rules.confirm_password"
-                                            ></v-text-field>
+                                            <v-text-field v-model="input.password_confirmation"
+                                                          label="Password Confirm"
+                                                          :rules="[...passwordConfirmationRules]"
+                                                          type="password"
+                                            />
                                         </v-flex>
-
                                     </v-row>
                                 </v-container>
                             </v-form>
@@ -114,9 +116,8 @@
                     </v-card>
                 </v-dialog>
                 <!--Delete-->
-                <v-dialog
-                        v-model="delete_dialog"
-                        max-width="290"
+                <v-dialog v-model="delete_dialog"
+                          max-width="290"
                 >
                     <v-card>
                         <v-card-title class="headline">Deleting User</v-card-title>
@@ -128,40 +129,16 @@
                         <v-card-actions>
                             <v-spacer></v-spacer>
 
-                            <v-btn
-                                    color="blue darken-1"
-                                    text
-                                    @click="delete_dialog = false"
-                            >
-                                No
-                            </v-btn>
-
-                            <v-btn
-                                    color="red darken-1"
-                                    text
-                                    @click="deleteItem"
-                            >
-                                Yes
-                            </v-btn>
+                            <v-btn color="blue darken-1" text @click="delete_dialog = false">No</v-btn>
+                            <v-btn color="red darken-1" text @click="deleteItem">Yes</v-btn>
                         </v-card-actions>
                     </v-card>
                 </v-dialog>
             </v-toolbar>
         </template>
         <template v-slot:item.actions="{ item }">
-            <v-icon
-                    small
-                    class="mr-2"
-                    @click="editItem(item)"
-            >
-                mdi-pencil
-            </v-icon>
-            <v-icon
-                    small
-                    @click="askDeleteItem(item)"
-            >
-                mdi-delete
-            </v-icon>
+            <v-icon small class="mr-2" @click="updateItem(item)">mdi-pencil</v-icon>
+            <v-icon small @click="askDeleteItem(item)">mdi-delete</v-icon>
         </template>
         <template v-slot:no-data>
             <v-btn color="primary" @click="initialize">Reset</v-btn>
@@ -170,8 +147,12 @@
 </template>
 
 <script>
+    import {mapActions, mapGetters} from 'vuex';
+    import rules from '@/mixins/rules';
 
     export default {
+        name: 'Users',
+        mixins: [rules],
         data: () => ({
             dialog: false,
             headers: [
@@ -192,13 +173,13 @@
             deletedItem: {},
             delete_dialog: false,
             editedIndex: -1,
-            editedItem: {
+            input: {
                 name: '',
                 email: '',
                 role: {},
                 permissions: [],
                 password: '',
-                confirm_password: ''
+                password_confirmation: ''
             },
             defaultItem: {
                 name: '',
@@ -206,8 +187,10 @@
                 role: {},
                 permissions: [],
                 password: '',
-                confirm_password: ''
+                password_confirmation: ''
             },
+            errors: {},
+            loading: false
         }),
         filters: {
             capitalize: function (value) {
@@ -221,64 +204,15 @@
         },
 
         computed: {
+            ...mapGetters({
+                users: 'users/users',
+                roles: 'roles/roles',
+                permissions: 'permissions/permissions',
+            }),
+
             formTitle() {
                 return this.editedIndex === -1 ? 'New User' : 'Edit User'
             },
-            users() {
-                return this.$store.getters.users;
-            },
-            isLoading() {
-                return this.$store.getters.isLoading;
-            },
-            permissions() {
-                return this.$store.getters.permissions;
-            },
-            lengths() {
-                return this.$store.getters.user_lengths;
-            },
-            roles() {
-                return this.$store.getters.roles;
-            },
-            rules() {
-                const name = [
-                    v => !!v || 'Full name is required',
-                    v => (v || '').length <= this.lengths.name.max || `Full name must be less than ${this.lengths.name.max} characters`,
-                    v => (v || '').length >= this.lengths.name.min || `Full name must be more than ${this.lengths.name.min} characters`,
-                    v => (v.trim() || '').indexOf(' ') > 0 || 'Please provide user full name'
-                ];
-                const email = [
-                    v => !!v || 'Email is required',
-                    v => (v || '').length <= this.lengths.email.max || `Email must be less than ${this.lengths.email.max} characters`,
-                    v => (v || '').length >= this.lengths.email.min || `Email must be more than ${this.lengths.email.min} characters`,
-                    v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
-                    v => {
-                        let item = this.roles.find(p => p.email === v.trim());
-                        if (item !== undefined) {
-                            if (this.editedItem.id !== undefined) {
-                                if (item.id !== this.editedItem.id) {
-                                    return `Email ${v.trim()} already exists`
-                                } else {
-                                    return true;
-                                }
-                            } else {
-                                return `Email ${v.trim()} already exists`
-                            }
-                        } else {
-                            return true;
-                        }
-                    }
-                ];
-                const password = [
-                    v => !!v || 'Password is required',
-                    v => (v || '').length >= this.lengths.password.min || `Password must be more than ${this.lengths.password.min} characters`,
-                    v => (v.trim() || '').indexOf(' ') < 0 || 'No white spaces are allowed'
-                ];
-                const confirm_password = [
-                    v => !!v || 'Confirm password is required',
-                    v => v === this.editedItem.password || `Password must match`
-                ];
-                return this.autoPassword ? {name: name, email: email} : {name: name, email: email, password: password, confirm_password: confirm_password}
-            }
         },
 
         watch: {
@@ -296,16 +230,28 @@
         },
 
         methods: {
+            ...mapActions({
+                createUserAction: 'users/createAction',
+                readUsersAction: 'users/readAction',
+                updateUserAction: 'users/updateAction',
+                deleteUserAction: 'users/deleteAction',
+                readRolesAction: 'roles/readAction',
+                readPermissionsAction: 'permissions/readAction',
+            }),
+
             updateTime() {
                 this.now = new Date();
             },
 
             initialize() {
-                this.$store.dispatch('loadPermissions').then(p => {
-                    this.$store.dispatch('loadRoles').then(r => {
-                        this.$store.dispatch('loadUsers');
-                    });
-                });
+                this.loading = true;
+                this.readPermissionsAction().then(() => {
+                    this.readRolesAction().then(() => {
+                        this.readUsersAction().then(() => {
+                            this.loading = false;
+                        });
+                    })
+                })
             },
 
             askDeleteItem(item) {
@@ -313,40 +259,56 @@
                 this.deletedItem = item;
             },
 
-            editItem(item) {
+            updateItem(item) {
                 this.editedIndex = this.users.indexOf(item)
-                this.editedItem = Object.assign({}, item)
+                this.input = Object.assign({}, item)
                 this.dialog = true
             },
 
             deleteItem(item) {
-                this.$store.dispatch('deleteUser', this.deletedItem);
-                this.delete_dialog = false;
-                this.deletedItem = {};
+                this.loading = true;
+                this.deleteUserAction(this.deletedItem).then(() => {
+                    this.delete_dialog = false;
+                    this.deletedItem = {};
+                    this.loading = false;
+                });
             },
 
             close() {
+                this.input = this.defaultItem;
                 this.$refs.form.resetValidation();
                 this.dialog = false
+                this.loading = false;
                 this.$nextTick(() => {
-                    this.editedItem = Object.assign({}, this.defaultItem)
+                    this.input = Object.assign({}, this.defaultItem)
                     this.editedIndex = -1
                 })
             },
 
             save() {
+                this.loading = true;
                 if (this.editedIndex > -1) {
-                    // Edit;
-                    this.$store.dispatch('editUser', {
+                    // Update;
+                    this.updateUserAction({
                         index: this.editedIndex,
-                        item: this.editedItem
+                        item: this.input
+                    }).then(() => {
+                        this.now = new Date();
+                        this.close();
+                    }).catch(() => {
+                        // Supposed errors;
                     });
                 } else {
-                    // Save;
-                    this.$store.dispatch('saveUser', this.editedItem);
+                    // Create;
+                    this.createUserAction({...this.input, auto: this.autoPassword}).then(() => {
+                        this.now = new Date();
+                        this.close();
+                    }).catch(({errors}) => {
+                        // Supposed errors;
+                        this.errors = errors;
+                        this.loading = false;
+                    });
                 }
-                this.now = new Date();
-                this.close();
             },
         },
     }

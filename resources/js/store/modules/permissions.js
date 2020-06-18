@@ -2,12 +2,9 @@ import api from '@/api/permissions';
 
 const permissions = {
     // State;
+    namespaced: true,
     state: () => ({
         permissions: [],
-        permission_lengths: {
-            max: 15,
-            min: 3
-        },
     }),
 
     // Getters;
@@ -39,17 +36,29 @@ const permissions = {
 
     // Actions;
     actions: {
-        loadPermissions({commit}) {
-            commit('START_DATA_LOADING');
-            api.getPermissions().then(result => {
-                commit('LOAD_PERMISSIONS', result.data.data);
-                commit('STOP_DATA_LOADING_SUCCESS');
-            }).catch(error => {
-                commit('STOP_DATA_LOADING_FAILURE', {
-                    message: error.response.data.message
+        readAction({commit, dispatch}) {
+            dispatch('application/showLoadingNotificationAction', {
+                message: 'Getting data, please wait..',
+                color: 'black'
+            }, {root: true});
+            return new Promise((resolve, reject) => {
+                api.getPermissions().then(result => {
+                    dispatch('application/showResultNotificationAction', {
+                        message: 'Success',
+                        color: 'green'
+                    }, {root: true});
+                    commit('LOAD_PERMISSIONS', result.data.data);
+                    resolve();
+                }).catch(({response}) => {
+                    dispatch('application/showResultNotificationAction', {
+                        message: response.data.message,
+                        color: 'red'
+                    }, {root: true});
+                    reject();
                 });
             });
         },
+
         savePermission({commit, state}, payload) {
             commit('START_ACTION_LOADING');
             api.savePermission(payload).then(result => {
@@ -69,6 +78,7 @@ const permissions = {
                 });
             });
         },
+
         deletePermission({commit, state}, payload) {
             commit('START_ACTION_LOADING');
             api.deletePermission(payload).then(result => {

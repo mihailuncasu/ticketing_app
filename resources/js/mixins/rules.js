@@ -22,6 +22,9 @@ export default {
             requiredRules: [
                 v => !!v || 'Field is required',
             ],
+            roleRules: [
+                v => !!v.name || 'Role is required',
+            ],
             passwordRequiredRules: [
                 v => !!v || 'Password is required',
             ],

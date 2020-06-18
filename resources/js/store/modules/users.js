@@ -2,21 +2,9 @@ import api from '@/api/users';
 
 const users = {
     // State;
-    state:() => ({
+    namespaced: true,
+    state: () => ({
         users: [],
-        user_lengths: {
-            name: {
-                min: 5,
-                max: 15
-            },
-            email: {
-                min: 5,
-                max: 30
-            },
-            password: {
-                min: 8,
-            }
-        }
     }),
 
     // Getters;
@@ -48,36 +36,52 @@ const users = {
 
     // Actions;
     actions: {
-        loadUsers({commit}) {
-            commit('START_DATA_LOADING');
-            api.getUsers().then(result => {
-                commit('LOAD_USERS', result.data.data);
-                commit('STOP_DATA_LOADING_SUCCESS');
-            }).catch(error => {
-               commit('STOP_DATA_LOADING_FAILURE', {
-                    message: error.message
+        readAction({commit, dispatch}) {
+            dispatch('application/showLoadingNotificationAction', {
+                message: 'Getting users, please wait..',
+                color: 'black'
+            }, {root: true});
+            return new Promise((resolve, reject) => {
+                api.getUsers().then(({data}) => {
+                    dispatch('application/showResultNotificationAction', {
+                        message: 'Success',
+                        color: 'green'
+                    }, {root: true});
+                    commit('LOAD_USERS', data.data);
+                    resolve();
+                }).catch(({response}) => {
+                    dispatch('application/showResultNotificationAction', {
+                        message: response.data.message,
+                        color: 'red'
+                    }, {root: true});
+                    reject();
                 });
             });
         },
-        saveUser({commit, state}, payload) {
-            commit('START_ACTION_LOADING');
-            api.saveUser(payload).then(result => {
-                // Add permission;
-                try {
-                    commit('SAVE_USER', result.data.payload);
-                    // Stop loading animation with success message;
-                    commit('STOP_ACTION_LOADING_SUCCESS', {
-                        message: result.data.message
-                    });
-                } catch (error) {
-                    console.log(error);
-                }
-            }).catch(error => {
-                commit('STOP_ACTION_LOADING_FAILURE', {
-                    message: error.response.data.message
+
+        createAction({commit, dispatch, state}, payload) {
+            dispatch('application/showLoadingNotificationAction', {
+                message: 'Creating user, please wait..',
+                color: 'black'
+            }, {root: true});
+            return new Promise((resolve, reject) => {
+                api.saveUser(payload).then(({data}) => {
+                    dispatch('application/showResultNotificationAction', {
+                        message: data.message,
+                        color: 'green'
+                    }, {root: true});
+                    commit('SAVE_USER', data.payload);
+                    resolve();
+                }).catch(({response}) => {
+                    dispatch('application/showResultNotificationAction', {
+                        message: response.data.message,
+                        color: 'red'
+                    }, {root: true});
+                    reject(response.data);
                 });
-            });
+            })
         },
+
         deleteUser({commit, state}, payload) {
             commit('START_ACTION_LOADING');
             api.deleteUser(payload).then(result => {

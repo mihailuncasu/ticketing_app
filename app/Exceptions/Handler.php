@@ -49,7 +49,7 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
-        if ($exception instanceof PermissionAlreadyExists) {
+        /*if ($exception instanceof PermissionAlreadyExists) {
             return response()->json([
                 'message' => 'Permission already exists',
             ], method_exists($exception, 'getStatusCode') ? $exception->getStausCode() : 500);
@@ -58,7 +58,7 @@ class Handler extends ExceptionHandler
             return response()->json([
                 'message' => 'Role already exists',
             ], method_exists($exception, 'getStatusCode') ? $exception->getStausCode() : 500);
-        }
+        }*/
         return parent::render($request, $exception);
     }
 }

@@ -2,12 +2,9 @@ import api from '@/api/roles';
 
 const roles = {
     // State;
+    namespaced: true,
     state:() => ({
         roles: [],
-        role_lengths: {
-            max: 15,
-            min: 3
-        },
     }),
 
     // Getters;
@@ -39,17 +36,29 @@ const roles = {
 
     // Actions;
     actions: {
-        loadRoles({commit}) {
-            commit('START_DATA_LOADING');
-            api.getRoles().then(result => {
-                commit('LOAD_ROLES', result.data.data);
-                commit('STOP_DATA_LOADING_SUCCESS');
-            }).catch(error => {
-               commit('STOP_DATA_LOADING_FAILURE', {
-                    message: error.message
+        readAction({commit, dispatch}) {
+            dispatch('application/showLoadingNotificationAction', {
+                message: 'Getting data, please wait..',
+                color: 'black'
+            }, {root: true});
+            return new Promise((resolve, reject) => {
+                api.getRoles().then(result => {
+                    dispatch('application/showResultNotificationAction', {
+                        message: 'Success',
+                        color: 'green'
+                    }, {root: true});
+                    commit('LOAD_ROLES', result.data.data);
+                    resolve();
+                }).catch(({response}) => {
+                    dispatch('application/showResultNotificationAction', {
+                        message: response.data.message,
+                        color: 'red'
+                    }, {root: true});
+                    reject();
                 });
             });
         },
+
         saveRole({commit, state}, payload) {
             commit('START_ACTION_LOADING');
             api.saveRole(payload).then(result => {

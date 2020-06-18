@@ -45,12 +45,18 @@ class UserController extends Controller
     {
         // Check if the request contains the password;
         // If not, then we generate a random password and add it to request;
-        $request->password = $request->password !== null ? $request->password : Str::random(10);
+        if ($request->auto) {
+            $password = Str::random(10);
+            $request->merge([
+                'password' => $password,
+                'password_confirmation' => $password
+            ]);
+        }
 
         $request->validate([
            'name'=>'required',
-           'email'=>'required|email',
-           'password'=>'required',
+           'email'=> ['required', 'string', 'email', 'max:255', 'unique:tenant.users,email'],
+           'password'=> ['required', 'string', 'min:8', 'confirmed']
         ]);
 
         $user= User::create([
@@ -69,11 +75,12 @@ class UserController extends Controller
 
         // Also, after we create the user we send a mail to the specific mail address with the password;
         $user->notify(new RegisterUser($user, $request->password));
+        $user->markEmailAsVerified();
 
         return response([
             'message'=>'User Created',
             'payload'=>UserResource::make($user)
-        ]);
+        ], Response::HTTP_CREATED);
     }
 
 

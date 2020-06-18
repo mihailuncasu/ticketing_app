@@ -46,13 +46,15 @@ class RegisterUser extends Notification
      */
     public function toMail($notifiable)
     {
+        $url = $url = url(config('app.url')) . '/login';
+
         return (new MailMessage)
             ->subject('Account created')
             ->from(Auth::user()->email, Auth::user()->name)
             ->greeting("Hello, {$this->user->name}!")
             ->line('Your account has been created')
             ->line("This is your new password: $this->password")
-            ->action('Login here', route('login'))
+            ->action('Login here', $url)
             ->line('Welcome to the team!');
     }
 

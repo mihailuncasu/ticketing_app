@@ -2,101 +2,62 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b39e05c8-a5cf-4120-bde8-695fd0470446" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/app/Http/Middleware/EnsureEmailIsVerified.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Tenant.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/js/Main.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/js/api/tickets.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/js/components/auth/ForgotPassword.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/js/components/auth/Login.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/js/components/auth/ResetPassword.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/js/components/auth/VerifyEmail.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/js/components/general/Footer.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/js/components/general/NavBar.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/js/components/general/Notification.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/js/components/landing/Content.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/js/components/landing/LoginDomain.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/js/components/landing/Register.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/js/components/layouts/AuthLayout.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/js/components/layouts/LandingLayout.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/js/middlewares/auth.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/js/middlewares/guest.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/js/mixins/rulesMixin.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/js/plugins/router.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/js/store/modules/application.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/js/store/modules/auth.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/websolutions.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/websolutions.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/PermissionController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/PermissionController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/UserController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Auth/ForgotPasswordController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Auth/ForgotPasswordController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Auth/LoginController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Auth/LoginController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Auth/RegisterController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Auth/RegisterController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Auth/ResetPasswordController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Auth/ResetPasswordController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Auth/VerificationController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Auth/VerificationController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/HomeController.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Kernel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Kernel.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Middleware/LocaleMiddleware.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Middleware/RedirectIfAuthenticated.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Middleware/TenantExists.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Middleware/TenantExists.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Notifications/RegisterUser.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Notifications/RegisterUser.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Notifications/ResetPassword.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Notifications/ResetPassword.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Notifications/VerifyEmail.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Notifications/VerifyEmail.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Providers/AppServiceProvider.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Providers/AppServiceProvider.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Providers/AuthServiceProvider.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Providers/AuthServiceProvider.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/User.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Middleware/Authenticate.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Middleware/Authenticate.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Middleware/EnsureEmailIsVerified.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Middleware/EnsureEmailIsVerified.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/app.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/app.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/auth.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/auth.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2017_01_01_000003_tenancy_websites.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2017_01_01_000005_tenancy_hostnames.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2018_04_06_000001_tenancy_websites_needs_db_host.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/tenant/2016_06_01_000001_create_oauth_auth_codes_table.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/tenant/2016_06_01_000002_create_oauth_access_tokens_table.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/tenant/2016_06_01_000003_create_oauth_refresh_tokens_table.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/tenant/2016_06_01_000004_create_oauth_clients_table.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/tenant/2016_06_01_000005_create_oauth_personal_access_clients_table.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/tenant/2020_05_30_000611_create_websockets_statistics_entries_table.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/laravellocalization.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/seeds/TenantDatabaseSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeds/TenantDatabaseSeeder.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/welcome.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/welcome.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/css/app.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/css/welcome.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/fonts/vendor/@mdi/materialdesignicons-webfont.eot" beforeDir="false" afterPath="$PROJECT_DIR$/public/fonts/vendor/@mdi/materialdesignicons-webfont.eot" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/fonts/vendor/@mdi/materialdesignicons-webfont.ttf" beforeDir="false" afterPath="$PROJECT_DIR$/public/fonts/vendor/@mdi/materialdesignicons-webfont.ttf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/fonts/vendor/@mdi/materialdesignicons-webfont.woff" beforeDir="false" afterPath="$PROJECT_DIR$/public/fonts/vendor/@mdi/materialdesignicons-webfont.woff" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/fonts/vendor/@mdi/materialdesignicons-webfont.woff2" beforeDir="false" afterPath="$PROJECT_DIR$/public/fonts/vendor/@mdi/materialdesignicons-webfont.woff2" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/js/app.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/js/welcome.js" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/public/mix-manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/public/mix-manifest.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/js/api/auth.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/api/auth.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/api/endpoints.js" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/js/api/permissions.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/api/permissions.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/api/roles.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/api/roles.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/api/ticket.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/api/users.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/api/users.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/components/Sidebar.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/general/Sidebar.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/components/app/Home.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/app/Home.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/components/auth/ForgotPassword.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/auth/ForgotPassword.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/components/auth/Login.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/auth/Login.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/components/auth/ResetPassword.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/auth/ResetPassword.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/components/general/Sidebar.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/general/Sidebar.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/components/landing/LoginDomain.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/landing/LoginDomain.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/components/landing/Register.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/landing/Register.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/js/config/routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/config/routes.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/config/sidebarLinks.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/plugins/axios.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/plugins/axios.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/store/modules/pages.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/store/modules/users.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/store/modules/users.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/store/store.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/store/store.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/views/Dashboard.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/layouts/AppLayout.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/views/Home.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/app/Home.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/views/NotFound.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/general/NotFound.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/views/Permissions.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/app/Permissions.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/views/Roles.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/app/Roles.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/views/Users.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/app/Users.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/lang/en/pagination.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lang/en/pagination.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/lang/es/pagination.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lang/es/pagination.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/lang/ro/pagination.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lang/ro/pagination.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/mixins/rulesMixin.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/mixins/rules.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/plugins/vuetify.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/plugins/vuetify.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/store/modules/auth.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/store/modules/auth.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/lang/es.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/lang/es/auth.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/lang/es/pagination.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/lang/es/passwords.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/lang/es/text.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/lang/es/validation.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/lang/ro.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/lang/ro/auth.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/lang/ro/pagination.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/lang/ro/passwords.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/lang/ro/text.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/lang/ro/validation.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/sass/app.scss" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/app.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/app.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/auth/domain.blade.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/auth/login.blade.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/auth/passwords/email.blade.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/auth/passwords/reset.blade.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/auth/register.blade.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/auth/verify.blade.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/layouts/app.blade.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/layouts/auth.blade.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/welcome.blade.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/welcome/js/script.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/welcome/js/welcome.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/welcome/style/_variables.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/welcome/style/bootstrap.min.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/welcome/style/styles.min.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/welcome/style/welcome.scss" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/webpack.mix.js" beforeDir="false" afterPath="$PROJECT_DIR$/webpack.mix.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -244,6 +205,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="TERMINAL_CUSTOM_COMMANDS_GOT_IT" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="com.intellij.ide.scratch.LRUPopupBuilder$1/New Scratch File" value="Vue" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/database/migrations/tenant" />
@@ -252,14 +214,14 @@
     <property name="ts.external.directory.path" value="C:\Program Files\JetBrains\PhpStorm 2020.1\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\xampp\htdocs\websolutions\database\migrations\tenant" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\xampp\htdocs\websolutions\database\migrations\tenant" />
       <recent name="C:\xampp\htdocs\websolutions\resources\js\components\landing" />
       <recent name="C:\xampp\htdocs\websolutions\resources\js\components\general" />
       <recent name="C:\xampp\htdocs\websolutions\resources\js\components\layouts" />
       <recent name="C:\xampp\htdocs\websolutions\resources\js\components" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\xampp\htdocs\websolutions\database\migrations\tenant" />
     </key>
   </component>
@@ -294,7 +256,9 @@
       <workItem from="1591715058628" duration="79138000" />
       <workItem from="1591891519804" duration="6137000" />
       <workItem from="1591963468801" duration="12872000" />
-      <workItem from="1591982849419" duration="96208000" />
+      <workItem from="1591982849419" duration="96386000" />
+      <workItem from="1592331578733" duration="1480000" />
+      <workItem from="1592337838201" duration="39742000" />
     </task>
     <servers />
   </component>
@@ -310,6 +274,10 @@
       <screen x="0" y="0" width="1920" height="1200" />
     </state>
     <state x="622" y="402" key="#com.intellij.fileTypes.FileTypeChooser/1920.0.1536.864/0.0.1920.1200@0.0.1920.1200" timestamp="1591782406156" />
+    <state x="640" y="336" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog" timestamp="1592337750670">
+      <screen x="0" y="0" width="1920" height="1200" />
+    </state>
+    <state x="640" y="336" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/1920.0.1536.864/0.0.1920.1200@0.0.1920.1200" timestamp="1592337750670" />
     <state x="92" y="92" width="1736" height="1016" key="DiffContextDialog" timestamp="1591790620494">
       <screen x="0" y="0" width="1920" height="1200" />
     </state>
@@ -342,19 +310,19 @@
       <screen x="0" y="0" width="1920" height="1200" />
     </state>
     <state x="92" y="92" width="1736" height="1016" key="com.intellij.history.integration.ui.views.FileHistoryDialog/1920.0.1536.864/0.0.1920.1200@0.0.1920.1200" timestamp="1592249466883" />
-    <state x="1920" y="0" width="1550" height="950" key="dock-window-1" timestamp="1592100288960">
+    <state x="1920" y="0" width="1485" height="950" key="dock-window-1" timestamp="1592424284181">
       <screen x="1920" y="0" width="1536" height="864" />
     </state>
-    <state x="1920" y="0" width="1550" height="950" key="dock-window-1/1920.0.1536.864/0.0.1920.1200@0.0.1920.1200" timestamp="1592100288960" />
+    <state x="1920" y="0" width="1485" height="950" key="dock-window-1/1920.0.1536.864/0.0.1920.1200@0.0.1920.1200" timestamp="1592424284181" />
     <state x="1951" y="-23" width="1522" height="950" key="dock-window-2" timestamp="1591782720177">
       <screen x="1920" y="0" width="1536" height="864" />
     </state>
     <state x="1951" y="-23" width="1522" height="950" key="dock-window-2/1920.0.1536.864/0.0.1920.1200@0.0.1920.1200" timestamp="1591782720177" />
-    <state x="667" y="335" width="586" height="530" key="find.popup" timestamp="1592205282263">
+    <state x="667" y="335" width="586" height="534" key="find.popup" timestamp="1592426343209">
       <screen x="0" y="0" width="1920" height="1200" />
     </state>
     <state x="2587" y="335" width="586" height="530" key="find.popup/0.0.1536.864/1920.0.1920.1200@1920.0.1920.1200" timestamp="1590975771638" />
-    <state x="667" y="335" width="586" height="530" key="find.popup/1920.0.1536.864/0.0.1920.1200@0.0.1920.1200" timestamp="1592205282263" />
+    <state x="667" y="335" width="586" height="534" key="find.popup/1920.0.1536.864/0.0.1920.1200@0.0.1920.1200" timestamp="1592426343209" />
     <state x="601" y="325" width="700" height="530" key="recent.locations.popup" timestamp="1592205243493">
       <screen x="0" y="0" width="1920" height="1200" />
     </state>
@@ -364,12 +332,12 @@
     </state>
     <state x="2672" y="459" width="490" height="396" key="scopes/0.0.1536.864/1920.0.1920.1200@1920.0.1920.1200" timestamp="1590975717753" />
     <state x="752" y="459" width="490" height="391" key="scopes/1920.0.1536.864/0.0.1920.1200@0.0.1920.1200" timestamp="1592052860175" />
-    <state x="623" y="265" width="672" height="678" key="search.everywhere.popup" timestamp="1592251620023">
+    <state x="623" y="265" width="672" height="678" key="search.everywhere.popup" timestamp="1592445290340">
       <screen x="0" y="0" width="1920" height="1200" />
     </state>
     <state x="2543" y="265" width="672" height="678" key="search.everywhere.popup/0.0.1536.864/1920.0.1920.1200@1920.0.1920.1200" timestamp="1591017719442" />
     <state x="498" y="190" width="672" height="489" key="search.everywhere.popup/0.0.1536.864@0.0.1536.864" timestamp="1591631044705" />
-    <state x="623" y="265" width="672" height="678" key="search.everywhere.popup/1920.0.1536.864/0.0.1920.1200@0.0.1920.1200" timestamp="1592251620023" />
+    <state x="623" y="265" width="672" height="678" key="search.everywhere.popup/1920.0.1536.864/0.0.1920.1200@0.0.1920.1200" timestamp="1592445290340" />
     <state x="2602" y="512" key="vcs.readOnlyHandler.ReadOnlyStatusDialog" timestamp="1590763706984">
       <screen x="1920" y="0" width="1920" height="1200" />
     </state>

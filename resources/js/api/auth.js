@@ -33,5 +33,9 @@ export default {
 		return axios.get('email-verification', {
 			params: payload
 		});
+	},
+
+	profile() {
+		return axios.get('profile');
 	}
 }

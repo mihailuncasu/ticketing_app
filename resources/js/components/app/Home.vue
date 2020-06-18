@@ -45,7 +45,7 @@
                         v-if="task"
                         @click="create"
                 >
-                    add_circle
+                    mdi-add_circle
                 </v-icon>
             </v-fade-transition>
         </v-text-field>
@@ -120,7 +120,7 @@
                                     v-if="task.done"
                                     color="success"
                             >
-                                check
+                                mdi-check
                             </v-icon>
                         </v-scroll-x-transition>
                     </v-list-item>
@@ -131,8 +131,6 @@
 </template>
 
 <script>
-    import store from "@/store/store";
-
     export default {
         data: () => ({
             tasks: [],

@@ -2,7 +2,7 @@ const mix = require('laravel-mix');
 
 const VuetifyLoaderPlugin = require('vuetify-loader/lib/plugin');
 
-var webpackConfig = {
+mix.webpackConfig({
     plugins: [
         new VuetifyLoaderPlugin()
     ],
@@ -11,9 +11,44 @@ var webpackConfig = {
             '@': __dirname + '/resources/js',
         },
     },
-};
+    module: {
+        rules: [
+            {
+                test: /\.s(c|a)ss$/,
+                use: [
+                    'vue-style-loader',
+                    'css-loader',
+                    {
+                        loader: 'sass-loader',
+                        options: {
+                            implementation: require('sass'),
+                            fiber: require('fibers'),
+                        }
+                    }
+                ]
+            }
+        ]
+    },
+});
 
-mix.webpackConfig(webpackConfig);
+Mix.listen('configReady', webpackConfig => {
+  // Exclude vuetify folder from default sass/scss rules
+  const sassConfig = webpackConfig.module.rules.find(
+    rule =>
+      String(rule.test) ===
+      String(/\.sass$/)
+  );
+
+  const scssConfig = webpackConfig.module.rules.find(
+    rule =>
+      String(rule.test) ===
+      String(/\.scss$/)
+  );
+
+  sassConfig.exclude.push(path.resolve(__dirname, 'node_modules/vuetify'))
+  scssConfig.exclude.push(path.resolve(__dirname, 'node_modules/vuetify'))
+});
+
 
 /*
  |--------------------------------------------------------------------------
@@ -26,5 +61,4 @@ mix.webpackConfig(webpackConfig);
  |
  */
 
-mix.js('resources/js/app.js', 'public/js')
-     .sass('resources/sass/app.scss', 'public/css');
+mix.js('resources/js/app.js', 'public/js');

@@ -10,15 +10,15 @@
         "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
     },
     "devDependencies": {
-        "@mdi/font": "^5.0.45",
+        "@mdi/font": "^5.3.45",
         "axios": "^0.19",
         "cross-env": "^5.1",
         "deepmerge": "^4.2.2",
-        "fibers": "^4.0.2",
+        "fibers": "^4.0.3",
         "jquery": "^3.2",
         "laravel-mix": "^4.0.7",
         "resolve-url-loader": "^2.3.1",
-        "sass": "^1.26.3",
+        "sass": "^1.26.8",
         "sass-loader": "^7.3.1",
         "vee-validate": "^3.3.2",
         "vue": "^2.5.17",

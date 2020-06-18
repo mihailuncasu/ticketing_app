@@ -20,6 +20,7 @@
                     <v-card-text>
                         <v-form ref="form"
                                 v-model="valid"
+                                @submit.prevent="submit"
                         >
                             <v-text-field v-model="input.name"
                                           label="Full Name"
@@ -41,7 +42,7 @@
                                           label="Domain"
                                           :success="domainCheck.valid"
                                           @input="validateDomain"
-                                          :counter="lengths.email.max"
+                                          :counter="lengths.domain.max"
                                           :rules="[...domainRules]"
                                           :error-messages="domainCheck.response"
                                           suffix="app.websolutions.test"
@@ -54,9 +55,9 @@
                                                              indeterminate
                                         ></v-progress-circular>
                                         <v-icon v-else-if="!domainCheck.valid && domainCheck.response"
-                                                color="error">close
+                                                color="error">mdi-close
                                         </v-icon>
-                                        <v-icon v-else-if="domainCheck.valid" color="success">check</v-icon>
+                                        <v-icon v-else-if="domainCheck.valid" color="success">mdi-check</v-icon>
                                     </v-fade-transition>
                                 </template>
                             </v-text-field>
@@ -78,13 +79,8 @@
                     </v-card-text>
                     <v-card-actions>
                         <v-spacer></v-spacer>
-                        <v-btn @click="submit"
-                               :disabled="!valid"
-                               :loading="loading"
-                               color="primary"
-                        >
-                            Register
-                        </v-btn>
+                        <v-btn left text color="primary" :to="{name: 'loginDomain'}">Go to domain login</v-btn>
+                        <v-btn right @click="submit" :disabled="!valid" :loading="loading" color="primary">Register</v-btn>
                     </v-card-actions>
                 </v-card>
             </v-col>
@@ -95,11 +91,11 @@
 <script>
     import api from '@/api/auth';
     import {mapActions} from 'vuex';
-    import rulesMixin from '@/mixins/rulesMixin';
+    import rules from '@/mixins/rules';
 
     export default {
         name: 'Register',
-        mixins: [rulesMixin],
+        mixins: [rules],
         data: () => ({
             input: {
                 name: '',

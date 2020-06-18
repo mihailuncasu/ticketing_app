@@ -31,6 +31,7 @@ Route::middleware('tenant.exists')->group(function () {
     // Auth api
     Route::group(['middleware' => ['auth:api', 'verified:api']], function () {
         Route::post('logout', 'Auth\LoginController@logout');
+        Route::get('profile', 'Api\UserController@profile');
         Route::apiResource('users', 'Api\UserController');
         Route::apiResource('roles', 'Api\RoleController');
         Route::apiResource('permissions', 'Api\PermissionController');

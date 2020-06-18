@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
+use Symfony\Component\HttpFoundation\Response;
 
 class ForgotPasswordController extends Controller
 {
@@ -60,9 +61,8 @@ class ForgotPasswordController extends Controller
     protected function sendResetLinkResponse(Request $request, $response)
     {
         return response()->json([
-            'message' => 'Email sent',
-            'response' => $response
-        ], 200);
+            'message' => 'A reset link has been sent to you. Please check your e-mail.',
+        ], Response::HTTP_OK);
     }
 
     /**
@@ -75,9 +75,8 @@ class ForgotPasswordController extends Controller
     protected function sendResetLinkFailedResponse(Request $request, $response)
     {
         return response()->json([
-            'message' => 'Failed to send mail',
-            'response' => $response
-        ], 500);
+            'message' => 'Failed to send mail. Please try again',
+        ], Response::HTTP_INTERNAL_SERVER_ERROR);
     }
 
     /**

@@ -1,137 +1,105 @@
 <template>
-    <div>
-        <v-container
-                class="fill-height"
-                fluid
+    <v-container fill-height
+                 fluid
+    >
+        <v-row align="center"
+               justify="center"
         >
-            <v-row
-                    align="center"
-                    justify="center"
+            <v-col cols="12"
+                   md="4"
+                   sm="8"
             >
-                <v-col
-                        cols="12"
-                        md="4"
-                        sm="8"
-                >
-                    <v-card class="elevation-12">
-                        <v-toolbar
-                                color="primary"
-                                dark
-                                flat
+                <v-card class="elevation-12">
+                    <v-toolbar color="primary"
+                               dark
+                               flat
+                    >
+                        <v-toolbar-title>Reset password</v-toolbar-title>
+                        <v-spacer/>
+                    </v-toolbar>
+                    <v-card-text>
+                        <v-form ref="form"
+                                v-model="valid"
+                                @submit.prevent="submit"
                         >
-                            <v-toolbar-title>Login form</v-toolbar-title>
-                            <v-spacer/>
-                        </v-toolbar>
-                        <v-card-text>
-                            <v-form ref="form"
-                                    v-model="valid"
-                            >
-                                <v-text-field :rules="rules.email"
-                                              label="Email"
-                                              name="email"
-                                              type="email"
-                                              v-model="input.email"
-                                />
+                            <v-text-field v-model="input.email"
+                                          label="E-mail"
+                                          name="email"
+                                          :counter="lengths.email.max"
+                                          :rules="[...emailRules]"
+                            />
 
-                                <v-text-field id="password"
-                                              label="Password"
-                                              name="password"
-                                              :rules="rules.password"
-                                              type="password"
-                                              v-model="input.password"
-                                />
-                                <v-text-field id="password_confirmation"
-                                              label="Password Confirmation"
-                                              :rules="rules.password_confirmation"
-                                              name="password_confirmation"
-                                              type="password"
-                                              v-model="input.password_confirmation"
-                                />
-                            </v-form>
-                        </v-card-text>
-                        <v-card-actions>
-                            <v-spacer/>
-                            <v-btn @click="sendResetPassword" :disabled="!valid" color="primary">Reset password</v-btn>
-                        </v-card-actions>
-                    </v-card>
-                </v-col>
-            </v-row>
-        </v-container>
-
-        <router-link :to="{name: 'login'}">Login</router-link>
-    </div>
+                            <v-text-field v-model="input.password"
+                                          label="Password"
+                                          :rules="[...passwordRules]"
+                                          type="password"
+                            />
+                            <v-text-field v-model="input.password_confirmation"
+                                          label="Password Confirm"
+                                          :rules="[...passwordConfirmationRules]"
+                                          type="password"
+                            />
+                        </v-form>
+                    </v-card-text>
+                    <v-card-actions>
+                        <v-spacer/>
+                        <v-btn left text color="primary" :to="{name: 'login'}">Go to login</v-btn>
+                        <v-btn @click="submit" :disabled="!valid" :loading="loading" color="primary">Reset password
+                        </v-btn>
+                    </v-card-actions>
+                </v-card>
+            </v-col>
+        </v-row>
+    </v-container>
 </template>
 
 <script>
-    import api from '@/api/auth';
+    import {mapActions} from 'vuex';
+    import rules from '@/mixins/rules';
 
     export default {
         name: "ResetPassword",
-
+        mixins: [rules],
         data() {
             return {
                 input: {
                     email: '',
                     password: '',
-                    password_confirmation: ''
+                    password_confirmation: '',
+                    token: ''
                 },
-                valid: false
-            }
-        },
-
-        computed: {
-            lengths() {
-                return {
-                    email: {
-                        min: 5,
-                        max: 30
-                    },
-                    password: {
-                        min: 8
-                    },
-                }
-            },
-
-            rules() {
-                const email = [
-                    v => !!v || 'E-mail is required',
-                    v => (v || '').length <= this.lengths.email.max || `E-mail must be less than ${this.lengths.email.max} characters`,
-                    v => (v || '').length >= this.lengths.email.min || `E-mail must be more than ${this.lengths.email.min} characters`,
-                    v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
-                ];
-                const password = [
-                    v => !!v || 'Password is required',
-                    v => (v || '').length >= this.lengths.password.min || `Password must be more than ${this.lengths.password.min} characters`,
-                    v => (v.trim() || '').indexOf(' ') < 0 || 'No white spaces are allowed'
-                ];
-                const password_confirmation = [
-                    v => !!v || 'Confirm password is required',
-                    v => v === this.input.password || `Password must match`
-                ];
-                return {
-                    email: email,
-                    password: password,
-                    password_confirmation: password_confirmation,
-                }
+                defaultInput: {
+                    email: '',
+                    password: '',
+                    password_confirmation: '',
+                    token: ''
+                },
+                valid: false,
+                loading: false
             }
         },
 
         methods: {
-            sendResetPassword() {
+            ...mapActions({
+                resetPasswordAction: 'auth/resetPasswordAction'
+            }),
+
+            submit() {
                 if (this.$refs.form.validate()) {
-                    const token = this.$route.query.token;
-                    api.resetPassword({
-                        ...this.input, token
-                    }).then((result) => {
-                        console.log(result);
-                    }).catch((error) => {
-                        console.log(error);
+                    this.loading = true;
+                    this.input.token = this.$route.query.token;
+                    this.resetPasswordAction(this.input).then(({redirect}) => {
+                        this.loading = false;
+                        this.$router.push({name: redirect});
+                    }).catch(() => {
+                        this.loading = false;
+                        this.valid = false;
+                        // Reset the input;
+                        this.input = this.defaultInput;
+                        this.$refs.form.resetValidation();
                     });
                 }
             },
         }
     }
 </script>
-
-<style scoped>
-</style>

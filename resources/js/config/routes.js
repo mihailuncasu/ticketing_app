@@ -33,13 +33,44 @@ const routes = () => {
     //Test for portal routes
     if (host.includes('APP.WEBSOLUTIONS.TEST')) {
         return [
+            {
+                path: '/',
+                component: AppLayout,
+                children: [
+                    {
+                        name: 'home',
+                        path: '/',
+                        component: Home
+                    },
+                    {
+                        name: 'users',
+                        path: '/admin/users',
+                        component: Users
+                    },
+                    {
+                        name: 'roles',
+                        path: '/admin/roles',
+                        component: Roles
+                    },
+                    {
+                        name: 'permissions',
+                        path: '/admin/permissions',
+                        component: Permissions
+                    },
+                    /*{
+                        path: 'tickets',
+                        name: 'dashbaord.tickets',
+                        component: Tickets
+                    },*/
+                ]
+            },
             // Auth components
             {
                 path: '/',
                 component: AuthLayout,
                 children: [
                     {
-                        path: 'login',
+                        path: '/login',
                         name: 'login',
                         component: Login
                     },
@@ -58,37 +89,6 @@ const routes = () => {
                         name: 'forgotPassword',
                         component: ForgotPassword
                     },
-                ]
-            },
-            {
-                path: '/',
-                component: AppLayout,
-                children: [
-                    {
-                        name: 'home',
-                        path: '/home',
-                        component: Home
-                    },
-                    {
-                        name: 'users',
-                        path: '/users',
-                        component: Users
-                    },
-                    {
-                        name: 'roles',
-                        path: '/roles',
-                        component: Roles
-                    },
-                    {
-                        name: 'permissions',
-                        path: '/permissions',
-                        component: Permissions
-                    },
-                    /*{
-                        path: 'tickets',
-                        name: 'dashbaord.tickets',
-                        component: Tickets
-                    },*/
                 ]
             },
             {

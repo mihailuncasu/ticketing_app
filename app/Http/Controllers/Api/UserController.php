@@ -25,6 +25,15 @@ class UserController extends Controller
         return UserResource::collection(User::all());
     }
 
+    /**
+     * Display user data as resource.
+     *
+     * @return UserResource
+     */
+    public function profile()
+    {
+        return new UserResource(Auth::user());
+    }
 
     /**
      * Store a newly created resource in storage.

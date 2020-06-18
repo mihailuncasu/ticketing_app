@@ -1,81 +1,89 @@
 <template>
-    <v-layout align-center justify-center>
-        <v-flex xs12 sm8 md4>
-            <v-card class="elevation-12">
-
-                <v-toolbar dark color="primary">
-                    <v-toolbar-title>Domain Login</v-toolbar-title>
-                </v-toolbar>
-                <v-card-text>
-                    <v-form ref="form"
-                            v-model="valid"
+    <v-container fluid
+                 fill-height
+    >
+        <v-row align="center"
+               justify="center"
+        >
+            <v-col cols="12"
+                   sm="8"
+                   md="4"
+            >
+                <v-card class="elevation-12">
+                    <v-toolbar color="primary"
+                               dark
+                               flat
                     >
-                        <v-container>
-                            <v-row>
-                                <v-flex xs12>
-                                    <v-text-field v-model="domain"
-                                                  :rules="rules.domain"
-                                                  label="Domain"
-                                                  name="domain"
-                                                  suffix=".app.websolutions.test"
-                                                  @keydown.enter.prevent="domainLogin"
-                                    ></v-text-field>
-                                </v-flex>
-                            </v-row>
-                            <v-spacer></v-spacer>
-                            <v-btn color="primary" @click="domainLogin" :disabled="!valid">Go to login page</v-btn>
-                        </v-container>
-                    </v-form>
-                </v-card-text>
-            </v-card>
-        </v-flex>
-    </v-layout>
+                        <v-toolbar-title>Domain login</v-toolbar-title>
+                        <v-spacer></v-spacer>
+                    </v-toolbar>
+                    <v-card-text>
+                        <v-form ref="form"
+                                v-model="valid"
+                                @submit.prevent="submit"
+                        >
+                            <v-text-field v-model="input.domain"
+                                          label="Domain"
+                                          :counter="lengths.domain.max"
+                                          :rules="[...domainRules]"
+                                          :error-messages="errors.domain"
+                                          suffix="app.websolutions.test"
+                            />
+                        </v-form>
+                    </v-card-text>
+                    <v-card-actions>
+                        <v-spacer></v-spacer>
+                        <v-btn left text color="primary" :to="{name: 'register'}">Go to register</v-btn>
+                        <v-btn right @click="submit" :disabled="!valid" :loading="loading" color="primary">Go to login page</v-btn>
+                    </v-card-actions>
+                </v-card>
+            </v-col>
+        </v-row>
+    </v-container>
 </template>
 
 <script>
-    import api from '@/api/auth';
+    import {mapActions} from 'vuex';
+    import rules from '@/mixins/rules';
 
     export default {
-
+        name: 'LoginDomain',
+        mixins: [rules],
         data: () => ({
-            domain: '',
-            valid: false
+            input: {
+                domain: '',
+            },
+            loading: false,
+            //Validation
+            valid: false,
+            // Errors array from API;
+            errors: {},
         }),
 
-        computed: {
-            lengths() {
-                return {
-                    domain: {
-                        min: 2,
-                        max: 20
-                    },
+        methods: {
+            ...mapActions({
+                domainLoginAction: 'auth/domainLoginAction'
+            }),
+
+            // Always the form submission will call submit;
+            submit() {
+                // We continue just if the data is valid
+                if (this.$refs.form.validate()) {
+                    this.loading = true;
+                    this.domainLoginAction(this.input).then(({redirect}) => {
+                        // Success;
+                        this.loading = false;
+                        setTimeout(() => window.location.href = redirect, 2000);
+                    }).catch(({errors}) => {
+                        // Error;
+                        this.loading = false;
+                        this.valid = false;
+                        this.errors = errors;
+                        this.$refs.form.reset();
+                        this.$refs.form.resetValidation();
+                    });
                 }
             },
-
-            rules() {
-                const domain = [
-                    v => !!v || 'Domain name is required',
-                    v => (v || '').length <= this.lengths.domain.max || `Domain name must be less than ${this.lengths.domain.max} characters`,
-                    v => (v || '').length >= this.lengths.domain.min || `Domain name must be more than ${this.lengths.domain.min} characters`,
-                ];
-                return {
-                    domain: domain
-                }
-            }
-        },
-
-        methods: {
-            domainLogin() {
-                if (this.$refs.form.validate()) {
-                    api.domainLogin({
-                        domain: this.domain
-                    }).then(({data}) => {
-                        window.location.href = data.redirect;
-                    }).catch(({response}) => {
-                        // Ask for registering the given domain;
-                    })
-                }
-            }
         }
     }
 </script>

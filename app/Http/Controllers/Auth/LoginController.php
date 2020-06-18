@@ -62,12 +62,13 @@ class LoginController extends Controller
                     )->toDateTimeString(),
                     'name' => Auth::user()->name,
                     'email' => Auth::user()->email,
-                    'message' => "Welcome, " . Auth::user()->name
+                    'message' => "Welcome, " . Auth::user()->name,
+                    'redirect' => 'home'
                 ], Response::HTTP_ACCEPTED);
             } else {
                 return response()->json([
                     'message' => 'Please verify your e-mail',
-                ], Response::HTTP_UNAUTHORIZED);
+                ], Response::HTTP_FORBIDDEN);
             }
         }
     }
@@ -90,12 +91,12 @@ class LoginController extends Controller
             return response()->json([
                 'redirect' => ($request->secure() ? 'https://' : 'http://') . $fqdn . $port . '/login',
                 'message' => 'You are being redirected to the given domain login page'
-            ], 201);
+            ], Response::HTTP_ACCEPTED);
         } else {
             return response()->json([
                 'redirect' => url('register'),
-                'message' => 'Domain not registered yet'
-            ], 403);
+                'message' => 'Domain not registered.'
+            ], Response::HTTP_FORBIDDEN);
         }
     }
 
@@ -106,7 +107,7 @@ class LoginController extends Controller
         });
 
         return response()->json([
-            'message' => 'Logged out successfully'
-        ], 200);
+            'message' => 'Logged out.'
+        ], Response::HTTP_ACCEPTED);
     }
 }

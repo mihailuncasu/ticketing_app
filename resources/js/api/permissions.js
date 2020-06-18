@@ -2,7 +2,7 @@ import axios from '@/plugins/axios.js'
 
 export default {
 	getPermissions() {
-		return axios.get('permissions')
+		return axios.get('permissions');
 	},
 
 	deletePermission(payload) {

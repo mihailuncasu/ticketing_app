@@ -20,6 +20,7 @@
                     <v-card-text>
                         <v-form ref="form"
                                 v-model="valid"
+                                @submit.prevent="submit"
                         >
                             <v-text-field v-model="input.email"
                                           label="E-mail"
@@ -36,17 +37,14 @@
                                           @input="errors.password = []"
                                           type="password"
                             />
+                            <v-switch label="Remember me"
+                                        v-model="input.remember_me"
+                            ></v-switch>
                         </v-form>
                     </v-card-text>
                     <v-card-actions>
                         <v-spacer></v-spacer>
-                        <v-btn left
-                               text
-                               color="primary"
-                               :to="{name: 'forgotPassword'}"
-                        >
-                            Forgot Password?
-                        </v-btn>
+                        <v-btn left text color="primary" :to="{name: 'forgotPassword'}">Forgot Password?</v-btn>
                         <v-btn right @click="submit" :loading="loading" :disabled="!valid" color="primary">Login</v-btn>
                     </v-card-actions>
                 </v-card>
@@ -57,15 +55,16 @@
 
 <script>
     import {mapActions} from 'vuex';
-    import rulesMixin from '@/mixins/rulesMixin';
+    import rules from '@/mixins/rules';
 
     export default {
         name: 'Login',
-        mixins: [rulesMixin],
+        mixins: [rules],
         data: () => ({
             input: {
                 email: '',
                 password: '',
+                remember_me: false
             },
             valid: false,
             errors: {},
@@ -82,7 +81,7 @@
                     this.loginAction(this.input).then(({redirect}) => {
                         // Success;
                         this.loading = false;
-                        //this.$router.push({name: redirect});
+                        this.$router.push({name: redirect});
                     }).catch(({errors}) => {
                         // Error;
                         this.loading = false;

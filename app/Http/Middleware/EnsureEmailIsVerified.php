@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Contracts\Auth\Factory as Auth;
+use Symfony\Component\HttpFoundation\Response;
 
 class EnsureEmailIsVerified
 {
@@ -36,16 +37,11 @@ class EnsureEmailIsVerified
      */
     public function handle($request, Closure $next, $guard = null)
     {
-        if (!$request->user($guard)) {
-            return response()->json([
-                'message' => 'The access token is either missing or incorrect.',
-            ], 401);
-        } else if
-        ($request->user($guard) instanceof MustVerifyEmail &&
+        if ($request->user($guard) instanceof MustVerifyEmail &&
             !$request->user($guard)->hasVerifiedEmail()) {
             return response()->json([
                 'message' => 'Your email address is not verified.',
-            ], 403);
+            ], Response::HTTP_FORBIDDEN);
         }
         $this->auth->shouldUse($guard);
         return $next($request);

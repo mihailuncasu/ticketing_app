@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\PermissionResource;
 use Illuminate\Http\Request;
 use App\Permission;
+use Symfony\Component\HttpFoundation\Response;
 
 class PermissionController extends Controller
 {
@@ -38,16 +39,17 @@ class PermissionController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required',
+            'name' => ['required', 'string', 'max:255', 'unique:tenant.permissions,name']
         ]);
         $permission = $this->permission->create([
             'name' => $request->name,
+            'display_name' => ucwords($request->name)
         ]);
 
         return response([
-            'message' => 'Permission Created',
+            'message' => 'Permission created',
             'payload' => PermissionResource::make($permission)
-        ]);
+        ], Response::HTTP_OK);
     }
 
     /**
@@ -60,18 +62,19 @@ class PermissionController extends Controller
     public function update(Request $request, Permission $permission)
     {
         $request->validate([
-            'name' => 'required',
+            'name' => ['required', 'string', 'max:255', 'unique:tenant.permissions,name,'.$permission->id]
         ]);
 
         $permission->update([
             'name' => $request->name,
+            'display_name' => ucwords($request->name),
             'updated_at' => now()
         ]);
 
         return response([
-            'message' => 'Permission Updated',
+            'message' => 'Permission updated',
             'payload' => PermissionResource::make($permission)
-        ]);
+        ],Response::HTTP_OK);
     }
 
     /**
@@ -86,6 +89,6 @@ class PermissionController extends Controller
 
         return response()->json([
             'message' => 'Permission successfully removed'
-        ], 200);
+        ], Response::HTTP_OK);
     }
 }

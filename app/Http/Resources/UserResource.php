@@ -9,18 +9,24 @@ class UserResource extends JsonResource
     /**
      * Transform the resource into an array.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return array
      */
     public function toArray($request)
     {
-        $defaultData = parent::toArray($request);
+        $default_data = parent::toArray($request);
 
-        $additionalData = [
-          'role'=> RoleResource::make($this->roles->first()),
-          'permissions'=> PermissionResource::make($this->permissions),
+        $roles = [];
+        foreach ($this->roles as $role) {
+            $roles[] = RoleResource::make($role);
+        }
+
+        $additional_data = [
+            'roles' => $roles,
+            'permissions' => PermissionResource::make($this->permissions),
+            'avatar' => $this->getFirstMediaUrl('avatar', 'thumb')
         ];
 
-        return array_merge($defaultData, $additionalData);
+        return array_merge($default_data, $additional_data);
     }
 }

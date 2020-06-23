@@ -127,10 +127,14 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         $user = User::create([
-            'name' => $data['name'],
+            'name' => ucfirst($data['name']),
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
+
+        // Add avatar img;
+        $avatar_url = 'https://img.favpng.com/2/12/12/computer-icons-portable-network-graphics-user-profile-avatar-png-favpng-L1ihcbxsHbnBKBvjjfBMFGbb7.jpg';
+        $user->addMediaFromUrl($avatar_url)->toMediaCollection('avatar');
 
         $user->assignRole('admin');
 

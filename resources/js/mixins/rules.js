@@ -8,8 +8,7 @@ export default {
                 },
                 email: {
                     min: 5,
-                    max:
-                        30
+                    max: 30
                 },
                 password: {
                     min: 8
@@ -17,13 +16,52 @@ export default {
                 domain: {
                     min: 2,
                     max: 20
+                },
+                role: {
+                    max: 20,
+                    min: 3
+                },
+                permission: {
+                    max: 20,
+                    min: 3
+                },
+                group_description: {
+                    max: 300,
+                    min: 5
+                },
+                group_name: {
+                    max: 30,
+                    min: 3
                 }
             },
             requiredRules: [
                 v => !!v || 'Field is required',
             ],
-            roleRules: [
+            requiredRoleRules: [
                 v => !!v.name || 'Role is required',
+            ],
+            roleRules: [
+                v => !!v || 'Role name is required',
+                v => (v || '').length <= this.lengths.role.max || `Role name must be less than ${this.lengths.role.max} characters`,
+                v => (v || '').length >= this.lengths.role.min || `Role name must be more than ${this.lengths.role.min} characters`,
+            ],
+            groupNameRules: [
+                v => !!v || 'Group name is required',
+                v => (v || '').length <= this.lengths.group_name.max || `Group description must be less than ${this.lengths.group_name.max} characters`,
+                v => (v || '').length >= this.lengths.group_name.min || `Group description must be more than ${this.lengths.group_name.min} characters`,
+            ],
+            groupDescriptionRules: [
+                v => !!v || 'Group description is required',
+                v => (v || '').length <= this.lengths.group_description.max || `Group description must be less than ${this.lengths.group_description.max} characters`,
+                v => (v || '').length >= this.lengths.group_description.min || `Group description must be more than ${this.lengths.group_description.min} characters`,
+            ],
+            groupManagersRules: [
+                v => !!v.length || 'The group needs at least one manager',
+            ],
+            permissionRules: [
+                v => !!v || 'Role name is required',
+                v => (v || '').length <= this.lengths.permission.max || `Role name must be less than ${this.lengths.permission.max} characters`,
+                v => (v || '').length >= this.lengths.permission.min || `Role name must be more than ${this.lengths.permission.min} characters`,
             ],
             passwordRequiredRules: [
                 v => !!v || 'Password is required',

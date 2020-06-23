@@ -5,9 +5,12 @@
                 :items="permissions"
                 sort-by="name"
                 class="elevation-1"
-                :loading="isLoading"
+                :loading="loading"
                 loading-text="Loading Permissions... Please wait"
         >
+            <template v-slot:item.name="{ item }">
+                <span>{{ item.display_name }}</span>
+            </template>
             <template v-slot:item.created_at="{ item }">
                 <span>{{ item.created_at | moment("calendar") }}</span>
             </template>
@@ -17,10 +20,9 @@
             <template v-slot:top>
                 <v-toolbar flat color="white">
                     <v-toolbar-title>PERMISSIONS</v-toolbar-title>
-                    <v-divider
-                            class="mx-4"
-                            inset
-                            vertical
+                    <v-divider class="mx-4"
+                               inset
+                               vertical
                     ></v-divider>
                     <v-spacer></v-spacer>
                     <!--Edit-->
@@ -34,19 +36,20 @@
                             </v-card-title>
 
                             <v-card-text>
-                                <v-form
-                                        ref="form"
+                                <v-form ref="form"
                                         v-model="valid"
                                 >
                                     <v-container>
                                         <v-row>
                                             <v-col cols="12">
-                                                <v-text-field @keydown.enter.prevent
-                                                              v-model.trim="editedItem.name"
-                                                              label="Permission name"
-                                                              :counter="lengths.max"
-                                                              :rules="rules.permissions"
-                                                ></v-text-field>
+                                                <v-text-field v-model="input.name"
+                                                              label="Permission Name"
+                                                              name="name"
+                                                              :counter="lengths.permission.max"
+                                                              :error-messages="errors.name"
+                                                              :rules="[...permissionRules]"
+                                                              @input="errors.name = []"
+                                                />
                                             </v-col>
                                         </v-row>
                                     </v-container>
@@ -61,9 +64,8 @@
                         </v-card>
                     </v-dialog>
                     <!--Delete-->
-                    <v-dialog
-                            v-model="delete_dialog"
-                            max-width="290"
+                    <v-dialog v-model="delete_dialog"
+                              max-width="290"
                     >
                         <v-card>
                             <v-card-title class="headline">Deleting Permission</v-card-title>
@@ -74,40 +76,17 @@
 
                             <v-card-actions>
                                 <v-spacer></v-spacer>
-
-                                <v-btn
-                                        color="blue darken-1"
-                                        text
-                                        @click="delete_dialog = false"
-                                >
-                                    No
-                                </v-btn>
-
-                                <v-btn
-                                        color="red darken-1"
-                                        text
-                                        @click="deleteItem"
-                                >
-                                    Yes
-                                </v-btn>
+                                <v-btn color="blue darken-1" text @click="delete_dialog = false">No</v-btn>
+                                <v-btn color="red darken-1" text @click="deleteItem">Yes</v-btn>
                             </v-card-actions>
                         </v-card>
                     </v-dialog>
                 </v-toolbar>
             </template>
             <template v-slot:item.actions="{ item }">
-                <v-icon
-                        small
-                        class="mr-2"
-                        @click="editItem(item)"
-                >
-                    mdi-pencil
+                <v-icon small class="mr-2" @click="updateItem(item)">mdi-pencil
                 </v-icon>
-                <v-icon
-                        small
-                        @click="askDeleteItem(item)"
-                >
-                    mdi-delete
+                <v-icon small @click="askDeleteItem(item)">mdi-delete
                 </v-icon>
             </template>
             <template v-slot:no-data>
@@ -118,8 +97,12 @@
 </template>
 
 <script>
+    import {mapActions, mapGetters} from 'vuex';
+    import rules from '@/mixins/rules';
 
     export default {
+        name: 'Permissions',
+        mixins: [rules],
         data: () => ({
             dialog: false,
             headers: [
@@ -137,53 +120,24 @@
             deletedItem: {},
             delete_dialog: false,
             editedIndex: -1,
-            editedItem: {
+            input: {
                 name: '',
             },
             defaultItem: {
                 name: '',
             },
+            errors: {},
+            loading: false
         }),
 
         computed: {
+            ...mapGetters({
+                permissions: 'permissions/permissions',
+            }),
+
             formTitle() {
                 return this.editedIndex === -1 ? 'New Permission' : 'Edit Permission'
             },
-            permissions() {
-                return this.$store.getters.permissions;
-            },
-            isLoading() {
-                return this.$store.getters.isLoading;
-            },
-            lengths() {
-                return this.$store.getters.permission_lengths;
-            },
-            rules() {
-                const permissions = [
-                    v => !!v || 'Permission name is required',
-                    v => (v || '').length <= this.lengths.max || `Permission name must be less than ${this.lengths.max} characters`,
-                    v => (v || '').length >= this.lengths.min || `Permission name must be more than ${this.lengths.min} characters`,
-                    v => {
-                        let item = this.permissions.find(p => p.name === v.trim());
-                        if (item !== undefined) {
-                            if (this.editedItem.id !== undefined) {
-                                if (item.id !== this.editedItem.id) {
-                                    return `Permission ${v.trim()} already exists`
-                                } else {
-                                    return true;
-                                }
-                            } else {
-                                return `Permission ${v.trim()} already exists`
-                            }
-                        } else {
-                            return true;
-                        }
-                    }
-                ];
-                return {
-                    permissions: permissions
-                };
-            }
         },
 
         watch: {
@@ -201,18 +155,22 @@
         },
 
         methods: {
-            updateTime () {
+            ...mapActions({
+                createPermissionAction: 'permissions/createAction',
+                readPermissionsAction: 'permissions/readAction',
+                updatePermissionAction: 'permissions/updateAction',
+                deletePermissionAction: 'permissions/deleteAction',
+            }),
+
+            updateTime() {
                 this.now = new Date();
             },
 
             initialize() {
-                this.$store.dispatch('loadPermissions');
-            },
-
-            editItem(item) {
-                this.editedIndex = this.permissions.indexOf(item)
-                this.editedItem = Object.assign({}, item)
-                this.dialog = true
+                this.loading = true;
+                this.readPermissionsAction().then(() => {
+                    this.loading = false;
+                });
             },
 
             askDeleteItem(item) {
@@ -220,34 +178,61 @@
                 this.deletedItem = item;
             },
 
+            updateItem(item) {
+                this.editedIndex = this.permissions.indexOf(item)
+                this.input = Object.assign({}, item)
+                this.dialog = true
+            },
+
             deleteItem() {
-                this.$store.dispatch('deletePermission', this.deletedItem);
+                this.loading = true;
+                this.deletePermissionAction(this.deletedItem).then(() => {
+                    this.loading = false;
+                }).catch(() => {
+                    this.loading = false;
+                });
                 this.delete_dialog = false;
                 this.deletedItem = {};
             },
 
             close() {
+                this.input = this.defaultItem;
                 this.$refs.form.resetValidation();
+                this.errors = {};
                 this.dialog = false
                 this.$nextTick(() => {
-                    this.editedItem = Object.assign({}, this.defaultItem)
+                    this.input = Object.assign({}, this.defaultItem)
                     this.editedIndex = -1
                 })
             },
 
             save() {
+                this.loading = true;
                 if (this.editedIndex > -1) {
-                    // Edit;
-                    this.$store.dispatch('editPermission', {
+                    // Update;
+                    this.updatePermissionAction({
                         index: this.editedIndex,
-                        item: this.editedItem
+                        item: this.input
+                    }).then(() => {
+                        this.now = new Date();
+                        this.close();
+                        this.loading = false;
+                    }).catch(({errors}) => {
+                        this.errors = errors;
+                        this.loading = false;
                     });
                 } else {
-                    // Save;
-                    this.$store.dispatch('savePermission', this.editedItem);
+                    // Create;
+                    this.createPermissionAction(this.input).then(() => {
+                        this.now = new Date();
+                        this.close();
+                        this.loading = false;
+                    }).catch(({errors}) => {
+                        // Supposed errors;
+                        this.errors = errors;
+                        this.loading = false;
+                    });
                 }
-                this.now = new Date();
-                this.close();
             },
         },
     }

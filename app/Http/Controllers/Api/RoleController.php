@@ -6,6 +6,8 @@ use App\Role;
 use Illuminate\Http\Request;
 use App\Http\Resources\RoleResource;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Str;
+use Symfony\Component\HttpFoundation\Response;
 
 
 class RoleController extends Controller
@@ -36,12 +38,12 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
-
         $request->validate([
-            'name' => 'required',
+            'name' => ['required', 'string', 'max:255', 'unique:tenant.roles,name']
         ]);
         $role = $this->role->create([
-            'name' => $request->name
+            'name' => $request->name,
+            'display_name' => ucwords($request->name)
         ]);
 
         if ($request->has('permissions')) {
@@ -49,9 +51,9 @@ class RoleController extends Controller
         }
 
         return response([
-            'message' => 'Role Created',
+            'message' => 'Role created',
             'payload' => RoleResource::make($role)
-        ]);
+        ], Response::HTTP_OK);
     }
 
     /**
@@ -63,11 +65,12 @@ class RoleController extends Controller
      */
     public function update(Request $request, Role $role) {
         $request->validate([
-            'name' => 'required',
+            'name' => ['required', 'string', 'max:255', 'unique:tenant.roles,name,'.$role->id]
         ]);
 
         $role->update([
             'name' => $request->name,
+            'display_name' => ucwords($request->name),
             'updated_at' => now()
         ]);
 
@@ -76,9 +79,9 @@ class RoleController extends Controller
         }
 
         return response([
-            'message' => 'Role Updated',
+            'message' => 'Role updated',
             'payload' => RoleResource::make($role)
-        ]);
+        ], Response::HTTP_OK);
     }
 
     /**
@@ -92,6 +95,6 @@ class RoleController extends Controller
 
         return response()->json([
             'message' => 'Role successfully removed'
-        ], 200);
+        ], Response::HTTP_OK);
     }
 }

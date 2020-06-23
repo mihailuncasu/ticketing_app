@@ -29,9 +29,16 @@ instance.interceptors.response.use(
     }, error => {
 
         if (error.response.status === 401) {
-
+            localStorage.removeItem('token');
             app.$router.push({name: 'login'});
 
+        }
+
+        if (error.response.status === 502) {
+            localStorage.removeItem('token');
+            setTimeout(() => {
+                window.location.href = error.response.data.redirect;
+            }, 4000);
         }
 
         return Promise.reject(error);

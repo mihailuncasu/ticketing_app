@@ -1,11 +1,17 @@
 <template>
-    <v-content>
+    <v-app>
         <v-content>
-            <v-container class="fill-height"
+            <v-container fill-height
                          fluid
             >
                 <router-view></router-view>
             </v-container>
         </v-content>
-    </v-content>
+    </v-app>
 </template>
+
+<script>
+    export default {
+        data: () => ({}),
+    }
+</script>

@@ -110,7 +110,7 @@ return [
          * @see
          * @info set to true to enable.
          */
-        'auto-delete-tenant-directory' => env('AUTO_DELETE_TENANT_DIRECTORY', false),
+        'auto-delete-tenant-directory' => env('AUTO_DELETE_TENANT_DIRECTORY', true),
 
         /**
          * Time to cache websites in minutes. Set to false to disable.
@@ -279,7 +279,7 @@ return [
          *
          * @info set to true to enable.
          */
-        'auto-delete-tenant-database' => env('AUTO_DELETE_TENANT_DATABASE', false),
+        'auto-delete-tenant-database' => env('AUTO_DELETE_TENANT_DATABASE', true),
 
         /**
          * Automatically delete the user needed to access the tenant database.

@@ -43,6 +43,8 @@ class Tenant
         app(Environment::class)->tenant($website);
 
         Artisan::call('passport:install');
+        //Artisan::call('storage:link');
+        //mklink /J "./storage/app/public/tenancy" "./storage/app/tenancy"
 
         return new Tenant($website, $hostname);
     }

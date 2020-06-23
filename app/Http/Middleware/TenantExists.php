@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Hyn\Tenancy\Models\Hostname;
 use Closure;
+use Symfony\Component\HttpFoundation\Response;
 
 class TenantExists
 {
@@ -22,18 +23,21 @@ class TenantExists
                 abort(403, 'The current domain is not registered. Yet.');
             } else {
                 return response()->json([
-                    'message' => 'The current domain is not registered. Yet.'
-                ], 403);
+                    'message' => 'The current domain is not registered. You will be redirected.',
+                    'redirect' => url(config('app.url')) . '/login-domain'
+                ], Response::HTTP_BAD_GATEWAY);
             }
         }
+
         if ($request->user() == null) {
             if (!$this->tenantExists($fqdn)) {
                 if ($request->isMethod('get')) {
                     abort(403, 'The current domain is not registered. Yet.');
                 } else {
                     return response()->json([
-                        'message' => 'The current domain is not registered. Yet.'
-                    ], 403);
+                        'message' => 'The current domain is not registered. You will be redirected.',
+                        'redirect' => url(config('app.url')) . '/login-domain'
+                    ], Response::HTTP_BAD_GATEWAY);
                 }
             }
         }

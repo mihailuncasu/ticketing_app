@@ -2,16 +2,60 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b39e05c8-a5cf-4120-bde8-695fd0470446" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/GroupController.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Http/Resources/GroupResource.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Utils/TenantPathGenerator.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Utils/TenantUrlGenerator.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/config/medialibrary.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/database/migrations/tenant/2020_06_20_095510_create_group_user_table.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/database/migrations/tenant/2020_06_21_063533_create_media_table.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/database/migrations/tenant/2020_06_23_030157_add_columns_to_permission_tables.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/js/api/groups.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/js/components/app/Groups.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/js/middlewares/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/js/store/modules/groups.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/websolutions.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/websolutions.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Exceptions/Handler.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Exceptions/Handler.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Group.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Group.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/PermissionController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/PermissionController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/RoleController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/RoleController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/UserController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Notifications/RegisterUser.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Notifications/RegisterUser.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Auth/RegisterController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Auth/RegisterController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Middleware/TenantExists.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Middleware/TenantExists.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Resources/UserResource.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Resources/UserResource.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Permission.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Permission.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Providers/EventServiceProvider.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Providers/EventServiceProvider.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Role.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Role.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Tenant.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Tenant.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/User.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/tenancy.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/tenancy.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/tenant/2020_06_17_043808_create_groups_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/tenant/2020_06_17_043808_create_groups_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/seeds/TenantDatabaseSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeds/TenantDatabaseSeeder.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/components/app/Home.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/app/Home.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/components/app/Permissions.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/app/Permissions.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/components/app/Roles.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/app/Roles.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/js/components/app/Users.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/app/Users.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/components/auth/Login.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/auth/Login.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/components/landing/Register.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/landing/Register.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/components/layouts/AuthLayout.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/layouts/AuthLayout.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/components/layouts/LandingLayout.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/layouts/LandingLayout.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/config/routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/config/routes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/middlewares/auth.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/middlewares/auth.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/middlewares/guest.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/middlewares/guest.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/js/mixins/rules.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/mixins/rules.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/plugins/axios.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/plugins/axios.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/plugins/router.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/plugins/router.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/js/store/modules/permissions.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/store/modules/permissions.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/js/store/modules/roles.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/store/modules/roles.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/js/store/modules/users.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/store/modules/users.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/store/store.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/store/store.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,8 +69,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Vue Single File Component" />
         <option value="JavaScript File" />
+        <option value="Vue Single File Component" />
       </list>
     </option>
   </component>
@@ -147,6 +191,18 @@
       <path value="$PROJECT_DIR$/vendor/league/oauth2-server" />
       <path value="$PROJECT_DIR$/vendor/lcobucci/jwt" />
       <path value="$PROJECT_DIR$/vendor/zendframework/zend-diactoros" />
+      <path value="$PROJECT_DIR$/vendor/league/glide" />
+      <path value="$PROJECT_DIR$/vendor/org_heigl/ghostscript" />
+      <path value="$PROJECT_DIR$/vendor/maennchen/zipstream-php" />
+      <path value="$PROJECT_DIR$/vendor/myclabs/php-enum" />
+      <path value="$PROJECT_DIR$/vendor/spatie/pdf-to-image" />
+      <path value="$PROJECT_DIR$/vendor/spatie/temporary-directory" />
+      <path value="$PROJECT_DIR$/vendor/spatie/image" />
+      <path value="$PROJECT_DIR$/vendor/spatie/laravel-medialibrary" />
+      <path value="$PROJECT_DIR$/vendor/spatie/image-optimizer" />
+      <path value="$PROJECT_DIR$/vendor/intervention/image" />
+      <path value="$PROJECT_DIR$/vendor/cviebrock/eloquent-sluggable" />
+      <path value="$PROJECT_DIR$/vendor/cocur/slugify" />
     </include_path>
   </component>
   <component name="ProjectId" id="1cV3MpKr6wn2Q9mpaSxPjRE795w" />
@@ -167,15 +223,15 @@
     <property name="ts.external.directory.path" value="C:\Program Files\JetBrains\PhpStorm 2020.1\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\xampp\htdocs\websolutions\database\migrations\tenant" />
-      <recent name="C:\xampp\htdocs\websolutions\resources\js\components\landing" />
-      <recent name="C:\xampp\htdocs\websolutions\resources\js\components\general" />
-      <recent name="C:\xampp\htdocs\websolutions\resources\js\components\layouts" />
-      <recent name="C:\xampp\htdocs\websolutions\resources\js\components" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\xampp\htdocs\websolutions\database\migrations\tenant" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\xampp\htdocs\websolutions\database\migrations\tenant" />
+      <recent name="C:\xampp\htdocs\websolutions\storage\app\public" />
+      <recent name="C:\xampp\htdocs\websolutions\app" />
+      <recent name="C:\xampp\htdocs\websolutions\resources\js\components\landing" />
+      <recent name="C:\xampp\htdocs\websolutions\resources\js\components\general" />
     </key>
   </component>
   <component name="RunManager">
@@ -211,7 +267,8 @@
       <workItem from="1591963468801" duration="12872000" />
       <workItem from="1591982849419" duration="96386000" />
       <workItem from="1592331578733" duration="1480000" />
-      <workItem from="1592337838201" duration="57414000" />
+      <workItem from="1592337838201" duration="57599000" />
+      <workItem from="1592571331381" duration="104544000" />
     </task>
     <servers />
   </component>
@@ -223,6 +280,10 @@
       <screen x="0" y="0" width="1920" height="1200" />
     </state>
     <state x="586" y="278" key="#Inspections/1920.0.1536.864/0.0.1920.1200@0.0.1920.1200" timestamp="1591983162910" />
+    <state x="667" y="243" key="#PHP" timestamp="1592681722234">
+      <screen x="0" y="0" width="1920" height="1200" />
+    </state>
+    <state x="667" y="243" key="#PHP/1920.0.1536.864/0.0.1920.1200@0.0.1920.1200" timestamp="1592681722234" />
     <state x="622" y="402" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1591782406156">
       <screen x="0" y="0" width="1920" height="1200" />
     </state>
@@ -239,18 +300,18 @@
       <screen x="0" y="0" width="1920" height="1200" />
     </state>
     <state x="629" y="378" key="EditFileWatcherDialog/1920.0.1536.864/0.0.1920.1200@0.0.1920.1200" timestamp="1591893028923" />
-    <state x="740" y="355" key="FileChooserDialogImpl" timestamp="1591894462761">
+    <state x="740" y="355" key="FileChooserDialogImpl" timestamp="1592582788020">
       <screen x="0" y="0" width="1920" height="1200" />
     </state>
-    <state x="740" y="355" key="FileChooserDialogImpl/1920.0.1536.864/0.0.1920.1200@0.0.1920.1200" timestamp="1591894462761" />
-    <state x="775" y="323" key="NewPhpClassDialog" timestamp="1591974602217">
+    <state x="740" y="355" key="FileChooserDialogImpl/1920.0.1536.864/0.0.1920.1200@0.0.1920.1200" timestamp="1592582788020" />
+    <state x="775" y="323" key="NewPhpClassDialog" timestamp="1592723410279">
       <screen x="0" y="0" width="1920" height="1200" />
     </state>
-    <state x="775" y="323" key="NewPhpClassDialog/1920.0.1536.864/0.0.1920.1200@0.0.1920.1200" timestamp="1591974602217" />
-    <state x="794" y="523" key="NewPhpFileDialog" timestamp="1592018295904">
+    <state x="775" y="323" key="NewPhpClassDialog/1920.0.1536.864/0.0.1920.1200@0.0.1920.1200" timestamp="1592723410279" />
+    <state x="794" y="523" key="NewPhpFileDialog" timestamp="1592724005430">
       <screen x="0" y="0" width="1920" height="1200" />
     </state>
-    <state x="794" y="523" key="NewPhpFileDialog/1920.0.1536.864/0.0.1920.1200@0.0.1920.1200" timestamp="1592018295904" />
+    <state x="794" y="523" key="NewPhpFileDialog/1920.0.1536.864/0.0.1920.1200@0.0.1920.1200" timestamp="1592724005430" />
     <state x="461" y="245" key="SettingsEditor" timestamp="1591230557902">
       <screen x="0" y="0" width="1920" height="1200" />
     </state>
@@ -263,34 +324,38 @@
       <screen x="0" y="0" width="1920" height="1200" />
     </state>
     <state x="92" y="92" width="1736" height="1016" key="com.intellij.history.integration.ui.views.FileHistoryDialog/1920.0.1536.864/0.0.1920.1200@0.0.1920.1200" timestamp="1592249466883" />
-    <state x="1920" y="0" width="1485" height="950" key="dock-window-1" timestamp="1592424284181">
+    <state x="2028" y="-10" width="1485" height="950" maximized="true" key="dock-window-1" timestamp="1592579205442">
       <screen x="1920" y="0" width="1536" height="864" />
     </state>
-    <state x="1920" y="0" width="1485" height="950" key="dock-window-1/1920.0.1536.864/0.0.1920.1200@0.0.1920.1200" timestamp="1592424284181" />
+    <state x="2028" y="-10" width="1485" height="950" maximized="true" key="dock-window-1/1920.0.1536.864/0.0.1920.1200@0.0.1920.1200" timestamp="1592579205441" />
     <state x="1951" y="-23" width="1522" height="950" key="dock-window-2" timestamp="1591782720177">
       <screen x="1920" y="0" width="1536" height="864" />
     </state>
     <state x="1951" y="-23" width="1522" height="950" key="dock-window-2/1920.0.1536.864/0.0.1920.1200@0.0.1920.1200" timestamp="1591782720177" />
-    <state x="667" y="335" width="586" height="534" key="find.popup" timestamp="1592426343209">
+    <state x="667" y="335" width="586" height="534" key="find.popup" timestamp="1592875644445">
       <screen x="0" y="0" width="1920" height="1200" />
     </state>
     <state x="2587" y="335" width="586" height="530" key="find.popup/0.0.1536.864/1920.0.1920.1200@1920.0.1920.1200" timestamp="1590975771638" />
-    <state x="667" y="335" width="586" height="534" key="find.popup/1920.0.1536.864/0.0.1920.1200@0.0.1920.1200" timestamp="1592426343209" />
+    <state x="667" y="335" width="586" height="534" key="find.popup/1920.0.1536.864/0.0.1920.1200@0.0.1920.1200" timestamp="1592875644445" />
     <state x="601" y="325" width="700" height="530" key="recent.locations.popup" timestamp="1592205243493">
       <screen x="0" y="0" width="1920" height="1200" />
     </state>
     <state x="601" y="325" width="700" height="530" key="recent.locations.popup/1920.0.1536.864/0.0.1920.1200@0.0.1920.1200" timestamp="1592205243493" />
+    <state x="616" y="280" key="run.anything.popup" timestamp="1592794775767">
+      <screen x="0" y="0" width="1920" height="1200" />
+    </state>
+    <state x="616" y="280" key="run.anything.popup/1920.0.1536.864/0.0.1920.1200@0.0.1920.1200" timestamp="1592794775767" />
     <state x="752" y="459" width="490" height="391" key="scopes" timestamp="1592052860175">
       <screen x="0" y="0" width="1920" height="1200" />
     </state>
     <state x="2672" y="459" width="490" height="396" key="scopes/0.0.1536.864/1920.0.1920.1200@1920.0.1920.1200" timestamp="1590975717753" />
     <state x="752" y="459" width="490" height="391" key="scopes/1920.0.1536.864/0.0.1920.1200@0.0.1920.1200" timestamp="1592052860175" />
-    <state x="623" y="265" width="672" height="678" key="search.everywhere.popup" timestamp="1592513249542">
+    <state x="623" y="265" width="672" height="678" key="search.everywhere.popup" timestamp="1592882124066">
       <screen x="0" y="0" width="1920" height="1200" />
     </state>
     <state x="2543" y="265" width="672" height="678" key="search.everywhere.popup/0.0.1536.864/1920.0.1920.1200@1920.0.1920.1200" timestamp="1591017719442" />
     <state x="498" y="190" width="672" height="489" key="search.everywhere.popup/0.0.1536.864@0.0.1536.864" timestamp="1591631044705" />
-    <state x="623" y="265" width="672" height="678" key="search.everywhere.popup/1920.0.1536.864/0.0.1920.1200@0.0.1920.1200" timestamp="1592513249542" />
+    <state x="623" y="265" width="672" height="678" key="search.everywhere.popup/1920.0.1536.864/0.0.1920.1200@0.0.1920.1200" timestamp="1592882124066" />
     <state x="2602" y="512" key="vcs.readOnlyHandler.ReadOnlyStatusDialog" timestamp="1590763706984">
       <screen x="1920" y="0" width="1920" height="1200" />
     </state>

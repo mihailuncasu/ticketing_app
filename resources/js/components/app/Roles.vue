@@ -1,12 +1,14 @@
 <template>
-    <v-data-table
-            :headers="headers"
-            :items="roles"
-            sort-by="name"
-            class="elevation-1"
-            :loading="isLoading"
-            loading-text="Loading Users... Please wait"
+    <v-data-table :headers="headers"
+                  :items="roles"
+                  sort-by="name"
+                  class="elevation-1"
+                  :loading="loading"
+                  loading-text="Loading Roles... Please wait"
     >
+        <template v-slot:item.name="{ item }">
+            <span>{{ item.display_name }}</span>
+        </template>
         <template v-slot:item.created_at="{ item }">
             <span>{{ item.created_at | moment("calendar") }}</span>
         </template>
@@ -16,10 +18,9 @@
         <template v-slot:top>
             <v-toolbar flat color="white">
                 <v-toolbar-title>ROLES</v-toolbar-title>
-                <v-divider
-                        class="mx-4"
-                        inset
-                        vertical
+                <v-divider class="mx-4"
+                           inset
+                           vertical
                 ></v-divider>
                 <v-spacer></v-spacer>
                 <v-dialog v-model="dialog" max-width="500px">
@@ -32,29 +33,31 @@
                         </v-card-title>
 
                         <v-card-text>
-                            <v-form
-                                    ref="form"
+                            <v-form ref="form"
                                     v-model="valid"
                             >
                                 <v-container>
                                     <v-row>
                                         <v-col cols="12">
-                                            <v-text-field v-model="editedItem.name" label="Role name"
-                                                          @keydown.enter.prevent
-                                                          :counter="lengths.max"
-                                                          :rules="rules.roles"
-                                            ></v-text-field>
+                                            <v-text-field v-model="input.name"
+                                                          label="Role Name"
+                                                          name="name"
+                                                          :counter="lengths.role.max"
+                                                          :rules="[...roleRules]"
+                                                          :error-messages="errors.name"
+                                                          @input="errors.name = []"
+                                            />
                                         </v-col>
                                         <v-col cols="12">
                                             <v-select
-                                                v-model="editedItem.permissions"
-                                                :items="permissions"
-                                                label="Permissions"
-                                                item-text="name"
-                                                return-object
-                                                multiple
-                                                chips
-                                            ></v-select>
+                                                    v-model="input.permissions"
+                                                    :items="permissions"
+                                                    label="Permissions"
+                                                    item-text="name"
+                                                    return-object
+                                                    multiple
+                                                    chips
+                                            />
                                         </v-col>
                                     </v-row>
                                 </v-container>
@@ -64,59 +67,34 @@
                         <v-card-actions>
                             <v-spacer></v-spacer>
                             <v-btn color="blue darken-1" text @click="close">Cancel</v-btn>
-                            <v-btn color="blue darken-1" text @click="save" :disabled="!valid">Save</v-btn>
+                            <v-btn color="blue darken-1" text @click="save" :loading="loading" :disabled="!valid">Save
+                            </v-btn>
                         </v-card-actions>
                     </v-card>
                 </v-dialog>
                 <!--Delete-->
-                <v-dialog
-                            v-model="delete_dialog"
-                            max-width="290"
-                    >
-                        <v-card>
-                            <v-card-title class="headline">Deleting Role</v-card-title>
+                <v-dialog v-model="delete_dialog"
+                          max-width="290"
+                >
+                    <v-card>
+                        <v-card-title class="headline">Deleting Role</v-card-title>
 
-                            <v-card-text>
-                                Are you sure you want to delete this role?
-                            </v-card-text>
+                        <v-card-text>
+                            Are you sure you want to delete this role?
+                        </v-card-text>
 
-                            <v-card-actions>
-                                <v-spacer></v-spacer>
-
-                                <v-btn
-                                        color="blue darken-1"
-                                        text
-                                        @click="delete_dialog = false"
-                                >
-                                    No
-                                </v-btn>
-
-                                <v-btn
-                                        color="red darken-1"
-                                        text
-                                        @click="deleteItem"
-                                >
-                                    Yes
-                                </v-btn>
-                            </v-card-actions>
-                        </v-card>
-                    </v-dialog>
+                        <v-card-actions>
+                            <v-spacer></v-spacer>
+                            <v-btn color="blue darken-1" text @click="delete_dialog = false">No</v-btn>
+                            <v-btn color="red darken-1" text @click="deleteItem">Yes</v-btn>
+                        </v-card-actions>
+                    </v-card>
+                </v-dialog>
             </v-toolbar>
         </template>
         <template v-slot:item.actions="{ item }">
-            <v-icon
-                    small
-                    class="mr-2"
-                    @click="editItem(item)"
-            >
-                mdi-pencil
-            </v-icon>
-            <v-icon
-                    small
-                    @click="askDeleteItem(item)"
-            >
-                mdi-delete
-            </v-icon>
+            <v-icon small class="mr-2" @click="updateItem(item)">mdi-pencil</v-icon>
+            <v-icon small @click="askDeleteItem(item)">mdi-delete</v-icon>
         </template>
         <template v-slot:no-data>
             <v-btn color="primary" @click="initialize">Reset</v-btn>
@@ -125,8 +103,12 @@
 </template>
 
 <script>
+    import {mapActions, mapGetters} from 'vuex';
+    import rules from '@/mixins/rules';
 
     export default {
+        name: 'Roles',
+        mixins: [rules],
         data: () => ({
             dialog: false,
             headers: [
@@ -144,7 +126,7 @@
             deletedItem: {},
             delete_dialog: false,
             editedIndex: -1,
-            editedItem: {
+            input: {
                 name: '',
                 permissions: [],
             },
@@ -152,50 +134,20 @@
                 name: '',
                 permissions: [],
             },
+            errors: {},
+            loading: false
         }),
 
         computed: {
+            ...mapGetters({
+                roles: 'roles/roles',
+                permissions: 'permissions/permissions',
+            }),
+
             formTitle() {
                 return this.editedIndex === -1 ? 'New Role' : 'Edit Role'
             },
-            roles() {
-                return this.$store.getters.roles;
-            },
-            isLoading() {
-                return this.$store.getters.isLoading;
-            },
-            permissions() {
-                return this.$store.getters.permissions;
-            },
-            lengths() {
-                return this.$store.getters.role_lengths;
-            },
-            rules() {
-                const roles = [
-                    v => !!v || 'Role name is required',
-                    v => (v || '').length <= this.lengths.max || `Role name must be less than ${this.lengths.max} characters`,
-                    v => (v || '').length >= this.lengths.min || `Role name must be more than ${this.lengths.min} characters`,
-                    v => {
-                        let item = this.roles.find(p => p.name === v.trim());
-                        if (item !== undefined) {
-                            if (this.editedItem.id !== undefined) {
-                                if (item.id !== this.editedItem.id) {
-                                    return `Role ${v.trim()} already exists`
-                                } else {
-                                    return true;
-                                }
-                            } else {
-                                return `Role ${v.trim()} already exists`
-                            }
-                        } else {
-                            return true;
-                        }
-                    }
-                ];
-                return {
-                    roles: roles
-                };
-            }
+
         },
 
         watch: {
@@ -213,20 +165,25 @@
         },
 
         methods: {
-            updateTime () {
+            ...mapActions({
+                createRoleAction: 'roles/createAction',
+                readRolesAction: 'roles/readAction',
+                updateRoleAction: 'roles/updateAction',
+                deleteRoleAction: 'roles/deleteAction',
+                readPermissionsAction: 'permissions/readAction',
+            }),
+
+            updateTime() {
                 this.now = new Date();
             },
 
             initialize() {
-                this.$store.dispatch('loadPermissions').then(r => {
-                    this.$store.dispatch('loadRoles');
-                });
-            },
-
-            editItem(item) {
-                this.editedIndex = this.roles.indexOf(item)
-                this.editedItem = Object.assign({}, item)
-                this.dialog = true
+                this.loading = true;
+                this.readPermissionsAction().then(() => {
+                    this.readRolesAction().then(() => {
+                        this.loading = false;
+                    })
+                })
             },
 
             askDeleteItem(item) {
@@ -234,34 +191,61 @@
                 this.deletedItem = item;
             },
 
+            updateItem(item) {
+                this.editedIndex = this.roles.indexOf(item)
+                this.input = Object.assign({}, item)
+                this.dialog = true
+            },
+
             deleteItem() {
-                this.$store.dispatch('deleteRole', this.deletedItem);
+                this.loading = true;
+                this.deleteRoleAction(this.deletedItem).then(() => {
+                    this.loading = false;
+                }).catch(() => {
+                    this.loading = false;
+                });
                 this.delete_dialog = false;
                 this.deletedItem = {};
             },
 
             close() {
+                this.input = this.defaultItem;
                 this.$refs.form.resetValidation();
+                this.errors = {};
                 this.dialog = false
                 this.$nextTick(() => {
-                    this.editedItem = Object.assign({}, this.defaultItem)
+                    this.input = Object.assign({}, this.defaultItem)
                     this.editedIndex = -1
                 })
             },
 
             save() {
+                this.loading = true;
                 if (this.editedIndex > -1) {
-                    // Edit;
-                    this.$store.dispatch('editRole', {
+                    // Update;
+                    this.updateRoleAction({
                         index: this.editedIndex,
-                        item: this.editedItem
+                        item: this.input
+                    }).then(() => {
+                        this.now = new Date();
+                        this.close();
+                        this.loading = false;
+                    }).catch(({errors}) => {
+                        this.errors = errors;
+                        this.loading = false;
                     });
                 } else {
-                    // Save;
-                    this.$store.dispatch('saveRole', this.editedItem);
+                    // Create;
+                    this.createRoleAction(this.input).then(() => {
+                        this.now = new Date();
+                        this.close();
+                        this.loading = false;
+                    }).catch(({errors}) => {
+                        // Supposed errors;
+                        this.errors = errors;
+                        this.loading = false;
+                    });
                 }
-                this.now = new Date();
-                this.close();
             },
         },
     }

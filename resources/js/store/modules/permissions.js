@@ -12,42 +12,89 @@ const permissions = {
         permissions(state) {
             return state.permissions;
         },
-        permission_lengths(state) {
-            return state.permission_lengths;
-        }
+
     },
 
     // Mutations;
     mutations: {
-        LOAD_PERMISSIONS(state, payload) {
+        CREATE_PERMISSION(state, payload) {
+            state.permissions.push(payload);
+        },
+
+        STORE_PERMISSIONS(state, payload) {
             state.permissions = payload;
         },
+
+        UPDATE_PERMISSION(state, payload) {
+            Object.assign(state.permissions[payload.index], payload.item);
+        },
+
         DELETE_PERMISSION(state, payload) {
             const index = state.permissions.indexOf(payload);
             state.permissions.splice(index, 1);
-        },
-        SAVE_PERMISSION(state, payload) {
-            state.permissions.push(payload);
-        },
-        EDIT_PERMISSION(state, payload) {
-            Object.assign(state.permissions[payload.index], payload.item);
         }
+
     },
 
     // Actions;
     actions: {
         readAction({commit, dispatch}) {
             dispatch('application/showLoadingNotificationAction', {
-                message: 'Getting data, please wait..',
+                message: 'Getting permissions, please wait..',
                 color: 'black'
             }, {root: true});
-            return new Promise((resolve, reject) => {
-                api.getPermissions().then(result => {
+            return new Promise((resolve) => {
+                api.getPermissions().then(({data}) => {
                     dispatch('application/showResultNotificationAction', {
                         message: 'Success',
                         color: 'green'
                     }, {root: true});
-                    commit('LOAD_PERMISSIONS', result.data.data);
+                    commit('STORE_PERMISSIONS', data.data);
+                    resolve();
+                }).catch(({response}) => {
+                    dispatch('application/showResultNotificationAction', {
+                        message: response.data.message,
+                        color: 'red'
+                    }, {root: true});
+                });
+            });
+        },
+
+        createAction({commit, dispatch}, payload) {
+            dispatch('application/showLoadingNotificationAction', {
+                message: 'Creating permisison, please wait..',
+                color: 'black'
+            }, {root: true});
+            return new Promise((resolve, reject) => {
+                api.savePermission(payload).then(({data}) => {
+                    commit('CREATE_PERMISSION', data.payload);
+                    dispatch('application/showResultNotificationAction', {
+                        message: data.message,
+                        color: 'green'
+                    }, {root: true});
+                    resolve();
+                }).catch(({response}) => {
+                    dispatch('application/showResultNotificationAction', {
+                        message: response.data.message,
+                        color: 'red'
+                    }, {root: true});
+                    reject(response.data);
+                });
+            })
+        },
+
+        deleteAction({commit, dispatch}, payload) {
+            dispatch('application/showLoadingNotificationAction', {
+                message: 'Deleting permission, please wait..',
+                color: 'black'
+            }, {root: true});
+            return new Promise((resolve, reject) => {
+                api.deletePermission(payload).then(({data}) => {
+                    commit('DELETE_PERMISSION', payload);
+                    dispatch('application/showResultNotificationAction', {
+                        message: data.message,
+                        color: 'green'
+                    }, {root: true});
                     resolve();
                 }).catch(({response}) => {
                     dispatch('application/showResultNotificationAction', {
@@ -59,65 +106,29 @@ const permissions = {
             });
         },
 
-        savePermission({commit, state}, payload) {
-            commit('START_ACTION_LOADING');
-            api.savePermission(payload).then(result => {
-                // Add permission;
-                try {
-                    commit('SAVE_PERMISSION', result.data.payload);
-                    // Stop loading animation with success message;
-                    commit('STOP_ACTION_LOADING_SUCCESS', {
-                        message: result.data.message
-                    });
-                } catch (error) {
-                    console.log(error)
-                }
-            }).catch(error => {
-                commit('STOP_ACTION_LOADING_FAILURE', {
-                    message: error.response.data.message
-                });
-            });
-        },
-
-        deletePermission({commit, state}, payload) {
-            commit('START_ACTION_LOADING');
-            api.deletePermission(payload).then(result => {
-                try {
-                    // Remove the permission from the array;
-                    commit('DELETE_PERMISSION', payload);
-                    // Stop loading animation with success message;
-                    commit('STOP_ACTION_LOADING_SUCCESS', {
-                        message: result.data.message
-                    });
-                } catch (error) {
-                    console.log(error)
-                }
-            }).catch(error => {
-                // Stop loading animation with failure message;
-                commit('STOP_ACTION_LOADING_FAILURE', {
-                    message: error.response.data.message
-                });
-            });
-        },
-        editPermission({commit, state}, payload) {
-            commit('START_ACTION_LOADING');
-            api.editPermission(payload.item).then(result => {
-                // Add permission;
-                try {
-                    commit('EDIT_PERMISSION', {
+        updateAction({commit, dispatch}, payload) {
+            dispatch('application/showLoadingNotificationAction', {
+                message: 'Updating permission, please wait..',
+                color: 'black'
+            }, {root: true});
+            return new Promise((resolve, reject) => {
+                api.editPermission(payload.item).then(({data}) => {
+                    // Add permission;
+                    commit('UPDATE_PERMISSION', {
                         index: payload.index,
-                        item: result.data.payload
+                        item: data.payload
                     });
-                    // Stop loading animation with success message;
-                    commit('STOP_ACTION_LOADING_SUCCESS', {
-                        message: result.data.message
-                    });
-                } catch (error) {
-                    console.log(error)
-                }
-            }).catch(error => {
-                commit('STOP_ACTION_LOADING_FAILURE', {
-                    message: error.response.data.message
+                    dispatch('application/showResultNotificationAction', {
+                        message: data.message,
+                        color: 'green'
+                    }, {root: true});
+                    resolve();
+                }).catch(({response}) => {
+                    dispatch('application/showResultNotificationAction', {
+                        message: response.data.message,
+                        color: 'red'
+                    }, {root: true});
+                    reject(response.data);
                 });
             });
         }

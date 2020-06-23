@@ -1,17 +1,18 @@
 <template>
-    <v-data-table
-            :headers="headers"
-            :items="users"
-            sort-by="name"
-            class="elevation-1"
-            :loading="loading"
-            loading-text="Loading Users... Please wait"
+    <v-data-table :headers="headers"
+                  :items="users"
+                  sort-by="name"
+                  class="elevation-1"
+                  :loading="loading"
+                  loading-text="Loading Users... Please wait"
     >
         <template v-slot:item.name="{ item }">
-            <span>{{ item.name | capitalize }}</span>
+            <span>{{ item.name }}</span>
         </template>
-        <template v-slot:item.role="{ item }">
-            <span>{{ item.role.name | capitalize }}</span>
+        <template v-slot:item.roles="{ item }">
+            <v-chip-group>
+                <v-chip v-for="role in item.roles">{{ role.display_name }}</v-chip>
+            </v-chip-group>
         </template>
         <template v-slot:item.created_at="{ item }">
             <span>{{ item.created_at | moment("calendar") }}</span>
@@ -63,25 +64,48 @@
                                             />
                                         </v-flex>
                                         <v-flex xs12>
-                                            <v-select v-model="input.role"
-                                                      :items="roles"
-                                                      :rules="[...roleRules]"
-                                                      label="Roles"
-                                                      item-text="name"
-                                                      return-object
-                                                      required
-                                                      chips
-                                            />
+                                            <h2 class="title mb-2">Grant Role(s)</h2>
+                                            <v-chip-group v-model="input.roles"
+                                                          column
+                                                          multiple
+                                            >
+                                                <v-chip v-for="role in roles"
+                                                        filter
+                                                        outlined
+                                                        itemtype="obj"
+                                                >
+                                                    {{ role.display_name }}
+                                                </v-chip>
+                                            </v-chip-group>
+                                        </v-flex>
+                                        <v-flex xs12 v-if="input.roles">
+                                            <h2 class="title mb-2">Role(s) Permissions</h2>
+                                            <v-chip-group v-model="rolesPermissions"
+                                                          column
+                                                          multiple
+                                            >
+                                                <v-chip v-for="permission in rolesPermissions"
+                                                        filter
+                                                        outlined
+                                                        disabled
+                                                >
+                                                    {{ permission.display_name }}
+                                                </v-chip>
+                                            </v-chip-group>
                                         </v-flex>
                                         <v-flex xs12>
-                                            <v-select v-model="input.role.permissions"
-                                                      :items="permissions"
-                                                      label="Permissions"
-                                                      item-text="name"
-                                                      return-object
-                                                      multiple
-                                                      chips
-                                            />
+                                            <h2 class="title mb-2">Grant Custom Permissions</h2>
+                                            <v-chip-group v-model="input.permissions"
+                                                          column
+                                                          multiple
+                                            >
+                                                <v-chip v-for="permission in remainingPermissions"
+                                                        filter
+                                                        outlined
+                                                >
+                                                    {{ permission.display_name }}
+                                                </v-chip>
+                                            </v-chip-group>
                                         </v-flex>
                                         <v-switch v-if="editedIndex < 0"
                                                   v-model="autoPassword"
@@ -111,7 +135,8 @@
                         <v-card-actions>
                             <v-spacer></v-spacer>
                             <v-btn color="blue darken-1" text @click="close">Cancel</v-btn>
-                            <v-btn color="blue darken-1" text @click="save" :disabled="!valid">Save</v-btn>
+                            <v-btn color="blue darken-1" text @click="save" :loading="loading" :disabled="!valid">Save
+                            </v-btn>
                         </v-card-actions>
                     </v-card>
                 </v-dialog>
@@ -162,7 +187,7 @@
                     value: 'name',
                 },
                 {text: 'Email', value: 'email'},
-                {text: 'Role', value: 'role'},
+                {text: 'Roles', value: 'roles'},
                 {text: 'Created', value: 'created_at'},
                 {text: 'Updated', value: 'updated_at'},
                 {text: 'Actions', value: 'actions', sortable: false},
@@ -176,7 +201,7 @@
             input: {
                 name: '',
                 email: '',
-                role: {},
+                roles: [],
                 permissions: [],
                 password: '',
                 password_confirmation: ''
@@ -184,7 +209,7 @@
             defaultItem: {
                 name: '',
                 email: '',
-                role: {},
+                roles: [],
                 permissions: [],
                 password: '',
                 password_confirmation: ''
@@ -192,14 +217,10 @@
             errors: {},
             loading: false
         }),
+
         filters: {
-            capitalize: function (value) {
-                if (!value) return ''
-                return value
-                    .toLowerCase()
-                    .split(' ')
-                    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-                    .join(' ');
+            roleToChip(roles) {
+                return roles.map(x => x.display_name);
             }
         },
 
@@ -209,6 +230,20 @@
                 roles: 'roles/roles',
                 permissions: 'permissions/permissions',
             }),
+
+            rolesPermissions() {
+                if (this.dialog)
+                return this.input.roles[0].permissions;
+            },
+
+            remainingPermissions() {
+                /*if (this.input.role.permissions !== undefined) {
+                    return this.permissions.filter((permission) => {
+                        return this.input.role.permissions.indexOf(permission) > -1;
+                    });
+                }*/
+                return this.permissions;
+            },
 
             formTitle() {
                 return this.editedIndex === -1 ? 'New User' : 'Edit User'
@@ -268,15 +303,18 @@
             deleteItem(item) {
                 this.loading = true;
                 this.deleteUserAction(this.deletedItem).then(() => {
-                    this.delete_dialog = false;
-                    this.deletedItem = {};
+                    this.loading = false;
+                }).catch(() => {
                     this.loading = false;
                 });
+                this.deletedItem = {};
+                this.delete_dialog = false;
             },
 
             close() {
                 this.input = this.defaultItem;
                 this.$refs.form.resetValidation();
+                this.errors = {};
                 this.dialog = false
                 this.loading = false;
                 this.$nextTick(() => {
@@ -286,6 +324,9 @@
             },
 
             save() {
+                console.log(this.input.roles);
+                console.log(this.input.permissions);
+                return;
                 this.loading = true;
                 if (this.editedIndex > -1) {
                     // Update;
@@ -295,14 +336,17 @@
                     }).then(() => {
                         this.now = new Date();
                         this.close();
-                    }).catch(() => {
-                        // Supposed errors;
+                        this.loading = false;
+                    }).catch(({errors}) => {
+                        this.errors = errors;
+                        this.loading = false;
                     });
                 } else {
                     // Create;
                     this.createUserAction({...this.input, auto: this.autoPassword}).then(() => {
                         this.now = new Date();
                         this.close();
+                        this.loading = false;
                     }).catch(({errors}) => {
                         // Supposed errors;
                         this.errors = errors;

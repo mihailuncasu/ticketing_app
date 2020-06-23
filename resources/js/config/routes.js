@@ -3,6 +3,7 @@ import Home from '@/components/app/Home';
 import Users from '@/components/app/Users';
 import Permissions from '@/components/app/Permissions';
 import Roles from '@/components/app/Roles';
+import Groups from '@/components/app/Groups';
 //import Tickets from '@/components/Views/Tickets'
 
 //Auth Components;
@@ -24,6 +25,8 @@ import LoginDomain from "@/components/landing/LoginDomain";
 //General Components
 import NotFound from '@/components/general/NotFound'
 
+//Middlewares;
+import Middlewares from "../middlewares/";
 
 //Export routes based on domain used
 const host = window.location.host.toUpperCase()
@@ -40,29 +43,49 @@ const routes = () => {
                     {
                         name: 'home',
                         path: '/',
-                        component: Home
+                        component: Home,
+                        meta: {
+                            middleware: [Middlewares.auth]
+                        }
                     },
                     {
                         name: 'users',
                         path: '/admin/users',
-                        component: Users
+                        component: Users,
+                        meta: {
+                            middleware: [Middlewares.auth]
+                        }
                     },
                     {
                         name: 'roles',
                         path: '/admin/roles',
-                        component: Roles
+                        component: Roles,
+                        meta: {
+                            middleware: [Middlewares.auth]
+                        }
                     },
                     {
                         name: 'permissions',
                         path: '/admin/permissions',
-                        component: Permissions
+                        component: Permissions,
+                        meta: {
+                            middleware: [Middlewares.auth]
+                        }
+                    },
+                    {
+                        name: 'groups',
+                        path: '/admin/groups',
+                        component: Groups,
+                        meta: {
+                            middleware: [Middlewares.auth]
+                        }
                     },
                     /*{
                         path: 'tickets',
                         name: 'dashbaord.tickets',
                         component: Tickets
                     },*/
-                ]
+                ],
             },
             // Auth components
             {
@@ -72,22 +95,34 @@ const routes = () => {
                     {
                         path: '/login',
                         name: 'login',
-                        component: Login
+                        component: Login,
+                        meta: {
+                            middleware: [Middlewares.guest]
+                        }
                     },
                     {
                         path: '/verify-email',
+                        name: 'verifyEmail',
                         component: VerifyEmail,
-                        name: 'verifyEmail'
+                        meta: {
+                            middleware: [Middlewares.guest]
+                        }
                     },
                     {
                         path: '/reset-password',
                         name: 'resetPassword',
-                        component: ResetPassword
+                        component: ResetPassword,
+                        meta: {
+                            middleware: [Middlewares.guest]
+                        }
                     },
                     {
                         path: '/forgot-password',
                         name: 'forgotPassword',
-                        component: ForgotPassword
+                        component: ForgotPassword,
+                        meta: {
+                            middleware: [Middlewares.guest]
+                        }
                     },
                 ]
             },
@@ -110,12 +145,18 @@ const routes = () => {
                     {
                         path: '/login-domain',
                         name: 'loginDomain',
-                        component: LoginDomain
+                        component: LoginDomain,
+                        meta: {
+                            middleware: [Middlewares.guest]
+                        }
                     },
                     {
                         path: '/register',
                         name: 'register',
-                        component: Register
+                        component: Register,
+                        meta: {
+                            middleware: [Middlewares.guest]
+                        }
                     },
                 ]
             },

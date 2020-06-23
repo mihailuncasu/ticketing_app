@@ -35,5 +35,6 @@ Route::middleware('tenant.exists')->group(function () {
         Route::apiResource('users', 'Api\UserController');
         Route::apiResource('roles', 'Api\RoleController');
         Route::apiResource('permissions', 'Api\PermissionController');
+        Route::apiResource('groups', 'Api\GroupController');
     });
 });

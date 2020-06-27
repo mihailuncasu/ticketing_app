@@ -10,8 +10,14 @@
             <span>{{ item.name }}</span>
         </template>
         <template v-slot:item.roles="{ item }">
-            <v-chip-group>
-                <v-chip v-for="role in item.roles">{{ role.display_name }}</v-chip>
+            <v-chip-group show-arrows>
+                <v-chip v-for="role in item.roles"
+                        :key="role.id"
+                        color="blue"
+                        outlined
+                >
+                    {{ role.display_name }}
+                </v-chip>
             </v-chip-group>
         </template>
         <template v-slot:item.created_at="{ item }">
@@ -28,7 +34,7 @@
                            vertical
                 ></v-divider>
                 <v-spacer></v-spacer>
-                <v-dialog v-model="dialog" max-width="500px">
+                <v-dialog v-model="dialog" max-width="1000px">
                     <template v-slot:activator="{ on }">
                         <v-btn color="primary" dark class="mb-2" v-on="on">New User</v-btn>
                     </template>
@@ -43,7 +49,7 @@
                             >
                                 <v-container>
                                     <v-row>
-                                        <v-flex xs12>
+                                        <v-col cols="12">
                                             <v-text-field v-model="input.name"
                                                           label="Full Name"
                                                           name="name"
@@ -52,8 +58,8 @@
                                                           :rules="[...nameRules]"
                                                           @input="errors.name = []"
                                             />
-                                        </v-flex>
-                                        <v-flex xs12>
+                                        </v-col>
+                                        <v-col cols="12">
                                             <v-text-field v-model="input.email"
                                                           label="E-mail"
                                                           name="email"
@@ -62,56 +68,63 @@
                                                           :rules="[...emailRules]"
                                                           @input="errors.email = []"
                                             />
-                                        </v-flex>
-                                        <v-flex xs12>
-                                            <h2 class="title mb-2">Grant Role(s)</h2>
-                                            <v-chip-group v-model="input.roles"
-                                                          column
-                                                          multiple
+                                        </v-col>
+                                        <v-col cols="12">
+                                            <v-select v-model="input.roles"
+                                                      :items="roles"
+                                                      label="Roles"
+                                                      :rules="[...requiredRoleRules]"
+                                                      item-text="display_name"
+                                                      return-object
+                                                      multiple
+                                                      chips
+                                                      outlined
+                                            />
+                                            <v-subheader v-if="input.roles.length">Permissions Granted By Roles
+                                            </v-subheader>
+                                            <v-expansion-panels popout
+                                                                multiple
                                             >
-                                                <v-chip v-for="role in roles"
-                                                        filter
-                                                        outlined
-                                                        itemtype="obj"
+                                                <v-expansion-panel v-for="role in input.roles"
+                                                                   :key="role.id"
+                                                                   v-if="role.permissions.length"
                                                 >
-                                                    {{ role.display_name }}
-                                                </v-chip>
-                                            </v-chip-group>
-                                        </v-flex>
-                                        <v-flex xs12 v-if="input.roles">
-                                            <h2 class="title mb-2">Role(s) Permissions</h2>
-                                            <v-chip-group v-model="rolesPermissions"
-                                                          column
-                                                          multiple
-                                            >
-                                                <v-chip v-for="permission in rolesPermissions"
-                                                        filter
-                                                        outlined
-                                                        disabled
-                                                >
-                                                    {{ permission.display_name }}
-                                                </v-chip>
-                                            </v-chip-group>
-                                        </v-flex>
-                                        <v-flex xs12>
-                                            <h2 class="title mb-2">Grant Custom Permissions</h2>
-                                            <v-chip-group v-model="input.permissions"
-                                                          column
-                                                          multiple
-                                            >
-                                                <v-chip v-for="permission in remainingPermissions"
-                                                        filter
-                                                        outlined
-                                                >
-                                                    {{ permission.display_name }}
-                                                </v-chip>
-                                            </v-chip-group>
-                                        </v-flex>
+                                                    <v-expansion-panel-header>
+                                                        <b>{{role.display_name}}</b>Show Permissions
+                                                    </v-expansion-panel-header>
+                                                    <v-expansion-panel-content>
+                                                        <v-chip-group column>
+                                                            <v-chip v-for="permission in role.permissions"
+                                                                    :key="permission.id"
+                                                                    color="blue"
+                                                                    outlined
+                                                            >
+                                                                {{permission.display_name}}
+                                                            </v-chip>
+                                                        </v-chip-group>
+                                                    </v-expansion-panel-content>
+                                                </v-expansion-panel>
+                                            </v-expansion-panels>
+                                        </v-col>
+
+                                        <v-col cols="12">
+                                            <v-select v-model="input.permissions"
+                                                      :items="remainingPermissions"
+                                                      label="Extra Permissions"
+                                                      item-text="display_name"
+                                                      return-object
+                                                      multiple
+                                                      chips
+                                                      outlined
+                                                      no-data-text="This user has all permissions included in his roles"
+                                            />
+                                        </v-col>
+
                                         <v-switch v-if="editedIndex < 0"
                                                   v-model="autoPassword"
                                                   label="Generate random password"
                                         />
-                                        <v-flex xs12 v-if="!autoPassword">
+                                        <v-col cols="12" v-if="!autoPassword">
                                             <v-text-field v-model="input.password"
                                                           label="Password"
                                                           :rules="[...passwordRules]"
@@ -119,14 +132,14 @@
                                                           @input="errors.password = []"
                                                           type="password"
                                             />
-                                        </v-flex>
-                                        <v-flex xs12 v-if="!autoPassword">
+                                        </v-col>
+                                        <v-col cols="12" v-if="!autoPassword">
                                             <v-text-field v-model="input.password_confirmation"
                                                           label="Password Confirm"
                                                           :rules="[...passwordConfirmationRules]"
                                                           type="password"
                                             />
-                                        </v-flex>
+                                        </v-col>
                                     </v-row>
                                 </v-container>
                             </v-form>
@@ -215,14 +228,10 @@
                 password_confirmation: ''
             },
             errors: {},
-            loading: false
+            loading: false,
         }),
 
-        filters: {
-            roleToChip(roles) {
-                return roles.map(x => x.display_name);
-            }
-        },
+        filters: {},
 
         computed: {
             ...mapGetters({
@@ -231,23 +240,26 @@
                 permissions: 'permissions/permissions',
             }),
 
-            rolesPermissions() {
-                if (this.dialog)
-                return this.input.roles[0].permissions;
-            },
-
-            remainingPermissions() {
-                /*if (this.input.role.permissions !== undefined) {
-                    return this.permissions.filter((permission) => {
-                        return this.input.role.permissions.indexOf(permission) > -1;
-                    });
-                }*/
-                return this.permissions;
-            },
-
             formTitle() {
                 return this.editedIndex === -1 ? 'New User' : 'Edit User'
             },
+
+            remainingPermissions() {
+                if (this.dialog) {
+                    let remainingPermissions = [];
+                    let usedPermissions = [];
+
+                    this.input.roles.forEach(r => {
+                        usedPermissions = usedPermissions.concat(r.permissions);
+                    });
+                    this.permissions.forEach(p => {
+                        if (usedPermissions.find(x => x.id === p.id) === undefined) {
+                            remainingPermissions.push(p);
+                        }
+                    });
+                    return remainingPermissions;
+                }
+            }
         },
 
         watch: {
@@ -324,9 +336,6 @@
             },
 
             save() {
-                console.log(this.input.roles);
-                console.log(this.input.permissions);
-                return;
                 this.loading = true;
                 if (this.editedIndex > -1) {
                     // Update;

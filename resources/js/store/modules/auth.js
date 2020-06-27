@@ -5,7 +5,8 @@ const auth = {
     // State;
     state: () => ({
         isLoggedIn: false,
-        userDetails: {}
+        userDetails: {},
+        userMenu: {}
     }),
 
     // Getters;
@@ -15,16 +16,19 @@ const auth = {
         },
         userDetails(state) {
             return state.userDetails;
+        },
+        userMenu(state) {
+            return state.userMenu;
         }
     },
 
     // Mutations;
     mutations: {
-        SET_LOGGED_IN(state, payload) {
-            state.isLoggedIn = payload;
-        },
         SET_USER_DETAILS(state, payload) {
             state.userDetails = payload;
+        },
+        SET_USER_MENU(state, payload) {
+            state.userMenu = payload;
         }
     },
 
@@ -132,7 +136,6 @@ const auth = {
             return new Promise((resolve, reject) => {
                 api.login(payload).then(({data}) => {
                     localStorage.setItem('token', data.access_token);
-                    commit('SET_LOGGED_IN', true);
                     dispatch('profileAction').then(() => {
                         dispatch('application/showResultNotificationAction', {
                             message: data.message,
@@ -168,7 +171,6 @@ const auth = {
                         color: 'green'
                     }, {root: true});
                     localStorage.removeItem('token');
-                    commit('SET_LOGGED_IN', false);
                     resolve();
                 }).catch(({response}) => {
                     dispatch('application/showResultNotificationAction', {
@@ -185,10 +187,11 @@ const auth = {
         profileAction({commit}) {
             return new Promise((resolve, reject) => {
                 api.profile().then(({data}) => {
-                    commit('SET_USER_DETAILS', data.data);
-                    resolve(data);
+                    commit('SET_USER_DETAILS', data.profile);
+                    commit('SET_USER_MENU', data.menu);
+                    resolve();
                 }).catch(({response}) => {
-                    reject(response);
+                    reject();
                 });
             });
         }

@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Events\UserCreatedEvent;
 use App\Http\Resources\UserResource;
 use App\Notifications\RegisterUser;
+use App\Permission;
+use App\Role;
 use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -21,17 +24,26 @@ class UserController extends Controller
      */
     public function index()
     {
+        /*$p = Permission::where('group_slug','main')->get();
+        $role = Role::admin()->first();
+        $role->permisions->sync( $p->pluck('slug')->toArray());
+        $role->givePermissionTo('main', $p->pluck('slug')->toArray());
+        dd($role->permissions);*/
         return UserResource::collection(User::all());
     }
 
     /**
      * Display user data as resource.
      *
-     * @return UserResource
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
      */
     public function profile()
     {
-        return new UserResource(Auth::user());
+        $data = new UserResource(Auth::user());
+        return response([
+            'profile' => $data,
+            'menu' => Auth::user()->getUserMenu()
+        ], Response::HTTP_CREATED);
     }
 
     /**
@@ -65,11 +77,10 @@ class UserController extends Controller
         ]);
 
         // Assign the avatar;
-        $avatar_url = 'https://img.favpng.com/2/12/12/computer-icons-portable-network-graphics-user-profile-avatar-png-favpng-L1ihcbxsHbnBKBvjjfBMFGbb7.jpg';
-        $user->addMediaFromUrl($avatar_url)->toMediaCollection('avatar');
+        event(new UserCreatedEvent($user));
 
-        if ($request->has('role')) {
-            $user->assignRole($request->role['name']);
+        if ($request->has('roles')) {
+            $user->assignRole(collect($request->roles)->pluck('name')->toArray());
         }
 
         if ($request->has('permissions')) {
@@ -98,7 +109,7 @@ class UserController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:tenant.users,email,'.$user->id],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:tenant.users,email,' . $user->id],
         ]);
 
         $user->update([
@@ -107,8 +118,8 @@ class UserController extends Controller
             'updated_at' => now()
         ]);
 
-        if ($request->has('role')) {
-            $user->syncRoles($request->role['name']);
+        if ($request->has('roles')) {
+            $user->syncRoles(collect($request->roles)->pluck('name')->toArray());
         }
 
         if ($request->has('permissions')) {

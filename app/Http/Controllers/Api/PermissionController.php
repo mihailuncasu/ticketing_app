@@ -4,8 +4,14 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\PermissionResource;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Permission;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 use Symfony\Component\HttpFoundation\Response;
 
 class PermissionController extends Controller
@@ -21,32 +27,61 @@ class PermissionController extends Controller
     }
 
     /**
+     * Get a validator for an incoming registration request.
+     *
+     * @param array $data
+     * @param Permission $permission
+     * @return \Illuminate\Contracts\Validation\Validator
+     */
+    protected function validator(array $data, Permission $permission = null)
+    {
+        $id = $permission ? $permission->id : null;
+        return Validator::make($data, [
+            'name' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('permissions')->ignore($id)->where('group_slug', $data['group_slug'])
+            ],
+        ]);
+    }
+
+    /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     * @return AnonymousResourceCollection
      */
-    public function index()
+    public function index(Request $request)
     {
-         return PermissionResource::collection($this->permission->all());
+        return PermissionResource::collection($this->permission->where('group_slug', $request->group_slug)->get());
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return JsonResponse
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'name' => ['required', 'string', 'max:255', 'unique:tenant.permissions,name']
-        ]);
+        if (Gate::denies("create-permission", $request->group_slug)) {
+            return response()->json([
+                'message' => 'Action forbidden. You don\'t have the permission to do that',
+                'redirect' => 'home'
+            ], Response::HTTP_FORBIDDEN);
+        }
+
+        $request->name = Str::lower($request->name);
+
+        $data = $this->validator($request->all())->validate();
+
         $permission = $this->permission->create([
-            'name' => $request->name,
-            'display_name' => ucwords($request->name)
+            'name' => $data['name'],
+            'display_name' => Str::title($request['name']),
+            'group_slug' => $request->group_slug
         ]);
 
-        return response([
+        return response()->json([
             'message' => 'Permission created',
             'payload' => PermissionResource::make($permission)
         ], Response::HTTP_OK);
@@ -55,36 +90,51 @@ class PermissionController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      * @param int $id
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      */
     public function update(Request $request, Permission $permission)
     {
-        $request->validate([
-            'name' => ['required', 'string', 'max:255', 'unique:tenant.permissions,name,'.$permission->id]
-        ]);
+        if (Gate::denies("edit-permission", $request->group_slug)) {
+            return response()->json([
+                'message' => 'Action forbidden. You don\'t have the permission to do that',
+                'redirect' => 'home'
+            ], Response::HTTP_FORBIDDEN);
+        }
+
+        $request->name = Str::lower($request->name);
+        $permission->slug = null;
+
+        $data = $this->validator($request->all(), $permission)->validate();
 
         $permission->update([
-            'name' => $request->name,
-            'display_name' => ucwords($request->name),
+            'name' => $data['name'],
+            'display_name' => Str::title($data['name']),
             'updated_at' => now()
         ]);
 
-        return response([
+        return response()->json([
             'message' => 'Permission updated',
             'payload' => PermissionResource::make($permission)
-        ],Response::HTTP_OK);
+        ], Response::HTTP_OK);
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param int $id
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
+        if (Gate::denies("delete-permission", $request->group_slug)) {
+            return response()->json([
+                'message' => 'Action forbidden. You don\'t have the permission to do that',
+                'redirect' => 'home'
+            ], Response::HTTP_FORBIDDEN);
+        }
+
         $this->permission->destroy($id);
 
         return response()->json([

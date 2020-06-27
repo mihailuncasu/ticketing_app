@@ -41,7 +41,7 @@
                                         <v-col cols="12">
                                             <v-text-field v-model="input.name"
                                                           label="Role Name"
-                                                          name="name"
+                                                          item-text="display_name"
                                                           :counter="lengths.role.max"
                                                           :rules="[...roleRules]"
                                                           :error-messages="errors.name"
@@ -53,7 +53,7 @@
                                                     v-model="input.permissions"
                                                     :items="permissions"
                                                     label="Permissions"
-                                                    item-text="name"
+                                                    item-text="display_name"
                                                     return-object
                                                     multiple
                                                     chips

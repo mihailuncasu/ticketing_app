@@ -14,9 +14,9 @@ Vue.use(Vuex);
 Vue.use(require('vue-moment'));
 
 export const app = new Vue({
+    store: store,
     router,
     vuetify,
-    store: store,
     render: h => h(App),
     el: '#app',
 });

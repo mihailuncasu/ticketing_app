@@ -8,7 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Group extends Model
 {
-     use Sluggable;
+    use Sluggable;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -20,8 +21,7 @@ class Group extends Model
 
     public function users()
     {
-        return $this
-            ->belongsToMany(User::class)
+        return $this->belongsToMany(User::class, 'groups_users')
             ->withPivot(['added_by'])
             ->withTimestamps();
     }

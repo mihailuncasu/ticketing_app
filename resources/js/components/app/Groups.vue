@@ -31,7 +31,7 @@
 
                             <template v-slot:progress>
                                 <v-progress-linear absolute
-                                                   color="green lighten-3"
+                                                   color="white"
                                                    height="4"
                                                    indeterminate
                                 ></v-progress-linear>
@@ -99,18 +99,15 @@
                                                     </template>
                                                     <template v-slot:item="data">
                                                         <template v-if="typeof data.item !== 'object'">
-                                                            <v-list-item-content
-                                                                    v-text="data.item"></v-list-item-content>
+                                                            <v-list-item-content v-text="data.item"/>
                                                         </template>
                                                         <template v-else>
                                                             <v-list-item-avatar>
                                                                 <img :src="data.item.avatar">
                                                             </v-list-item-avatar>
                                                             <v-list-item-content>
-                                                                <v-list-item-title
-                                                                        v-html="data.item.name"></v-list-item-title>
-                                                                <v-list-item-subtitle
-                                                                        v-html="data.item.email"></v-list-item-subtitle>
+                                                                <v-list-item-title v-html="data.item.name"/>
+                                                                <v-list-item-subtitle v-html="data.item.email"/>
                                                             </v-list-item-content>
                                                         </template>
                                                     </template>

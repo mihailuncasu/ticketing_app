@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Events\AdminHasRegisteredEvent;
+use App\Events\UserCreatedEvent;
+use App\Role;
 use App\Tenant;
 use App\User;
 use App\Http\Controllers\Controller;
@@ -71,7 +74,8 @@ class RegisterController extends Controller
         // Use only the validated data;
         $user = $this->create($validator->validated());
 
-        $user->sendEmailVerificationNotification();
+        // Emit event;
+        event(new AdminHasRegisteredEvent($user));
 
         return response()->json([
             'redirect' => 'loginDomain',
@@ -109,34 +113,29 @@ class RegisterController extends Controller
             return response()->json([
                 'valid' => false,
                 'error' => 'The given domain is invalid or already in use'
-            ], 422);
+            ], Response::HTTP_UNPROCESSABLE_ENTITY);
         } else {
             return response()->json([
                 'valid' => true,
                 'message' => 'Domain is available'
-            ], 200);
+            ], Response::HTTP_OK);
         }
     }
 
     /**
      * Create a new user instance after a valid registration.
-     *
+     * Create a new group and add the user to the group.
+     * The group is the "admin" group knowing that just one user can register to our application.
      * @param array $data
      * @return \App\User
      */
-    protected function create(array $data)
+    protected function create($data)
     {
         $user = User::create([
-            'name' => ucfirst($data['name']),
+            'name' => ucwords($data['name']),
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
-
-        // Add avatar img;
-        $avatar_url = 'https://img.favpng.com/2/12/12/computer-icons-portable-network-graphics-user-profile-avatar-png-favpng-L1ihcbxsHbnBKBvjjfBMFGbb7.jpg';
-        $user->addMediaFromUrl($avatar_url)->toMediaCollection('avatar');
-
-        $user->assignRole('admin');
 
         return $user;
     }

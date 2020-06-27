@@ -44,7 +44,6 @@
                                             <v-col cols="12">
                                                 <v-text-field v-model="input.name"
                                                               label="Permission Name"
-                                                              name="name"
                                                               :counter="lengths.permission.max"
                                                               :error-messages="errors.name"
                                                               :rules="[...permissionRules]"

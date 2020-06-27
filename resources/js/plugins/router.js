@@ -1,5 +1,6 @@
 import routes from '@/config/routes';
 import VueRouter from 'vue-router';
+import {app} from '@/app';
 
 window.Vue = require('vue');
 
@@ -30,6 +31,7 @@ function nextFactory(context, middleware, index) {
 }
 
 router.beforeEach((to, from, next) => {
+    console.log(to);
     if (to.meta.middleware) {
         const middleware = Array.isArray(to.meta.middleware)
             ? to.meta.middleware

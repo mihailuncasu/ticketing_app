@@ -64,6 +64,7 @@ class RoleController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Role $role) {
+
         $request->validate([
             'name' => ['required', 'string', 'max:255', 'unique:tenant.roles,name,'.$role->id]
         ]);
@@ -75,7 +76,12 @@ class RoleController extends Controller
         ]);
 
         if ($request->has('permissions')) {
-            $role->syncPermissions(collect($request->permissions)->pluck('id')->toArray());
+            $role->givePermissionsToUsingSlug(
+                $request->group_slug,
+                collect($request->permissions)
+                    ->pluck('slug')
+                    ->toArray()
+            );
         }
 
         return response([

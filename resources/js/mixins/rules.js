@@ -38,7 +38,7 @@ export default {
                 v => !!v || 'Field is required',
             ],
             requiredRoleRules: [
-                v => !!v.name || 'Role is required',
+                v => v.length > 0 || 'Role is required',
             ],
             roleRules: [
                 v => !!v || 'Role name is required',

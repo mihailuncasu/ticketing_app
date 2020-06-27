@@ -2,10 +2,12 @@
 
 namespace App\Providers;
 
+use App\Events\AdminGroupCreatedEvent;
+use App\Events\AdminHasRegisteredEvent;
+use App\Events\GroupCreatedEvent;
+use App\Events\UserCreatedEvent;
 use Hyn\Tenancy\Events\Websites\Switched;
 use Illuminate\Support\Facades\Event;
-use Illuminate\Auth\Events\Registered;
-use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
 class EventServiceProvider extends ServiceProvider
@@ -16,9 +18,23 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        Registered::class => [
-            SendEmailVerificationNotification::class,
+        AdminHasRegisteredEvent::class => [
+            \App\Listeners\CreateAdminGroupListener::class,
+            \App\Listeners\AttachNewUserMediaListener::class,
+            \App\Listeners\SendEmailVerificationListener::class
         ],
+
+        AdminGroupCreatedEvent::class => [
+            \App\Listeners\CreateAdminRolesAndPermissionsListener::class,
+        ],
+
+        UserCreatedEvent::class => [
+            \App\Listeners\AttachNewUserMediaListener::class,
+        ],
+
+        GroupCreatedEvent::class => [
+            \App\Listeners\CreateRolesAndPermissionsListener::class,
+        ]
     ];
 
     /**

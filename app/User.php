@@ -4,11 +4,12 @@ namespace App;
 
 use App\Notifications\ResetPassword as ResetPasswordNotification;
 use App\Notifications\VerifyEmail as VerifyEmailNotification;
+use App\Traits\HasPermissions;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticable;
 use Hyn\Tenancy\Traits\UsesTenantConnection;
-use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Support\Str;
 use Laravel\Passport\HasApiTokens;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
@@ -16,7 +17,7 @@ use Spatie\MediaLibrary\Models\Media;
 
 class User extends Authenticable implements MustVerifyEmail, HasMedia
 {
-    use Notifiable, UsesTenantConnection, HasRoles, HasApiTokens, HasMediaTrait;
+    use Notifiable, UsesTenantConnection, HasApiTokens, HasMediaTrait, HasPermissions;
 
     /**
      * The attributes that are mass assignable.
@@ -45,12 +46,68 @@ class User extends Authenticable implements MustVerifyEmail, HasMedia
         'email_verified_at' => 'datetime',
     ];
 
+    /**
+     * Eloquent relations.
+     */
     public function groups()
     {
-        return $this
-            ->belongsToMany(Group::class)
+        return $this->belongsToMany(Group::class, 'groups_users')
             ->withPivot(['added_by'])
             ->withTimestamps();
+    }
+
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class, 'users_roles');
+    }
+
+    public function permissions()
+    {
+        return $this->belongsToMany(Permission::class, 'users_permissions');
+    }
+
+    public function getAllPermissions() {
+        $permissions = [];
+        foreach($this->roles as $role) {
+            foreach($role->permissions as $permission) {
+                $permissions[] = $permission;
+            }
+        }
+        foreach($this->permissions as $permission) {
+            $permissions[] = $permission;
+        }
+        return array_unique($permissions);
+    }
+
+    public function getUserMenu() {
+        $menuItems = [];
+        $permissions = $this->getAllPermissions();
+        foreach($permissions as $permission) {
+            $permissionName = $permission->name;
+            $groupSlug = $permission->group_slug;
+            $menuTitle = Group::where('slug', $groupSlug)->first()->name;
+            if (Str::startsWith($permissionName,'view') && Str::endsWith($permissionName, 'dashboard')) {
+                $permissionTitle = Str::after($permissionName, 'view');
+                $permissionTitle = Str::before($permissionTitle, 'dashboard');
+                $permissionTitle = Str::title($permissionTitle);
+                $permissionSlug = $permission->slug;
+                $menuItems[$menuTitle][] = [
+                    'title' => $permissionTitle,
+                    'to' => "/$groupSlug/$permissionSlug",
+                    'icon' => 'mdi-account'
+                ];
+            }
+        }
+        return $menuItems;
+    }
+
+    public function hasRole($group_slug, ...$roles)
+    {
+        // $user->hasRole('group-1', 'admin', 'developer');
+        return $this->roles()
+            ->where('group_slug', $group_slug)
+            ->whereIn('slug', $roles)
+            ->count();
     }
 
     public function sendPasswordResetNotification($token)
@@ -70,19 +127,18 @@ class User extends Authenticable implements MustVerifyEmail, HasMedia
 
     public function registerMediaCollections()
     {
-        $this
-            ->addMediaCollection('avatar')
+        $this->addMediaCollection('avatar')
             ->acceptsMimeTypes(['image/jpeg', 'image/gif', 'image/png', 'image/bmp']);
     }
 
     public function registerMediaConversions(Media $media = null)
     {
         $this->addMediaConversion('thumb')
-              ->width(100)
-              ->height(100);
+            ->width(100)
+            ->height(100);
 
         $this->addMediaConversion('profile')
-              ->width(200)
-              ->height(200);
+            ->width(200)
+            ->height(200);
     }
 }

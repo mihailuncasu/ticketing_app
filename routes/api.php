@@ -20,7 +20,7 @@ Route::domain('websolutions.test')->group(function () {
     Route::post('domain-login', 'Auth\LoginController@domainLogin');
 });
 
-Route::middleware('tenant.exists')->group(function () {
+Route::middleware(['tenant.exists'])->group(function () {
     // Login
     Route::post('login', 'Auth\LoginController@login');
     // Email verification;

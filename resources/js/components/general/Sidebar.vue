@@ -1,41 +1,47 @@
 <template>
-    <v-list dense>
-        <v-list-item exact :to="links.dashboard.to">
+    <v-list dense
+            v-if="showMenu"
+            shaped
+    >
+        <v-list-item color="primary"
+                     :to="links.dashboard.to"
+                     ripple
+        >
             <v-list-item-icon>
-                <v-icon v-text="links.dashboard.icon"></v-icon>
+                <v-icon>{{links.dashboard.icon}}</v-icon>
             </v-list-item-icon>
-            <v-list-item-title v-text="links.dashboard.title"></v-list-item-title>
+            <v-list-item-content>
+                <v-list-item-title v-text="links.dashboard.title"></v-list-item-title>
+            </v-list-item-content>
         </v-list-item>
 
         <v-divider class="mx-4"></v-divider>
 
-        <v-list-group prepend-icon="mdi-settings_applications" no-action>
+        <v-list-group no-action
+                      v-for="(items, menuTitle) in menuItems"
+                      :key="menuTitle"
+                      color="primary"
+        >
             <template v-slot:activator>
-                <v-list-item-content>
-                    <v-list-item-title>User management</v-list-item-title>
-                </v-list-item-content>
-            </template>
-            <v-list-item v-for="(admin, i) in admins" :key="i" :to="admin.to">
                 <v-list-item-icon>
-                    <v-icon>mdi-view-dashboard-variant</v-icon>
+                    <v-icon>mdi-home</v-icon>
                 </v-list-item-icon>
                 <v-list-item-content>
-                    <v-list-item-title v-text="admin.title"></v-list-item-title>
+                    <v-list-item-title v-text="menuTitle"/>
+                </v-list-item-content>
+            </template>
+            <v-list-item v-for="(item, i) in items" :key="i" :to="item.to">
+                <v-list-item-icon>
+                    <v-icon>{{ item.icon }}</v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                    <v-list-item-title v-text="item.title"/>
                 </v-list-item-content>
             </v-list-item>
         </v-list-group>
 
         <v-divider class="mx-4"></v-divider>
 
-       <!-- <v-list-item exact :to="links.theme.to">
-            <v-list-item-icon>
-                <v-icon v-text="links.theme.icon"></v-icon>
-            </v-list-item-icon>
-            <v-list-item-title v-text="links.theme.title"></v-list-item-title>
-        </v-list-item>-->
-
-        <v-divider class="mx-4" vertical></v-divider>
-        <v-spacer></v-spacer>
         <v-list-item @click="logout">
             <v-list-item-icon>
                 <v-icon v-text="actions.logout.icon"></v-icon>
@@ -52,16 +58,29 @@
 </template>
 
 <script>
-    import {mapActions} from 'vuex';
+    import {mapActions, mapGetters} from 'vuex';
 
     export default {
+        computed: {
+            ...mapGetters({
+                menuItems: 'auth/userMenu'
+            }),
+        },
+
+        async mounted() {
+            await this.profileAction().then(() => {
+                this.showMenu = true;
+            });
+        },
+
         data: () => ({
+            isCollapsed: true,
+            showMenu: false,
             links: {
-                dashboard: {title: 'Home', to: '/', icon: 'mdi-dashboard'},
-                //theme: {title: 'Theme management', to: '/dashboard/theme', icon: 'color_lens'},
+                dashboard: {title: 'Home', to: '/', icon: 'mdi-home'},
             },
             actions: {
-                logout: {title: 'Logout', icon: 'mdi-power_settings_new'}
+                logout: {title: 'Logout', icon: 'mdi-power_settings_new'},
             },
             admins: [
                 {title: 'Users', to: '/admin/users', icon: 'mdi-account_circle'},
@@ -69,9 +88,11 @@
                 {title: 'Permissions', to: '/admin/permissions', icon: 'mdi-pan_tool'}
             ]
         }),
+
         methods: {
             ...mapActions({
-                logoutAction: 'auth/logoutAction'
+                logoutAction: 'auth/logoutAction',
+                profileAction: 'auth/profileAction',
             }),
 
             logout() {

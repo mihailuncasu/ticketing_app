@@ -4,18 +4,23 @@ namespace App;
 
 use Cviebrock\EloquentSluggable\Sluggable;
 use Hyn\Tenancy\Traits\UsesTenantConnection;
-use Spatie\Permission\Models\Permission as SpatieModel;
+use Illuminate\Database\Eloquent\Model;
 
-class Permission extends SpatieModel
+class Permission extends Model
 {
     use UsesTenantConnection, Sluggable;
+
     /**
      * The attributes that should be hidden for arrays.
      *
      * @var array
      */
     protected $hidden = [
-        'guard_name', 'remember_token',
+        'pivot'
+    ];
+
+    protected $fillable = [
+        'name', 'group_slug', 'updated_at', 'display_name'
     ];
 
     /**
@@ -30,5 +35,10 @@ class Permission extends SpatieModel
                 'source' => 'name'
             ]
         ];
+    }
+
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class, 'roles_permissions');
     }
 }

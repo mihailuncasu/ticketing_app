@@ -63,6 +63,7 @@ class Kernel extends HttpKernel
         'verified' => \App\Http\Middleware\EnsureEmailIsVerified::class,
         'tenancy.enforce' => \App\Http\Middleware\EnforceTenancy::class,
         'tenant.exists' => \App\Http\Middleware\TenantExists::class,
+        'group.exists' => \App\Http\Middleware\GroupExists::class,
     ];
 
     /**

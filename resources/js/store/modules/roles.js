@@ -89,7 +89,7 @@ const roles = {
             }, {root: true});
             return new Promise((resolve, reject) => {
                 api.deleteRole(payload).then(({data}) => {
-                    commit('DELETE_ROLE', data.payload);
+                    commit('DELETE_ROLE', payload);
                     dispatch('application/showResultNotificationAction', {
                         message: data.message,
                         color: 'green'

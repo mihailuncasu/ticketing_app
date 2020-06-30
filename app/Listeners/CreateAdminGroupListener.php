@@ -13,21 +13,25 @@ class CreateAdminGroupListener
     /**
      * Handle the event.
      *
-     * @param  object  $event
+     * @param object $event
      * @return void
      */
     public function handle($event)
     {
         // Create the group;
         $group = Group::create([
-            'name' => ucwords('admin'),
-            'description' => 'Admin group',
+            'name' => ucwords('company'),
+            'description' => 'The big company group',
             'created_by' => $event->user->id,
         ]);
 
         event(new AdminGroupCreatedEvent($group));
 
         $adminRole = Role::admin($group->slug)->first();
-        $event->user->roles()->attach($adminRole->id);
+        $memberRole = Role::member($group->slug)->first();
+
+        $event->user->roles()->attach([$adminRole->id, $memberRole->id]);
+
+        $group->users()->attach($event->user->id, ['added_by' => $group->created_by]);
     }
 }

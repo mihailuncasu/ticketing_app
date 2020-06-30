@@ -7,6 +7,7 @@ import permissions from "@/store/modules/permissions";
 import auth from "@/store/modules/auth";
 import application from "@/store/modules/application";
 import groups from "@/store/modules/groups";
+import members from "@/store/modules/members";
 
 Vue.use(Vuex)
 
@@ -21,7 +22,8 @@ const store = new Vuex.Store({
         roles,
         permissions,
         auth,
-        groups
+        groups,
+        members
     },
 });
 

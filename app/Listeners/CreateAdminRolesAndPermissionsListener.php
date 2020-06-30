@@ -5,8 +5,6 @@ namespace App\Listeners;
 use App\Events\AdminGroupCreatedEvent;
 use App\Permission;
 use App\Role;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Str;
 
 class CreateAdminRolesAndPermissionsListener
@@ -34,6 +32,26 @@ class CreateAdminRolesAndPermissionsListener
             'create group',
             'edit group',
             'delete group',
+            'edit permission',
+            'delete permission',
+            'view tickets dashboard',
+            'view group chat dashboard',
+            'view members dashboard',
+            'view news dashboard',
+        ])->map(function ($name) use ($event) {
+            return Permission::create([
+                'name' => $name,
+                'display_name' => Str::title($name),
+                'group_slug' => $event->group->slug
+            ]);
+        });
+
+        // Create permissions for a normal user;
+        $memberPermission = collect([
+            'view tickets dashboard',
+            'view group chat dashboard',
+            'view members dashboard',
+            'view news dashboard',
         ])->map(function ($name) use ($event) {
             return Permission::create([
                 'name' => $name,
@@ -49,6 +67,14 @@ class CreateAdminRolesAndPermissionsListener
             'group_slug' => $event->group->slug
         ]);
 
+        // Add admin role
+        $memberRole = Role::create([
+            'name' => 'member',
+            'display_name' => 'Member',
+            'group_slug' => $event->group->slug
+        ]);
+
         $adminRole->givePermissionsTo($adminPermissions->pluck('id')->toArray());
+        $memberRole->givePermissionsTo($memberPermission->pluck('id')->toArray());
     }
 }

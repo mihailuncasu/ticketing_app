@@ -2,55 +2,49 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b39e05c8-a5cf-4120-bde8-695fd0470446" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/app/Events/AdminGroupCreatedEvent.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Events/AdminHasRegisteredEvent.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Events/GroupCreatedEvent.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Events/UserCreatedEvent.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Http/Middleware/GroupExists.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Listeners/AttachNewUserMediaListener.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Listeners/CreateAdminGroupListener.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Listeners/CreateAdminRolesAndPermissionsListener.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Listeners/CreateRolesAndPermissionsListener.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Listeners/SendEmailVerificationListener.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Traits/HasPermissions.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/database/migrations/tenant/2020_06_25_014819_create_permissions_table.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/database/migrations/tenant/2020_06_25_014837_create_roles_table.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/database/migrations/tenant/2020_06_25_021912_create_users_permissions_table.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/database/migrations/tenant/2020_06_25_021937_create_roles_permissions_table.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/database/migrations/tenant/2020_06_25_040727_create_users_roles_table.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/js/middlewares/group.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/js/api/members.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/js/components/app/Members.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/js/store/modules/members.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/websolutions.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/websolutions.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Group.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Group.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/GroupController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/GroupController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/PermissionController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/PermissionController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/RoleController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/RoleController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/UserController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Auth/RegisterController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Auth/RegisterController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Kernel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Kernel.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Permission.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Permission.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Auth/VerificationController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Auth/VerificationController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Resources/GroupResource.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Resources/GroupResource.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Resources/UserResource.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Resources/UserResource.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Listeners/CreateAdminGroupListener.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Listeners/CreateAdminGroupListener.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Listeners/CreateAdminRolesAndPermissionsListener.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Listeners/CreateAdminRolesAndPermissionsListener.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Listeners/CreateRolesAndPermissionsListener.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Listeners/CreateRolesAndPermissionsListener.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Providers/EventServiceProvider.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Providers/EventServiceProvider.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Providers/PermissionsServiceProvider.php" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Role.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Role.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Traits/HasPermissions.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Traits/HasPermissions.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/User.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/config/app.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/app.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/permission.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/tenant/2020_04_13_032739_create_permission_tables.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/tenant/2020_06_20_095510_create_group_user_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/tenant/2020_06_20_095510_create_groups_users_table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/tenant/2020_06_23_030157_add_columns_to_permission_tables.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/seeds/TenantDatabaseSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeds/TenantDatabaseSeeder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/database.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/database.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/tenant/2020_06_20_095510_create_groups_users_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/tenant/2020_06_20_095510_create_groups_users_table.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/app.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/js/components/app/Groups.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/app/Groups.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/components/app/Permissions.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/app/Permissions.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/components/app/Roles.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/app/Roles.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/components/app/Users.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/app/Users.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/js/components/general/Sidebar.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/general/Sidebar.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/components/layouts/AppLayout.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/layouts/AppLayout.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/js/config/routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/config/routes.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/middlewares/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/middlewares/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/middlewares/group.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/middlewares/group.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/js/mixins/rules.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/mixins/rules.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/js/plugins/axios.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/plugins/axios.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/js/plugins/router.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/plugins/router.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/js/store/modules/auth.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/store/modules/auth.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/store/modules/groups.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/store/modules/groups.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/store/modules/roles.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/store/modules/roles.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/store/modules/users.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/store/modules/users.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/store/store.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/store/store.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/app.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/app.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -140,7 +134,6 @@
       <path value="$PROJECT_DIR$/vendor/symfony/css-selector" />
       <path value="$PROJECT_DIR$/vendor/doctrine/lexer" />
       <path value="$PROJECT_DIR$/vendor/swiftmailer/swiftmailer" />
-      <path value="$PROJECT_DIR$/vendor/spatie/laravel-permission" />
       <path value="$PROJECT_DIR$/vendor/doctrine/inflector" />
       <path value="$PROJECT_DIR$/vendor/doctrine/instantiator" />
       <path value="$PROJECT_DIR$/vendor/doctrine/dbal" />
@@ -219,15 +212,15 @@
     <property name="ts.external.directory.path" value="C:\Program Files\JetBrains\PhpStorm 2020.1\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\xampp\htdocs\websolutions\database\migrations\tenant" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\xampp\htdocs\websolutions\database\migrations\tenant" />
       <recent name="C:\xampp\htdocs\websolutions\storage\app\public" />
       <recent name="C:\xampp\htdocs\websolutions\app" />
       <recent name="C:\xampp\htdocs\websolutions\resources\js\components\landing" />
       <recent name="C:\xampp\htdocs\websolutions\resources\js\components\general" />
-    </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\xampp\htdocs\websolutions\database\migrations\tenant" />
     </key>
   </component>
   <component name="RunManager">
@@ -265,7 +258,10 @@
       <workItem from="1592331578733" duration="1480000" />
       <workItem from="1592337838201" duration="57599000" />
       <workItem from="1592571331381" duration="105017000" />
-      <workItem from="1592956791132" duration="101115000" />
+      <workItem from="1592956791132" duration="101248000" />
+      <workItem from="1593286074059" duration="7944000" />
+      <workItem from="1593295803286" duration="6010000" />
+      <workItem from="1593356646692" duration="69704000" />
     </task>
     <servers />
   </component>
@@ -301,10 +297,10 @@
       <screen x="0" y="0" width="1920" height="1200" />
     </state>
     <state x="629" y="378" key="EditFileWatcherDialog/1920.0.1536.864/0.0.1920.1200@0.0.1920.1200" timestamp="1591893028923" />
-    <state x="740" y="355" key="FileChooserDialogImpl" timestamp="1592582788020">
+    <state x="740" y="355" key="FileChooserDialogImpl" timestamp="1593294639073">
       <screen x="0" y="0" width="1920" height="1200" />
     </state>
-    <state x="740" y="355" key="FileChooserDialogImpl/1920.0.1536.864/0.0.1920.1200@0.0.1920.1200" timestamp="1592582788020" />
+    <state x="740" y="355" key="FileChooserDialogImpl/1920.0.1536.864/0.0.1920.1200@0.0.1920.1200" timestamp="1593294639073" />
     <state x="775" y="323" key="NewPhpClassDialog" timestamp="1592723410279">
       <screen x="0" y="0" width="1920" height="1200" />
     </state>
@@ -321,10 +317,10 @@
       <screen x="0" y="0" width="1920" height="1200" />
     </state>
     <state width="498" height="446" key="SwitcherDM/1920.0.1536.864/0.0.1920.1200@0.0.1920.1200" timestamp="1592188482694" />
-    <state x="92" y="92" width="1736" height="1016" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1593119546185">
+    <state x="92" y="92" width="1736" height="1016" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1593408922607">
       <screen x="0" y="0" width="1920" height="1200" />
     </state>
-    <state x="92" y="92" width="1736" height="1016" key="com.intellij.history.integration.ui.views.FileHistoryDialog/1920.0.1536.864/0.0.1920.1200@0.0.1920.1200" timestamp="1593119546185" />
+    <state x="92" y="92" width="1736" height="1016" key="com.intellij.history.integration.ui.views.FileHistoryDialog/1920.0.1536.864/0.0.1920.1200@0.0.1920.1200" timestamp="1593408922607" />
     <state x="2028" y="-10" width="1485" height="950" maximized="true" key="dock-window-1" timestamp="1592579205442">
       <screen x="1920" y="0" width="1536" height="864" />
     </state>
@@ -333,11 +329,11 @@
       <screen x="1920" y="0" width="1536" height="864" />
     </state>
     <state x="1951" y="-23" width="1522" height="950" key="dock-window-2/1920.0.1536.864/0.0.1920.1200@0.0.1920.1200" timestamp="1591782720177" />
-    <state x="667" y="335" width="1077" height="534" key="find.popup" timestamp="1593119839767">
+    <state x="667" y="335" width="1077" height="534" key="find.popup" timestamp="1593459739687">
       <screen x="0" y="0" width="1920" height="1200" />
     </state>
     <state x="2587" y="335" width="586" height="530" key="find.popup/0.0.1536.864/1920.0.1920.1200@1920.0.1920.1200" timestamp="1590975771638" />
-    <state x="667" y="335" width="1077" height="534" key="find.popup/1920.0.1536.864/0.0.1920.1200@0.0.1920.1200" timestamp="1593119839767" />
+    <state x="667" y="335" width="1077" height="534" key="find.popup/1920.0.1536.864/0.0.1920.1200@0.0.1920.1200" timestamp="1593459739687" />
     <state x="601" y="325" width="700" height="530" key="recent.locations.popup" timestamp="1592205243493">
       <screen x="0" y="0" width="1920" height="1200" />
     </state>
@@ -351,12 +347,12 @@
     </state>
     <state x="2672" y="459" width="490" height="396" key="scopes/0.0.1536.864/1920.0.1920.1200@1920.0.1920.1200" timestamp="1590975717753" />
     <state x="752" y="459" width="490" height="391" key="scopes/1920.0.1536.864/0.0.1920.1200@0.0.1920.1200" timestamp="1592052860175" />
-    <state x="623" y="265" width="672" height="678" key="search.everywhere.popup" timestamp="1593222887731">
+    <state x="623" y="265" width="672" height="678" key="search.everywhere.popup" timestamp="1593548153286">
       <screen x="0" y="0" width="1920" height="1200" />
     </state>
     <state x="2543" y="265" width="672" height="678" key="search.everywhere.popup/0.0.1536.864/1920.0.1920.1200@1920.0.1920.1200" timestamp="1591017719442" />
     <state x="498" y="190" width="672" height="489" key="search.everywhere.popup/0.0.1536.864@0.0.1536.864" timestamp="1591631044705" />
-    <state x="623" y="265" width="672" height="678" key="search.everywhere.popup/1920.0.1536.864/0.0.1920.1200@0.0.1920.1200" timestamp="1593222887731" />
+    <state x="623" y="265" width="672" height="678" key="search.everywhere.popup/1920.0.1536.864/0.0.1920.1200@0.0.1920.1200" timestamp="1593548153286" />
     <state x="2602" y="512" key="vcs.readOnlyHandler.ReadOnlyStatusDialog" timestamp="1590763706984">
       <screen x="1920" y="0" width="1920" height="1200" />
     </state>

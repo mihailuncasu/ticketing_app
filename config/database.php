@@ -38,7 +38,7 @@ return [
             'driver' => 'mysql',
             'host' => env('TENANCY_HOST', '127.0.0.1'),
             'port' => env('TENANCY_PORT', '3306'),
-            'database' => env('TENANCY_DATABASE', 'servicenow'),
+            'database' => env('TENANCY_DATABASE', 'websolutions'),
             'username' => env('TENANCY_USERNAME', ''),
             'password' => env('TENANCY_PASSWORD', ''),
             'unix_socket' => env('DB_SOCKET', ''),

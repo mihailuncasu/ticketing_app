@@ -26,7 +26,7 @@ const groups = {
         },
 
         UPDATE_GROUP(state, payload) {
-            Object.assign(state.group[payload.index], payload.item);
+            Object.assign(state.groups[payload.index], payload.item);
         },
 
         DELETE_GROUP(state, payload) {
@@ -117,15 +117,20 @@ const groups = {
             }, {root: true});
             return new Promise((resolve, reject) => {
                 api.editGroup(payload.item).then(({data}) => {
-                    commit('UPDATE_GROUP', {
-                        index: payload.index,
-                        item: data.payload
-                    });
-                    dispatch('application/showResultNotificationAction', {
-                        message: data.message,
-                        color: 'green'
-                    }, {root: true});
-                    resolve();
+                    try {
+                        commit('UPDATE_GROUP', {
+                            index: payload.index,
+                            item: data.payload
+                        });
+                        dispatch('application/showResultNotificationAction', {
+                            message: data.message,
+                            color: 'green'
+                        }, {root: true});
+                        resolve();
+                    } catch (e) {
+                        console.log(e)
+                    }
+
                 }).catch(({response}) => {
                     dispatch('application/showResultNotificationAction', {
                         message: response.data.message,

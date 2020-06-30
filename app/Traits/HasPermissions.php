@@ -37,7 +37,11 @@ trait HasPermissions
      */
     public function givePermissionsToUsingSlug($group_slug, ...$permissions)
     {
-        $this->permissions()->sync($this->getPermissionIdsBySlug($group_slug, ...$permissions));
+        $permissionIds = $this->getPermissionIdsBySlug($group_slug, ...$permissions);
+        $groupPermissionIds = $this->permissions()->where('group_slug', $group_slug)->get()->pluck('id')->toArray();
+        $removedPermissionIds = array_diff($groupPermissionIds, $permissionIds);
+        $this->permissions()->detach($removedPermissionIds);
+        $this->permissions()->syncWithoutDetaching($permissionIds);
     }
 
     public function getPermissionIdsBySlug($group_slug, $permissions)

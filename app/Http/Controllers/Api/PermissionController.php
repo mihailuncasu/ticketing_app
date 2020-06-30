@@ -8,7 +8,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Permission;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
-use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
@@ -49,7 +49,7 @@ class PermissionController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return AnonymousResourceCollection
+     * @return JsonResponse|AnonymousResourceCollection
      */
     public function index(Request $request)
     {
@@ -64,7 +64,7 @@ class PermissionController extends Controller
      */
     public function store(Request $request)
     {
-        if (Gate::denies("create-permission", $request->group_slug)) {
+        if (!Auth::user()->hasPermissionTo($request->group_slug, 'create-permission')) {
             return response()->json([
                 'message' => 'Action forbidden. You don\'t have the permission to do that',
                 'redirect' => 'home'
@@ -77,7 +77,7 @@ class PermissionController extends Controller
 
         $permission = $this->permission->create([
             'name' => $data['name'],
-            'display_name' => Str::title($request['name']),
+            'display_name' => Str::title($data['name']),
             'group_slug' => $request->group_slug
         ]);
 
@@ -96,7 +96,7 @@ class PermissionController extends Controller
      */
     public function update(Request $request, Permission $permission)
     {
-        if (Gate::denies("edit-permission", $request->group_slug)) {
+        if (!Auth::user()->hasPermissionTo($request->group_slug, 'edit-permission')) {
             return response()->json([
                 'message' => 'Action forbidden. You don\'t have the permission to do that',
                 'redirect' => 'home'
@@ -128,7 +128,7 @@ class PermissionController extends Controller
      */
     public function destroy(Request $request, $id)
     {
-        if (Gate::denies("delete-permission", $request->group_slug)) {
+        if (!Auth::user()->hasPermissionTo($request->group_slug, 'delete-permission')) {
             return response()->json([
                 'message' => 'Action forbidden. You don\'t have the permission to do that',
                 'redirect' => 'home'

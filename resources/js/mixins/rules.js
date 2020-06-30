@@ -58,6 +58,9 @@ export default {
             groupManagersRules: [
                 v => !!v.length || 'The group needs at least one manager',
             ],
+            newMemberRules: [
+                v => !!v || 'No member selected',
+            ],
             permissionRules: [
                 v => !!v || 'Role name is required',
                 v => (v || '').length <= this.lengths.permission.max || `Role name must be less than ${this.lengths.permission.max} characters`,

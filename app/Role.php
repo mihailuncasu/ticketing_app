@@ -59,4 +59,12 @@ class Role extends Model
             'slug' => 'admin'
         ]);
     }
+
+    public function scopeMember($query, $group_slug)
+    {
+        return $query->where([
+            'group_slug' => $group_slug,
+            'slug' => 'member'
+        ]);
+    }
 }

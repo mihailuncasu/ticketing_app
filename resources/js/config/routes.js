@@ -4,6 +4,7 @@ import Users from '@/components/app/Users';
 import Permissions from '@/components/app/Permissions';
 import Roles from '@/components/app/Roles';
 import Groups from '@/components/app/Groups';
+import Members from '@/components/app/Members';
 //import Tickets from '@/components/Views/Tickets'
 
 //Auth Components;
@@ -36,7 +37,6 @@ const routes = () => {
     //Test for portal routes
     if (host.includes('APP.WEBSOLUTIONS.TEST')) {
         return [
-            // Auth components
             {
                 path: '/',
                 component: AppLayout,
@@ -51,53 +51,13 @@ const routes = () => {
                     },
                 ]
             },
-            {
-                path: '/:group_slug',
-                component: AppLayout,
-                meta: {
-                    middleware: [Middlewares.auth]
-                },
-                children: [
-                    {
-                        name: 'users',
-                        path: '/:group_slug/view-users-dashboard',
-                        component: Users,
-                        meta: {
-                            middleware: [Middlewares.auth]
-                        }
-                    },
-                    {
-                        name: 'roles',
-                        path: '/:group_slug/view-roles-dashboard',
-                        component: Roles,
-                        meta: {
-                            middleware: [Middlewares.auth]
-                        }
-                    },
-                    {
-                        name: 'permissions',
-                        path: '/:group_slug/view-permissions-dashboard',
-                        component: Permissions,
-                        meta: {
-                            middleware: [Middlewares.auth]
-                        }
-                    },
-                    {
-                        name: 'groups',
-                        path: '/:group_slug/view-groups-dashboard',
-                        component: Groups,
-                        meta: {
-                            middleware: [Middlewares.auth]
-                        }
-                    },
-                ]
-            },
+            // Auth components
             {
                 path: '/',
                 component: AuthLayout,
                 children: [
                     {
-                        path: '/login',
+                        path: 'login',
                         name: 'login',
                         component: Login,
                         meta: {
@@ -105,7 +65,7 @@ const routes = () => {
                         }
                     },
                     {
-                        path: '/verify-email',
+                        path: 'verify-email',
                         name: 'verifyEmail',
                         component: VerifyEmail,
                         meta: {
@@ -113,7 +73,7 @@ const routes = () => {
                         }
                     },
                     {
-                        path: '/reset-password',
+                        path: 'reset-password',
                         name: 'resetPassword',
                         component: ResetPassword,
                         meta: {
@@ -121,11 +81,60 @@ const routes = () => {
                         }
                     },
                     {
-                        path: '/forgot-password',
+                        path: 'forgot-password',
                         name: 'forgotPassword',
                         component: ForgotPassword,
                         meta: {
                             middleware: [Middlewares.guest]
+                        }
+                    },
+                ]
+            },
+            {
+                path: '/:group_slug',
+                component: AppLayout,
+                meta: {
+                    middleware: [Middlewares.group]
+                },
+                children: [
+                    {
+                        name: 'viewUsersDashboard',
+                        path: 'view-users-dashboard',
+                        component: Users,
+                        meta: {
+                            middleware: [Middlewares.auth]
+                        }
+                    },
+                    {
+                        name: 'viewMembersDashboard',
+                        path: 'view-members-dashboard',
+                        component: Members,
+                        meta: {
+                            middleware: [Middlewares.auth]
+                        }
+                    },
+                    {
+                        name: 'viewRolesDashboard',
+                        path: 'view-roles-dashboard',
+                        component: Roles,
+                        meta: {
+                            middleware: [Middlewares.auth]
+                        }
+                    },
+                    {
+                        name: 'viewPermissionsDashboard',
+                        path: 'view-permissions-dashboard',
+                        component: Permissions,
+                        meta: {
+                            middleware: [Middlewares.auth]
+                        }
+                    },
+                    {
+                        name: 'viewGroupsDashboard',
+                        path: 'view-groups-dashboard',
+                        component: Groups,
+                        meta: {
+                            middleware: [Middlewares.auth]
                         }
                     },
                 ]
@@ -166,6 +175,7 @@ const routes = () => {
             },
             {
                 path: '*',
+                name: 'notFound',
                 component: NotFound
             }
         ]

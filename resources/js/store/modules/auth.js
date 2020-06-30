@@ -4,16 +4,12 @@ const auth = {
     namespaced: true,
     // State;
     state: () => ({
-        isLoggedIn: false,
         userDetails: {},
         userMenu: {}
     }),
 
     // Getters;
     getters: {
-        loggedIn(state) {
-            return state.isLoggedIn;
-        },
         userDetails(state) {
             return state.userDetails;
         },
@@ -178,7 +174,6 @@ const auth = {
                         color: 'red'
                     }, {root: true});
                     localStorage.removeItem('token');
-                    commit('SET_LOGGED_IN', false);
                     resolve();
                 });
             });

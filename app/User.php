@@ -101,6 +101,24 @@ class User extends Authenticable implements MustVerifyEmail, HasMedia
         return $menuItems;
     }
 
+    public function assignRolesUsingSlug($group_slug, ...$roles)
+    {
+        $roleIds = $this->getRoleIdsBySlug($group_slug, ...$roles);
+        $groupRoleIds = $this->roles()->where('group_slug', $group_slug)->get()->pluck('id')->toArray();
+        $removedRoleIds = array_diff($groupRoleIds, $roleIds);
+        $this->roles()->detach($removedRoleIds);
+        $this->roles()->syncWithoutDetaching($roleIds);
+    }
+
+    public function getRoleIdsBySlug($group_slug, $roles)
+    {
+        return Role::where('group_slug', $group_slug)
+            ->whereIn('slug', $roles)
+            ->get()
+            ->pluck('id')
+            ->toArray();
+    }
+
     public function hasRole($group_slug, ...$roles)
     {
         // $user->hasRole('group-1', 'admin', 'developer');

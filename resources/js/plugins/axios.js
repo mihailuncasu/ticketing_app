@@ -11,7 +11,9 @@ instance.interceptors.request.use(function (config) {
 
     if (token) {
         config.headers.common['Authorization'] = `Bearer ${token}`;
-        config.params = {...config.params, group_slug: app.$route.params.group_slug}
+        if (app.$route.params.group_slug !== undefined) {
+            config.params = {...config.params, group_slug: app.$route.params.group_slug};
+        }
     }
 
     return config;

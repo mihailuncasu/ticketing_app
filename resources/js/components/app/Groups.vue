@@ -77,7 +77,7 @@
                                                                 :items="users"
                                                                 chips
                                                                 color="blue white--text"
-                                                                label="Select group managers"
+                                                                label="Select group admins"
                                                                 multiple
                                                                 item-value="id"
                                                                 hide-no-data

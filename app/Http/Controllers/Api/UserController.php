@@ -5,11 +5,13 @@ namespace App\Http\Controllers\Api;
 use App\Events\UserCreatedEvent;
 use App\Http\Resources\UserResource;
 use App\Notifications\RegisterUser;
-use App\Permission;
-use App\Role;
 use App\User;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\Routing\ResponseFactory;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -20,22 +22,17 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     * @return AnonymousResourceCollection
      */
     public function index()
     {
-        /*$p = Permission::where('group_slug','main')->get();
-        $role = Role::admin()->first();
-        $role->permisions->sync( $p->pluck('slug')->toArray());
-        $role->givePermissionTo('main', $p->pluck('slug')->toArray());
-        dd($role->permissions);*/
         return UserResource::collection(User::all());
     }
 
     /**
      * Display user data as resource.
      *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     * @return Application|ResponseFactory|\Illuminate\Http\Response
      */
     public function profile()
     {
@@ -49,13 +46,18 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return JsonResponse
      */
     public function store(Request $request)
     {
-        // Check if the request contains the password;
-        // If not, then we generate a random password and add it to request;
+        if (!Auth::user()->hasPermissionTo($request->group_slug, 'create-user')) {
+            return response()->json([
+                'message' => 'Action forbidden. You don\'t have the permission to do that',
+                'redirect' => 'home'
+            ], Response::HTTP_FORBIDDEN);
+        }
+
         if ($request->auto) {
             $password = Str::random(10);
             $request->merge([
@@ -71,7 +73,7 @@ class UserController extends Controller
         ]);
 
         $user = User::create([
-            'name' => ucwords($request->name),
+            'name' => Str::title($request->name),
             'email' => $request->email,
             'password' => Hash::make($request->password)
         ]);
@@ -80,19 +82,29 @@ class UserController extends Controller
         event(new UserCreatedEvent($user));
 
         if ($request->has('roles')) {
-            $user->assignRole(collect($request->roles)->pluck('name')->toArray());
+            $user->assignRolesUsingSlug(
+                $request->group_slug,
+                collect($request->roles)
+                    ->pluck('slug')
+                    ->toArray()
+            );
         }
 
         if ($request->has('permissions')) {
-            $user->givePermissionTo(collect($request->permissions)->pluck('id')->toArray());
+            $user->givePermissionsToUsingSlug(
+                $request->group_slug,
+                collect($request->permissions)
+                    ->pluck('slug')
+                    ->toArray()
+            );
         }
 
         // Also, after we create the user we send a mail to the specific mail address with the password;
         $user->notify(new RegisterUser($user, $request->password));
         $user->markEmailAsVerified();
 
-        return response([
-            'message' => 'User Created',
+        return response()->json([
+            'message' => 'User created',
             'payload' => UserResource::make($user)
         ], Response::HTTP_CREATED);
     }
@@ -101,33 +113,50 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      * @param int $id
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      */
     public function update(Request $request, User $user)
     {
+        if (!Auth::user()->hasPermissionTo($request->group_slug, 'edit-user')) {
+            return response()->json([
+                'message' => 'Action forbidden. You don\'t have the permission to do that',
+                'redirect' => 'home'
+            ], Response::HTTP_FORBIDDEN);
+        }
+
         $request->validate([
             'name' => 'required',
             'email' => ['required', 'string', 'email', 'max:255', 'unique:tenant.users,email,' . $user->id],
         ]);
 
         $user->update([
-            'name' => ucwords($request->name),
+            'name' => Str::title($request->name),
             'email' => $request->email,
             'updated_at' => now()
         ]);
 
         if ($request->has('roles')) {
-            $user->syncRoles(collect($request->roles)->pluck('name')->toArray());
+            $user->assignRolesUsingSlug(
+                $request->group_slug,
+                collect($request->roles)
+                    ->pluck('slug')
+                    ->toArray()
+            );
         }
 
         if ($request->has('permissions')) {
-            $user->syncPermissions(collect($request->permissions)->pluck('id')->toArray());
+            $user->givePermissionsToUsingSlug(
+                $request->group_slug,
+                collect($request->permissions)
+                    ->pluck('slug')
+                    ->toArray()
+            );
         }
 
-        return response([
-            'message' => 'User Updated',
+        return response()->json([
+            'message' => 'User updated',
             'payload' => UserResource::make($user)
         ], Response::HTTP_ACCEPTED);
 
@@ -136,11 +165,18 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      *
+     * @param Request $request
      * @param int $id
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
+        if (!Auth::user()->hasPermissionTo($request->group_slug, 'delete-user')) {
+            return response()->json([
+                'message' => 'Action forbidden. You don\'t have the permission to do that',
+                'redirect' => 'home'
+            ], Response::HTTP_FORBIDDEN);
+        }
         if (Auth::user()->id != $id) {
             User::destroy($id);
             return response()->json([

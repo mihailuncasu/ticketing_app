@@ -27,6 +27,7 @@
 
 <script>
     import Sidebar from "@/components/general/Sidebar";
+    import {mapActions} from "vuex";
 
     export default {
         components: {Sidebar},
@@ -35,9 +36,25 @@
             goDark: false,
         }),
 
-        created() {
-            // Idk, some theme options;
+        methods: {
+            ...mapActions({
+                profileAction: 'auth/profileAction',
+            }),
+        },
+
+        async created() {
+            // Idk, some theme options
+            await this.profileAction().then(() => {
+                this.showMenu = true;
+            });
             this.$vuetify.theme.dark = false;
         },
+
+        beforeRouteEnter(to, from, next) {
+            if (to.params.group_slug !== undefined) {
+                console.log(to.params.group_slug);
+            }
+            next();
+        }
     }
 </script>

@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Events\AdminGroupCreatedEvent;
 use App\Events\AdminHasRegisteredEvent;
 use App\Events\GroupCreatedEvent;
+use App\Events\GroupDestroyedEvent;
 use App\Events\UserCreatedEvent;
 use Hyn\Tenancy\Events\Websites\Switched;
 use Illuminate\Support\Facades\Event;
@@ -34,6 +35,10 @@ class EventServiceProvider extends ServiceProvider
 
         GroupCreatedEvent::class => [
             \App\Listeners\CreateRolesAndPermissionsListener::class,
+        ],
+
+        GroupDestroyedEvent::class => [
+            \App\Listeners\DestroyRolesAndPermissionsListener::class,
         ]
     ];
 

@@ -1,6 +1,5 @@
 <template>
     <v-list dense
-            v-if="showMenu"
             shaped
     >
         <v-list-item color="primary"
@@ -67,12 +66,6 @@
             }),
         },
 
-        async mounted() {
-            await this.profileAction().then(() => {
-                this.showMenu = true;
-            });
-        },
-
         data: () => ({
             isCollapsed: true,
             showMenu: false,
@@ -82,11 +75,6 @@
             actions: {
                 logout: {title: 'Logout', icon: 'mdi-power_settings_new'},
             },
-            admins: [
-                {title: 'Users', to: '/admin/users', icon: 'mdi-account_circle'},
-                {title: 'Roles', to: '/admin/roles', icon: 'mdi-local_offer'},
-                {title: 'Permissions', to: '/admin/permissions', icon: 'mdi-pan_tool'}
-            ]
         }),
 
         methods: {

@@ -15,15 +15,23 @@ class UserResource extends JsonResource
     public function toArray($request)
     {
         $default_data = parent::toArray($request);
-
         $roles = [];
         foreach ($this->roles as $role) {
-            $roles[] = RoleResource::make($role);
+            if ($role->group_slug === $request->group_slug) {
+                $roles[] = RoleResource::make($role);
+            }
+        }
+
+        $permissions = [];
+        foreach ($this->permissions as $permission) {
+            if ($permission->group_slug === $request->group_slug) {
+                $permissions[] = $permission;
+            }
         }
 
         $additional_data = [
             'roles' => $roles,
-            'permissions' => PermissionResource::make($this->permissions),
+            'permissions' => PermissionResource::make($permissions),
             'avatar' => $this->getFirstMediaUrl('avatar', 'thumb')
         ];
 

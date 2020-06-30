@@ -3,8 +3,6 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Events\AdminHasRegisteredEvent;
-use App\Events\UserCreatedEvent;
-use App\Role;
 use App\Tenant;
 use App\User;
 use App\Http\Controllers\Controller;

@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Auth\Events\Verified;
 use Illuminate\Foundation\Auth\VerifiesEmails;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class VerificationController extends Controller
 {
@@ -55,7 +56,7 @@ class VerificationController extends Controller
             return response()->json([
                 "message" => "Unauthorized",
                 "success" => false
-            ], 401);
+            ], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
         if ($user->hasVerifiedEmail()) {

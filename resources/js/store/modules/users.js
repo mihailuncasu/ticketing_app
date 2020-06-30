@@ -32,7 +32,6 @@ const users = {
             const index = state.users.indexOf(payload);
             state.users.splice(index, 1);
         },
-
     },
 
     // Actions;
@@ -89,7 +88,7 @@ const users = {
             }, {root: true});
             return new Promise((resolve, reject) => {
                 api.deleteUser(payload).then(({data}) => {
-                    commit('DELETE_USER', data.payload);
+                    commit('DELETE_USER', payload);
                     dispatch('application/showResultNotificationAction', {
                         message: data.message,
                         color: 'green'

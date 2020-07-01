@@ -32,10 +32,6 @@ class CreateRolesAndPermissionsListener
             'delete group',
             'edit permission',
             'delete permission',
-            'view group chat dashboard',
-            'view members dashboard',
-            'view tickets dashboard',
-            'view news dashboard',
         ])->map(function ($name) use ($event) {
             return Permission::create([
                 'name' => $name,
@@ -70,6 +66,7 @@ class CreateRolesAndPermissionsListener
         ]);
 
         $groupAdmin->givePermissionsTo($groupAdminPermissions->pluck('id')->toArray());
+        $groupAdmin->givePermissionsTo($groupMemberPermissions->pluck('id')->toArray());
         $groupMember->givePermissionsTo($groupMemberPermissions->pluck('id')->toArray());
     }
 }

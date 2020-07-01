@@ -34,10 +34,6 @@ class CreateAdminRolesAndPermissionsListener
             'delete group',
             'edit permission',
             'delete permission',
-            'view tickets dashboard',
-            'view group chat dashboard',
-            'view members dashboard',
-            'view news dashboard',
         ])->map(function ($name) use ($event) {
             return Permission::create([
                 'name' => $name,
@@ -47,7 +43,7 @@ class CreateAdminRolesAndPermissionsListener
         });
 
         // Create permissions for a normal user;
-        $memberPermission = collect([
+        $memberPermissions = collect([
             'view tickets dashboard',
             'view group chat dashboard',
             'view members dashboard',
@@ -75,6 +71,7 @@ class CreateAdminRolesAndPermissionsListener
         ]);
 
         $adminRole->givePermissionsTo($adminPermissions->pluck('id')->toArray());
-        $memberRole->givePermissionsTo($memberPermission->pluck('id')->toArray());
+        $adminRole->givePermissionsTo($memberPermissions->pluck('id')->toArray());
+        $memberRole->givePermissionsTo($memberPermissions->pluck('id')->toArray());
     }
 }

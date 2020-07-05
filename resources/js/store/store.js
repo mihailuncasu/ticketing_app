@@ -8,6 +8,7 @@ import auth from "@/store/modules/auth";
 import application from "@/store/modules/application";
 import groups from "@/store/modules/groups";
 import members from "@/store/modules/members";
+import messages from "@/store/modules/messages";
 
 Vue.use(Vuex)
 
@@ -23,7 +24,8 @@ const store = new Vuex.Store({
         permissions,
         auth,
         groups,
-        members
+        members,
+        messages,
     },
 });
 

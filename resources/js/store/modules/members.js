@@ -5,6 +5,8 @@ const members = {
     namespaced: true,
     state: () => ({
         members: [],
+        onlineMembers: [],
+        offlineMembers: [],
     }),
 
     // Getters;
@@ -12,6 +14,13 @@ const members = {
         members(state) {
             return state.members;
         },
+        onlineMembers(state) {
+            return state.onlineMembers;
+        },
+        offlineMembers(state) {
+            return state.offlineMembers;
+        },
+
     },
 
     // Mutations;
@@ -22,6 +31,11 @@ const members = {
 
         STORE_MEMBERS(state, payload) {
             state.members = payload;
+        },
+
+        STORE_STATUS_MEMBERS(state, payload) {
+            state.onlineMembers = payload.online;
+            state.offlineMembers = payload.offline;
         },
 
         UPDATE_MEMBER(state, payload) {
@@ -54,6 +68,15 @@ const members = {
                         message: response.data.message,
                         color: 'red'
                     }, {root: true});
+                });
+            });
+        },
+
+        readStatusAction({commit}) {
+            return new Promise((resolve) => {
+                api.getStatusMembers().then(({data}) => {
+                    commit('STORE_STATUS_MEMBERS', data);
+                    resolve();
                 });
             });
         },

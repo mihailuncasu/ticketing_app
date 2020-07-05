@@ -5,6 +5,18 @@ const instance = axios.create({
     baseURL: '/api/'
 });
 
+instance.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+instance.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
+instance.defaults.headers.common.crossDomain = true;
+
+let csrf_token = document.head.querySelector('meta[name="csrf-token"]');
+
+if (csrf_token) {
+    instance.defaults.headers.common['X-CSRF-TOKEN'] = csrf_token.content;
+} else {
+    console.error('CSRF token not found');
+}
+
 instance.interceptors.request.use(function (config) {
     // Do something before request is sent
     const token = localStorage.getItem('token');

@@ -32,6 +32,16 @@ class MemberController extends Controller
         return UserResource::collection($possibleMembers);
     }
 
+    public function statusMembers(Request $request) {
+        $groupMembers = Group::where('slug', $request->group_slug)->first()->users;
+        $onlineMembers = UserResource::collection($groupMembers->where('status', 'online'));
+        $offlineMembers = UserResource::collection($groupMembers->where('status', 'offline'));
+        return response()->json([
+            'online' => $onlineMembers,
+            'offline' => $offlineMembers
+        ], Response::HTTP_OK);
+    }
+
     /**
      * Store a newly created resource in storage.
      *

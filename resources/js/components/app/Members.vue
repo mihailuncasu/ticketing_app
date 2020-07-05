@@ -27,7 +27,7 @@
             <span>{{ item.updated_at | moment("from", now) }}</span>
         </template>
         <template v-slot:top>
-            <v-toolbar flat color="white">
+            <v-toolbar flat color="primary">
                 <v-toolbar-title>Members</v-toolbar-title>
                 <v-divider class="mx-4"
                            inset
@@ -36,7 +36,7 @@
                 <v-spacer></v-spacer>
                 <v-dialog v-model="dialog" max-width="1000px">
                     <template v-slot:activator="{ on }">
-                        <v-btn color="primary" @click="getPossibleMembers" dark class="mb-2" v-on="on">New Member
+                        <v-btn rounded @click="getPossibleMembers" class="mb-2" v-on="on">New Member
                         </v-btn>
                     </template>
                     <v-card>
@@ -278,10 +278,6 @@
             dialog(val) {
                 val || this.close()
             },
-
-            $route(to, from) {
-                this.initialize();
-            }
         },
 
         created() {

@@ -12,8 +12,8 @@
         <v-content>
             <v-container fluid fill-height>
                 <v-layout justify-center>
-                    <v-flex shrink>
-                        <router-view></router-view>
+                    <v-flex>
+                        <router-view  :key="$route.fullPath"/>
                     </v-flex>
                 </v-layout>
             </v-container>
@@ -34,6 +34,7 @@
         data: () => ({
             drawer: null,
             goDark: false,
+            users: []
         }),
 
         methods: {
@@ -48,6 +49,19 @@
                 this.showMenu = true;
             });
             this.$vuetify.theme.dark = false;
+        },
+
+        watch: {
+          users() {
+              console.log(this.users);
+          }
+        },
+
+        mounted() {
+           /* Echo.join('online')
+                .here(users => (this.users = users))
+                .joining(user => this.users.push(user))
+                .leaving(user => (this.users = this.users.filter(u => (u.id !== user.id))))*/
         },
 
         beforeRouteEnter(to, from, next) {

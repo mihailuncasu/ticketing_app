@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Events\LoginEvent;
+use App\Events\LogoutEvent;
 use App\Http\Controllers\Controller;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -53,7 +55,7 @@ class LoginController extends Controller
 
                 // Save the new created token;
                 $token->save();
-
+                event(new LoginEvent($user));
                 return response()->json([
                     'access_token' => $tokenResult->accessToken,
                     'token_type' => 'Bearer',
@@ -105,6 +107,8 @@ class LoginController extends Controller
         auth()->user()->tokens->each(function ($token, $key) {
             $token->delete();
         });
+
+        event(new LogoutEvent(auth()->user()));
 
         return response()->json([
             'message' => 'Logged out.'

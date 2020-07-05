@@ -11,6 +11,15 @@
 |
 */
 
-Broadcast::channel('App.User.{id}', function ($user, $id) {
+/*Broadcast::channel('App.User.{id}', function ($user, $id) {
     return (int) $user->id === (int) $id;
+});*/
+
+Broadcast::channel('{subdomain}.group-event', function () {
+    return true;
+});
+
+Broadcast::channel('{subdomain}.{group_slug}.chat', function () {
+    dd(auth()->check());
+    return auth()->check();
 });

@@ -33,10 +33,12 @@ Route::middleware(['tenant.exists'])->group(function () {
         Route::post('logout', 'Auth\LoginController@logout');
         Route::get('profile', 'Api\UserController@profile');
         Route::apiResource('users', 'Api\UserController');
+        Route::apiResource('messages', 'Api\MessageController');
         Route::apiResource('roles', 'Api\RoleController');
         Route::apiResource('permissions', 'Api\PermissionController');
         Route::apiResource('groups', 'Api\GroupController');
         Route::apiResource('members', 'Api\MemberController');
         Route::get('possible-members', 'Api\MemberController@possibleMembers');
+        Route::get('status-members', 'Api\MemberController@statusMembers');
     });
 });

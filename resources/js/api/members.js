@@ -5,6 +5,10 @@ export default {
 		return axios.get('members')
 	},
 
+	getStatusMembers() {
+		return axios.get('status-members')
+	},
+
 	getPossibleMembers() {
 		return axios.get('possible-members')
 	},

@@ -6,6 +6,8 @@ use App\Events\AdminGroupCreatedEvent;
 use App\Events\AdminHasRegisteredEvent;
 use App\Events\GroupCreatedEvent;
 use App\Events\GroupDestroyedEvent;
+use App\Events\LoginEvent;
+use App\Events\LogoutEvent;
 use App\Events\UserCreatedEvent;
 use Hyn\Tenancy\Events\Websites\Switched;
 use Illuminate\Support\Facades\Event;
@@ -39,7 +41,15 @@ class EventServiceProvider extends ServiceProvider
 
         GroupDestroyedEvent::class => [
             \App\Listeners\DestroyRolesAndPermissionsListener::class,
-        ]
+        ],
+
+        LoginEvent::class => [
+            \App\Listeners\ChangeToOnlineStatusListener::class
+        ],
+
+        LogoutEvent::class => [
+            \App\Listeners\ChangeToOfflineStatusListener::class
+        ],
     ];
 
     /**

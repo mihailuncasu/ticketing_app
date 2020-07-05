@@ -18,7 +18,7 @@
                 <span>{{ item.updated_at | moment("from", now) }}</span>
             </template>
             <template v-slot:top>
-                <v-toolbar flat color="white">
+                <v-toolbar flat color="primary">
                     <v-toolbar-title>PERMISSIONS</v-toolbar-title>
                     <v-divider class="mx-4"
                                inset
@@ -28,7 +28,7 @@
                     <!--Edit-->
                     <v-dialog v-model="dialog" max-width="500px">
                         <template v-slot:activator="{ on }">
-                            <v-btn color="primary" dark class="mb-2" v-on="on">New Permission</v-btn>
+                            <v-btn rounded class="mb-2" v-on="on">New Permission</v-btn>
                         </template>
                         <v-card>
                             <v-card-title>

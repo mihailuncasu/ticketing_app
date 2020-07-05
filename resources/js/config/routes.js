@@ -5,6 +5,7 @@ import Permissions from '@/components/app/Permissions';
 import Roles from '@/components/app/Roles';
 import Groups from '@/components/app/Groups';
 import Members from '@/components/app/Members';
+import GroupChat from '@/components/app/groupchat/GroupChat';
 //import Tickets from '@/components/Views/Tickets'
 
 //Auth Components;
@@ -101,6 +102,14 @@ const routes = () => {
                         name: 'viewUsersDashboard',
                         path: 'view-users-dashboard',
                         component: Users,
+                        meta: {
+                            middleware: [Middlewares.auth]
+                        }
+                    },
+                    {
+                        name: 'viewGroupChatDashboard',
+                        path: 'view-group-chat-dashboard',
+                        component: GroupChat,
                         meta: {
                             middleware: [Middlewares.auth]
                         }

@@ -9,6 +9,9 @@ use App\Http\Resources\GroupResource;
 use App\Permission;
 use App\Role;
 use App\User;
+use App\Website;
+use Hyn\Tenancy\Contracts\CurrentHostname;
+use Hyn\Tenancy\Models\Hostname;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -48,6 +51,7 @@ class GroupController extends Controller
                 'redirect' => 'home'
             ], Response::HTTP_FORBIDDEN);
         }
+
         // Validate the data;
         $request->validate([
             'name' => ['required', 'string', 'max:30', 'unique:tenant.groups,name'],

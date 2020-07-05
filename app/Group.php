@@ -5,7 +5,6 @@ namespace App;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Model;
 
-
 class Group extends Model
 {
     use Sluggable;
@@ -24,6 +23,11 @@ class Group extends Model
         return $this->belongsToMany(User::class, 'groups_users')
             ->withPivot(['added_by'])
             ->withTimestamps();
+    }
+
+    public function messages()
+    {
+        return $this->hasMany(Message::class);
     }
 
     /**

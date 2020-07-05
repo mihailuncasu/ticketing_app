@@ -34,6 +34,9 @@ export default {
                     min: 3
                 }
             },
+            requiredTextRules: [
+              v => !!v.trim() || "Message text is required",
+            ],
             requiredRules: [
                 v => !!v || 'Field is required',
             ],

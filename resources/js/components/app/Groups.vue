@@ -15,7 +15,7 @@
                 <span>{{ item.updated_at | moment("from", now) }}</span>
             </template>
             <template v-slot:top>
-                <v-toolbar flat color="white">
+                <v-toolbar flat color="primary">
                     <v-toolbar-title>GROUPS</v-toolbar-title>
                     <v-divider class="mx-4"
                                inset
@@ -25,7 +25,7 @@
                     <!--Edit-->
                     <v-dialog v-model="dialog" max-width="900px">
                         <template v-slot:activator="{ on }">
-                            <v-btn color="primary" dark class="mb-2" v-on="on">New Group</v-btn>
+                            <v-btn rounded class="mb-2" v-on="on">New Group</v-btn>
                         </template>
                         <v-card :loading="loading">
 
@@ -193,21 +193,6 @@
             },
             errors: {},
             loading: false,
-
-            /////////////
-            people: [
-                {header: 'Group 1'},
-                {name: 'Sandra Adams', group: 'Group 1', avatar: 'https://cdn.vuetifyjs.com/images/lists/1.jpg'},
-                {name: 'Ali Connors', group: 'Group 1', avatar: 'https://cdn.vuetifyjs.com/images/lists/1.jpg'},
-                {name: 'Trevor Hansen', group: 'Group 1', avatar: 'https://cdn.vuetifyjs.com/images/lists/1.jpg'},
-                {name: 'Tucker Smith', group: 'Group 1', avatar: 'https://cdn.vuetifyjs.com/images/lists/1.jpg'},
-                {divider: true},
-                {header: 'Group 2'},
-                {name: 'Britta Holt', group: 'Group 2', avatar: 'https://cdn.vuetifyjs.com/images/lists/1.jpg'},
-                {name: 'Jane Smith ', group: 'Group 2', avatar: 'https://cdn.vuetifyjs.com/images/lists/1.jpg'},
-                {name: 'John Smith', group: 'Group 2', avatar: 'https://cdn.vuetifyjs.com/images/lists/1.jpg'},
-                {name: 'Sandra Williams', group: 'Group 2', avatar: 'https://cdn.vuetifyjs.com/images/lists/1.jpg'},
-            ],
         }),
 
         computed: {
@@ -233,6 +218,10 @@
 
         mounted() {
             this.$options.interval = setInterval(this.updateTime, 1000);
+            Echo.channel(`${window.subdomain}.group-event`)
+                .listen('GroupCreatedEvent', (e) => {
+                    console.log(e);
+                });
         },
 
         methods: {

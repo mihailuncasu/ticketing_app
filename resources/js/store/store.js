@@ -9,6 +9,7 @@ import application from "@/store/modules/application";
 import groups from "@/store/modules/groups";
 import members from "@/store/modules/members";
 import messages from "@/store/modules/messages";
+import tickets from "@/store/modules/tickets";
 
 Vue.use(Vuex)
 
@@ -18,6 +19,7 @@ const store = new Vuex.Store({
     actions: {},
     //strict: true,
     modules: {
+        tickets,
         application,
         users,
         roles,

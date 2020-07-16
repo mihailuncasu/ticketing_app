@@ -6,7 +6,8 @@ import Roles from '@/components/app/Roles';
 import Groups from '@/components/app/Groups';
 import Members from '@/components/app/Members';
 import GroupChat from '@/components/app/groupchat/GroupChat';
-//import Tickets from '@/components/Views/Tickets'
+import CreateTicket from '@/components/app/CreateTicket';
+import Tickets from '@/components/app/Tickets';
 
 //Auth Components;
 import Login from '@/components/auth/Login'
@@ -102,6 +103,22 @@ const routes = () => {
                         name: 'viewUsersDashboard',
                         path: 'view-users-dashboard',
                         component: Users,
+                        meta: {
+                            middleware: [Middlewares.auth]
+                        }
+                    },
+                    {
+                        name: 'viewCreateTicket',
+                        path: 'view-create-ticket-dashboard',
+                        component: CreateTicket,
+                        meta: {
+                            middleware: [Middlewares.auth]
+                        }
+                    },
+                    {
+                        name: 'viewTickets',
+                        path: 'view-tickets-dashboard',
+                        component: Tickets,
                         meta: {
                             middleware: [Middlewares.auth]
                         }

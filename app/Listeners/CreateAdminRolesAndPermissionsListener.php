@@ -45,9 +45,9 @@ class CreateAdminRolesAndPermissionsListener
         // Create permissions for a normal user;
         $memberPermissions = collect([
             'view tickets dashboard',
+            'view create ticket dashboard',
             'view group chat dashboard',
             'view members dashboard',
-            'view news dashboard',
         ])->map(function ($name) use ($event) {
             return Permission::create([
                 'name' => $name,

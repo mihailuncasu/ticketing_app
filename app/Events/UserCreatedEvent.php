@@ -15,15 +15,17 @@ class UserCreatedEvent
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public $user;
+    public $group_slug;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($user)
+    public function __construct($user, $group_slug)
     {
         //
         $this->user = $user;
+        $this->group_slug = $group_slug;
     }
 }

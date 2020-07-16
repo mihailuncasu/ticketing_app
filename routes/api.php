@@ -7,10 +7,6 @@ use Illuminate\Http\Request;
 | API Routes
 |--------------------------------------------------------------------------
 |
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
-|
 */
 
 // Auth Routes
@@ -38,6 +34,7 @@ Route::middleware(['tenant.exists'])->group(function () {
         Route::apiResource('permissions', 'Api\PermissionController');
         Route::apiResource('groups', 'Api\GroupController');
         Route::apiResource('members', 'Api\MemberController');
+        Route::apiResource('tickets', 'Api\TicketController');
         Route::get('possible-members', 'Api\MemberController@possibleMembers');
         Route::get('status-members', 'Api\MemberController@statusMembers');
     });

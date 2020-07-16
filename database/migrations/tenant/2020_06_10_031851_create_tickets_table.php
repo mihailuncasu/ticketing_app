@@ -14,11 +14,19 @@ class CreateTicketsTable extends Migration
     public function up()
     {
         Schema::create('tickets', function (Blueprint $table) {
-            $table->increments('id');
+            $table->bigIncrements('id');
             $table->string('title');
-            $table->string('contact');
-            $table->string('status');
-            $table->string('issue');
+            $table->integer('priority');
+            $table->integer('status');
+            $table->string('group_slug');
+            $table->string('uuid');
+            $table->text('description');
+            $table->unsignedBigInteger('created_by');
+            $table->unsignedBigInteger('assigned_to');
+            $table->foreign('assigned_to')
+                ->references('id')
+                ->on('users')
+                ->onDelete('cascade');
             $table->timestamps();
         });
     }

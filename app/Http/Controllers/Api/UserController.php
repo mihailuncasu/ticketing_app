@@ -78,8 +78,8 @@ class UserController extends Controller
             'password' => Hash::make($request->password)
         ]);
 
-        // Assign the avatar;
-        event(new UserCreatedEvent($user));
+        // Assign the avatar and make the user a member of the big group;
+        event(new UserCreatedEvent($user, $request->group_slug));
 
         if ($request->has('roles')) {
             $user->assignRolesUsingSlug(

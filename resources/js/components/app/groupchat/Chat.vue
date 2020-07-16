@@ -15,16 +15,6 @@
                      :now="now"
             />
         </div>
-        <v-sheet v-if="typingUsers.length"
-                 class="chat__typing"
-        >
-            <p v-for="(typingUser, index) in typingUsers"
-               :key="`typingUser-${index}`"
-               class="chat__typing-user"
-            >
-                {{ typingUser.name }} is typing...
-            </p>
-        </v-sheet>
         <div class="chat__form">
             <ChatForm/>
         </div>
@@ -60,24 +50,13 @@
         },
 
         mounted() {
+            this.$refs.chat.scrollTop = this.$refs.chat.scrollHeight;
             this.$options.interval = setInterval(this.updateTime, 1000);
             // orange.group-slug.chat
             Echo.private(`${window.subdomain}.${this.$route.params.group_slug}.chat`)
-                .listenForWhisper('typing', (e) => {
-                    this.user = e.user;
-                    this.typingUsers = e.typingUsers;
-                });
-
-            Echo.private(`${window.subdomain}.${this.$route.params.group_slug}.chat`)
                 .listen('MessageSentEvent', (e) => {
                     this.messages.push(e.message);
-                    console.log('daca');
                 });
-
-            // Remove is typing indicator after 0.9s
-            setTimeout(function () {
-                this.typingUsers = []
-            }, 900);
         },
 
         methods: {
@@ -90,10 +69,12 @@
             },
 
             initialize() {
-                this.loading = true;
-                this.readMessagesAction().then(() => {
-                    this.loading = false;
-                });
+                if (!this.messages.length) {
+                    this.loading = true;
+                    this.readMessagesAction().then(() => {
+                        this.loading = false;
+                    });
+                }
             }
         },
 

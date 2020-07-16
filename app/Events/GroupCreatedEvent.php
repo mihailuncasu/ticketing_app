@@ -28,7 +28,5 @@ class GroupCreatedEvent implements ShouldBroadcast
 
     public function broadcastOn()
     {
-        $hostname = Str::before(app(CurrentHostname::class)->fqdn, '.' . env("TENANT_URL_BASE"));
-        return $hostname . '.group-event';
     }
 }

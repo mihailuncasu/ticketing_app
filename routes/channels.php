@@ -15,11 +15,10 @@
     return (int) $user->id === (int) $id;
 });*/
 
-Broadcast::channel('{subdomain}.group-event', function () {
+Broadcast::channel('{subdomain}.login-event', function () {
     return true;
 });
 
 Broadcast::channel('{subdomain}.{group_slug}.chat', function () {
-    dd(auth()->check());
     return auth()->check();
 });

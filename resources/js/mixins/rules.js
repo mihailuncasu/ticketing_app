@@ -32,10 +32,18 @@ export default {
                 group_name: {
                     max: 30,
                     min: 3
-                }
+                },
+                ticket_title: {
+                    max: 35,
+                    min: 3
+                },
+                ticket_description: {
+                    max: 500,
+                    min: 3
+                },
             },
             requiredTextRules: [
-              v => !!v.trim() || "Message text is required",
+                v => !!v.trim() || "Message text is required",
             ],
             requiredRules: [
                 v => !!v || 'Field is required',
@@ -43,6 +51,18 @@ export default {
             requiredRoleRules: [
                 v => v.length > 0 || 'Role is required',
             ],
+            ticketRules: {
+                title: [
+                    v => !!v || 'Ticket title is required',
+                    v => (v || '').length <= this.lengths.ticket_title.max || `Ticket title must be less than ${this.lengths.ticket_title.max} characters`,
+                    v => (v || '').length >= this.lengths.ticket_title.min || `Ticket title must be more than ${this.lengths.ticket_title.min} characters`,
+                ],
+                description: [
+                    v => !!v || 'Ticket description is required',
+                    v => (v || '').length <= this.lengths.ticket_description.max || `Ticket description must be less than ${this.lengths.ticket_description.max} characters`,
+                    v => (v || '').length >= this.lengths.ticket_description.min || `Ticket description must be more than ${this.lengths.ticket_description.min} characters`,
+                ]
+            },
             roleRules: [
                 v => !!v || 'Role name is required',
                 v => (v || '').length <= this.lengths.role.max || `Role name must be less than ${this.lengths.role.max} characters`,

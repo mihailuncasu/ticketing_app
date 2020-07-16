@@ -42,9 +42,9 @@ class CreateRolesAndPermissionsListener
 
         $groupMemberPermissions = collect([
             'view group chat dashboard',
+            'view create ticket dashboard',
             'view members dashboard',
             'view tickets dashboard',
-            'view news dashboard',
         ])->map(function ($name) use ($event) {
             return Permission::create([
                 'name' => $name,

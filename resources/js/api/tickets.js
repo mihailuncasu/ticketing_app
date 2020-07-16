@@ -14,10 +14,10 @@ export default {
     },
 
     editTicket(payload) {
-        return axios.put('tickets' + payload.id, payload)
+        return axios.put('tickets/' + payload.id, payload)
     },
 
-    deleteTicket(payload) {
-        return axios.delete('tickets' + payload.id)
+    updateStatus(payload) {
+        return axios.put('tickets/' + payload.id, payload)
     }
 }

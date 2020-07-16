@@ -66,6 +66,11 @@ class User extends Authenticable implements MustVerifyEmail, HasMedia
         return $this->belongsToMany(Permission::class, 'users_permissions');
     }
 
+    public function assigned_tickets()
+    {
+        return $this->hasMany(Ticket::class);
+    }
+
     public function getAllPermissions() {
         $permissions = [];
         foreach($this->roles as $role) {

@@ -33,6 +33,7 @@ class EventServiceProvider extends ServiceProvider
 
         UserCreatedEvent::class => [
             \App\Listeners\AttachNewUserMediaListener::class,
+            \App\Listeners\AttachNewUserToGroup::class,
         ],
 
         GroupCreatedEvent::class => [
@@ -44,7 +45,7 @@ class EventServiceProvider extends ServiceProvider
         ],
 
         LoginEvent::class => [
-            \App\Listeners\ChangeToOnlineStatusListener::class
+
         ],
 
         LogoutEvent::class => [

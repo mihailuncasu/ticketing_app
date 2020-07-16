@@ -6,7 +6,7 @@
 
         <v-app-bar app clipped-left>
             <v-app-bar-nav-icon @click.stop="drawer = !drawer"/>
-            <v-toolbar-title>ITSM</v-toolbar-title>
+            <v-toolbar-title>WebSolutions</v-toolbar-title>
         </v-app-bar>
 
         <v-content>
@@ -49,19 +49,6 @@
                 this.showMenu = true;
             });
             this.$vuetify.theme.dark = false;
-        },
-
-        watch: {
-          users() {
-              console.log(this.users);
-          }
-        },
-
-        mounted() {
-           /* Echo.join('online')
-                .here(users => (this.users = users))
-                .joining(user => this.users.push(user))
-                .leaving(user => (this.users = this.users.filter(u => (u.id !== user.id))))*/
         },
 
         beforeRouteEnter(to, from, next) {

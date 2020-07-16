@@ -73,7 +73,8 @@
 
         methods: {
             ...mapActions({
-                readStatusMembers: 'members/readStatusAction'
+                readStatusMembers: 'members/readStatusAction',
+                addOnlineMember: 'members/addOnlineMember'
             }),
         },
 
@@ -81,6 +82,11 @@
             this.readStatusMembers().then(() => {
                 this.loading = false;
             });
+
+             Echo.private(`${window.subdomain}.login-event`)
+                .listen('LoginEvent', (e) => {
+                    this.addOnlineMember(e.user);
+                });
         }
     }
 </script>

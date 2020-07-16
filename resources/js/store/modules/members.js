@@ -46,30 +46,46 @@ const members = {
             const index = state.members.indexOf(payload);
             state.members.splice(index, 1);
         },
+
+        ADD_ONLINE_MEMBER(state, payload) {
+            const index = state.offlineMembers.indexOf(payload);
+            state.offlineMembers.splice(index, 1);
+            state.onlineMembers.push(payload);
+        }
     },
 
     // Actions;
     actions: {
-        readAction({commit, dispatch}) {
-            dispatch('application/showLoadingNotificationAction', {
-                message: 'Getting members, please wait..',
-                color: 'black'
-            }, {root: true});
+        readAction({commit, dispatch}, verbose = true) {
+            if (verbose) {
+                dispatch('application/showLoadingNotificationAction', {
+                    message: 'Getting members, please wait..',
+                    color: 'black'
+                }, {root: true});
+            }
             return new Promise((resolve) => {
                 api.getMembers().then(({data}) => {
-                    dispatch('application/showResultNotificationAction', {
-                        message: 'Success',
-                        color: 'green'
-                    }, {root: true});
+                    if (verbose) {
+                        dispatch('application/showResultNotificationAction', {
+                            message: 'Success',
+                            color: 'green'
+                        }, {root: true});
+                    }
                     commit('STORE_MEMBERS', data.data);
                     resolve();
                 }).catch(({response}) => {
-                    dispatch('application/showResultNotificationAction', {
-                        message: response.data.message,
-                        color: 'red'
-                    }, {root: true});
+                    if (verbose) {
+                        dispatch('application/showResultNotificationAction', {
+                            message: response.data.message,
+                            color: 'red'
+                        }, {root: true});
+                    }
                 });
             });
+        },
+
+        addOnlineMember({commit, dispatch}, payload) {
+            commit('ADD_ONLINE_MEMBER', payload);
         },
 
         readStatusAction({commit}) {

@@ -119,7 +119,7 @@
                 </v-col>
             </v-stepper-content>
 
-            <v-stepper-step :rules="[() => input.users || input.autoAssign]"
+            <v-stepper-step :rules="[() => input.users!==null || input.autoAssign]"
                             step="4"
                             editable
                             :complete="stepNo > 4"

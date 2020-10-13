@@ -10,7 +10,7 @@ use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Support\Str;
 
-class GroupCreatedEvent implements ShouldBroadcast
+class GroupCreatedEvent
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 

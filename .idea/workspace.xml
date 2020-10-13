@@ -2,38 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b39e05c8-a5cf-4120-bde8-695fd0470446" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/resources/js/components/app/CreateTicket.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/js/components/app/Subtasks.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/js/components/app/Tickets.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/js/store/modules/tickets.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Events/GroupCreatedEvent.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Events/GroupCreatedEvent.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Events/LoginEvent.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Events/LoginEvent.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Events/MessageSentEvent.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Events/MessageSentEvent.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Events/UserCreatedEvent.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Events/UserCreatedEvent.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/TicketController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/TicketController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/UserController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Listeners/ChangeToOnlineStatusListener.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Listeners/CreateAdminRolesAndPermissionsListener.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Listeners/CreateAdminRolesAndPermissionsListener.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Listeners/CreateRolesAndPermissionsListener.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Listeners/CreateRolesAndPermissionsListener.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Providers/EventServiceProvider.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Providers/EventServiceProvider.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Ticket.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Ticket.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/User.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/tenant/2020_06_10_031851_create_tickets_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/tenant/2020_06_10_031851_create_tickets_table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/tenant/2020_07_03_055121_messages.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/tenant/2020_07_03_055121_create_messages_table.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/api/tickets.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/api/tickets.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/components/app/CreateTicket.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/app/CreateTicket.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/js/components/app/Home.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/app/Home.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/components/app/groupchat/Chat.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/app/groupchat/Chat.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/components/app/groupchat/GroupMembers.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/app/groupchat/GroupMembers.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/components/layouts/AppLayout.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/layouts/AppLayout.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/config/routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/config/routes.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/mixins/rules.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/mixins/rules.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/store/modules/members.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/store/modules/members.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/store/store.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/store/store.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/channels.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/channels.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -257,7 +232,9 @@
       <workItem from="1594125188748" duration="31000" />
       <workItem from="1594127978812" duration="2852000" />
       <workItem from="1594218058496" duration="13328000" />
-      <workItem from="1594764795705" duration="59221000" />
+      <workItem from="1594764795705" duration="63524000" />
+      <workItem from="1602614782117" duration="764000" />
+      <workItem from="1602615589524" duration="1805000" />
     </task>
     <servers />
   </component>
@@ -313,9 +290,10 @@
       <screen x="0" y="0" width="1920" height="1200" />
     </state>
     <state width="498" height="446" key="SwitcherDM/1920.0.1536.864/0.0.1920.1200@0.0.1920.1200" timestamp="1592188482694" />
-    <state x="92" y="92" width="1736" height="1016" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1593408922607">
-      <screen x="0" y="0" width="1920" height="1200" />
+    <state x="74" y="66" width="1389" height="732" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1594880646409">
+      <screen x="0" y="0" width="1536" height="864" />
     </state>
+    <state x="74" y="66" width="1389" height="732" key="com.intellij.history.integration.ui.views.FileHistoryDialog/0.0.1536.864@0.0.1536.864" timestamp="1594880646409" />
     <state x="92" y="92" width="1736" height="1016" key="com.intellij.history.integration.ui.views.FileHistoryDialog/1920.0.1536.864/0.0.1920.1200@0.0.1920.1200" timestamp="1593408922607" />
     <state x="2028" y="-10" width="1485" height="950" maximized="true" key="dock-window-1" timestamp="1592579205442">
       <screen x="1920" y="0" width="1536" height="864" />
@@ -325,11 +303,11 @@
       <screen x="1920" y="0" width="1536" height="864" />
     </state>
     <state x="1951" y="-23" width="1522" height="950" key="dock-window-2/1920.0.1536.864/0.0.1920.1200@0.0.1920.1200" timestamp="1591782720177" />
-    <state x="601" y="466" width="1077" height="596" key="find.popup" timestamp="1594864358687">
+    <state x="601" y="466" width="1077" height="596" key="find.popup" timestamp="1594865748185">
       <screen x="0" y="0" width="1920" height="1200" />
     </state>
     <state x="2587" y="335" width="586" height="530" key="find.popup/0.0.1536.864/1920.0.1920.1200@1920.0.1920.1200" timestamp="1590975771638" />
-    <state x="601" y="466" width="1077" height="596" key="find.popup/1920.0.1536.864/0.0.1920.1200@0.0.1920.1200" timestamp="1594864358687" />
+    <state x="601" y="466" width="1077" height="596" key="find.popup/1920.0.1536.864/0.0.1920.1200@0.0.1920.1200" timestamp="1594865748185" />
     <state x="601" y="325" width="700" height="530" key="recent.locations.popup" timestamp="1594770882666">
       <screen x="0" y="0" width="1920" height="1200" />
     </state>
@@ -343,12 +321,12 @@
     </state>
     <state x="2672" y="459" width="490" height="396" key="scopes/0.0.1536.864/1920.0.1920.1200@1920.0.1920.1200" timestamp="1590975717753" />
     <state x="752" y="459" width="490" height="391" key="scopes/1920.0.1536.864/0.0.1920.1200@0.0.1920.1200" timestamp="1592052860175" />
-    <state x="623" y="265" width="672" height="678" key="search.everywhere.popup" timestamp="1594864889108">
-      <screen x="0" y="0" width="1920" height="1200" />
+    <state x="723" y="179" width="672" height="489" key="search.everywhere.popup" timestamp="1594887660316">
+      <screen x="0" y="0" width="1536" height="864" />
     </state>
     <state x="2543" y="265" width="672" height="678" key="search.everywhere.popup/0.0.1536.864/1920.0.1920.1200@1920.0.1920.1200" timestamp="1591017719442" />
-    <state x="498" y="190" width="672" height="489" key="search.everywhere.popup/0.0.1536.864@0.0.1536.864" timestamp="1591631044705" />
-    <state x="623" y="265" width="672" height="678" key="search.everywhere.popup/1920.0.1536.864/0.0.1920.1200@0.0.1920.1200" timestamp="1594864889108" />
+    <state x="723" y="179" width="672" height="489" key="search.everywhere.popup/0.0.1536.864@0.0.1536.864" timestamp="1594887660316" />
+    <state x="623" y="265" width="672" height="678" key="search.everywhere.popup/1920.0.1536.864/0.0.1920.1200@0.0.1920.1200" timestamp="1594865735643" />
     <state x="2418" y="191" width="672" height="489" key="search.everywhere.popup/1920.0.1536.864/0.0.1920.1200@1920.0.1536.864" timestamp="1594315733698" />
     <state x="2602" y="512" key="vcs.readOnlyHandler.ReadOnlyStatusDialog" timestamp="1590763706984">
       <screen x="1920" y="0" width="1920" height="1200" />

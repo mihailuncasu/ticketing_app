@@ -99,7 +99,7 @@ class User extends Authenticable implements MustVerifyEmail, HasMedia
                 $menuItems[$menuTitle][] = [
                     'title' => $permissionTitle,
                     'to' => "/$groupSlug/$permissionSlug",
-                    'icon' => 'mdi-account'
+                    'icon' => 'mdi-eye-outline'
                 ];
             }
         }
